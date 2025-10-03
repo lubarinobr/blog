@@ -1,0 +1,35 @@
+---
+import BlogLayout from '@/layouts/BlogLayout.astro';
+import { getAllPosts } from '@/utils/blog';
+import type { Locale } from '@/i18n/config';
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts('pt');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const locale: Locale = 'pt';
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+// Get all MDX files and find the matching one
+const allMdxFiles = await import.meta.glob('/src/content/blog/**/index.*.mdx', { eager: true });
+const mdxPath = `/src/content/blog/${post.slug}/index.${locale}.mdx`;
+const mdxModule = allMdxFiles[mdxPath] as any;
+
+if (!mdxModule) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = mdxModule;
+---
+
+<BlogLayout post={post} locale={locale}>
+  <Content />
+</BlogLayout>

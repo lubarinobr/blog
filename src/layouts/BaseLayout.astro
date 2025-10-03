@@ -1,0 +1,119 @@
+---
+import type { SEOProps } from '@/types';
+import type { Locale } from '@/i18n/config';
+import { generateSEOTags, generateOrganizationSchema } from '@/utils/seo';
+import { locales } from '@/i18n/config';
+import { getAlternateLocales } from '@/utils/i18n';
+
+export interface Props {
+  seo: SEOProps;
+  locale?: Locale;
+  path?: string;
+}
+
+const { seo, locale = 'pt', path = '' } = Astro.props;
+const seoTags = generateSEOTags(seo, locale, path);
+const alternateLocales = getAlternateLocales(locale, path);
+const currentLocale = locales[locale];
+---
+
+<!DOCTYPE html>
+<html lang={currentLocale.lang} dir={currentLocale.dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <title>{seoTags.title}</title>
+    <meta name="description" content={seoTags.description} />
+    <link rel="canonical" href={seoTags.canonical} />
+    
+    <!-- Robots -->
+    <meta name="robots" content={`${seoTags.robots.index ? 'index' : 'noindex'}, ${seoTags.robots.follow ? 'follow' : 'nofollow'}`} />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={seoTags.openGraph.title} />
+    <meta property="og:description" content={seoTags.openGraph.description} />
+    <meta property="og:url" content={seoTags.openGraph.url} />
+    <meta property="og:site_name" content={seoTags.openGraph.siteName} />
+    <meta property="og:image" content={seoTags.openGraph.images[0].url} />
+    <meta property="og:image:width" content={seoTags.openGraph.images[0].width} />
+    <meta property="og:image:height" content={seoTags.openGraph.images[0].height} />
+    <meta property="og:image:alt" content={seoTags.openGraph.images[0].alt} />
+    <meta property="og:locale" content={seoTags.openGraph.locale} />
+    <meta property="og:type" content={seoTags.openGraph.type} />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content={seoTags.twitter.card} />
+    <meta name="twitter:title" content={seoTags.twitter.title} />
+    <meta name="twitter:description" content={seoTags.twitter.description} />
+    <meta name="twitter:image" content={seoTags.twitter.image} />
+    
+    <!-- Additional Meta Tags -->
+    {seoTags.other['article:published_time'] && (
+      <meta property="article:published_time" content={seoTags.other['article:published_time']} />
+    )}
+    {seoTags.other['article:modified_time'] && (
+      <meta property="article:modified_time" content={seoTags.other['article:modified_time']} />
+    )}
+    {seoTags.other['article:author'] && (
+      <meta property="article:author" content={seoTags.other['article:author']} />
+    )}
+    {seoTags.other['article:tag'] && (
+      <meta property="article:tag" content={seoTags.other['article:tag']} />
+    )}
+    
+    <!-- Alternate Languages -->
+    {alternateLocales.map(({ locale: altLocale, path: altPath }) => (
+      <link rel="alternate" hreflang={altLocale} href={`https://consultoria-exemplo.com${altPath}`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`https://consultoria-exemplo.com${path}`} />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:wght@400;700&display=swap" 
+      rel="stylesheet" 
+    />
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(generateOrganizationSchema())} />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+  </head>
+  <body class="font-sans antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div id="app">
+      <slot />
+    </div>
+    
+    <!-- Dark Mode Script -->
+    <script>
+      // Check for saved theme preference or default to 'light'
+      const theme = localStorage.getItem('theme') || 'light';
+      
+      // Apply theme immediately to prevent flash
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+      
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          if (e.matches) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

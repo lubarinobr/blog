@@ -1,0 +1,209 @@
+---
+import type { Locale } from '@/i18n/config';
+import { getTranslations } from '@/utils/i18n';
+import { getLocalizedPath } from '@/utils/i18n';
+
+export interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const t = await getTranslations(locale, 'common');
+---
+
+<header class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href={getLocalizedPath('/', locale)} class="flex items-center">
+          <img 
+            src="/images/logo.svg" 
+            alt="Consultoria Empresarial" 
+            class="h-8 w-auto"
+          />
+          <span class="ml-2 text-xl font-bold text-gray-900 dark:text-white">
+            Consultoria
+          </span>
+        </a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a 
+            href={getLocalizedPath('/', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath === '/' || currentPath === `/${locale}`
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.home}
+          </a>
+          <a 
+            href={getLocalizedPath('/services', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/services')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.services}
+          </a>
+          <a 
+            href={getLocalizedPath('/trainings', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/trainings')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.trainings}
+          </a>
+          <a 
+            href={getLocalizedPath('/about', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/about')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.about}
+          </a>
+          <a 
+            href={getLocalizedPath('/blog', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/blog')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.blog}
+          </a>
+          <a 
+            href={getLocalizedPath('/contact', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/contact')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.contact}
+          </a>
+        </div>
+      </div>
+      
+      <!-- Language Switcher & CTA -->
+      <div class="hidden md:flex items-center space-x-4">
+        <!-- Language Switcher -->
+        <div class="relative">
+          <select 
+            id="language-switcher"
+            class="appearance-none bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onchange="window.location.href = this.value"
+          >
+            <option value={getLocalizedPath(currentPath, 'pt')} selected={locale === 'pt'}>PT</option>
+            <option value={getLocalizedPath(currentPath, 'en')} selected={locale === 'en'}>EN</option>
+            <option value={getLocalizedPath(currentPath, 'es')} selected={locale === 'es'}>ES</option>
+          </select>
+        </div>
+        
+        <!-- CTA Button -->
+        <a 
+          href={getLocalizedPath('/contact', locale)}
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+        >
+          {t.buttons.contactUs}
+        </a>
+      </div>
+      
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button 
+          type="button" 
+          class="mobile-menu-button bg-gray-100 dark:bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 dark:bg-gray-800 rounded-lg mt-2">
+        <a 
+          href={getLocalizedPath('/', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.home}
+        </a>
+        <a 
+          href={getLocalizedPath('/services', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.services}
+        </a>
+        <a 
+          href={getLocalizedPath('/trainings', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.trainings}
+        </a>
+        <a 
+          href={getLocalizedPath('/about', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.about}
+        </a>
+        <a 
+          href={getLocalizedPath('/blog', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.blog}
+        </a>
+        <a 
+          href={getLocalizedPath('/contact', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.contact}
+        </a>
+        
+        <!-- Mobile Language Switcher -->
+        <div class="px-3 py-2">
+          <select 
+            class="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onchange="window.location.href = this.value"
+          >
+            <option value={getLocalizedPath(currentPath, 'pt')} selected={locale === 'pt'}>Português</option>
+            <option value={getLocalizedPath(currentPath, 'en')} selected={locale === 'en'}>English</option>
+            <option value={getLocalizedPath(currentPath, 'es')} selected={locale === 'es'}>Español</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', function() {
+        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>

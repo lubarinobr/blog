@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "trainings": "Trainings",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "buttons": {
+    "readMore": "Read more",
+    "learnMore": "Learn more",
+    "getStarted": "Get started",
+    "contactUs": "Contact us",
+    "loadMore": "Load more",
+    "subscribe": "Subscribe",
+    "send": "Send",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "meta": {
+    "loading": "Loading...",
+    "error": "Error",
+    "notFound": "Page not found",
+    "serverError": "Server error"
+  },
+  "forms": {
+    "name": "Name",
+    "email": "Email",
+    "company": "Company",
+    "message": "Message",
+    "phone": "Phone",
+    "required": "Required",
+    "invalidEmail": "Invalid email",
+    "success": "Message sent successfully!",
+    "error": "Error sending message. Please try again."
+  },
+  "date": {
+    "format": "MM/dd/yyyy",
+    "readTime": "min read"
+  }
+}

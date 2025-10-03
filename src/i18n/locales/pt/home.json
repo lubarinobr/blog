@@ -1,0 +1,61 @@
+{
+  "hero": {
+    "title": "Transforme sua empresa com consultoria especializada",
+    "subtitle": "Oferecemos soluções estratégicas e treinamentos corporativos para impulsionar o crescimento do seu negócio",
+    "cta": "Solicitar consultoria gratuita"
+  },
+  "services": {
+    "title": "Nossos Serviços",
+    "subtitle": "Soluções completas para o crescimento da sua empresa",
+    "items": [
+      {
+        "title": "Consultoria Estratégica",
+        "description": "Desenvolvemos estratégias personalizadas para acelerar o crescimento do seu negócio"
+      },
+      {
+        "title": "Transformação Digital",
+        "description": "Modernizamos processos e implementamos tecnologias para aumentar a eficiência"
+      },
+      {
+        "title": "Gestão de Projetos",
+        "description": "Gerenciamos projetos complexos com metodologias ágeis e comprovadas"
+      },
+      {
+        "title": "Análise de Dados",
+        "description": "Extraímos insights valiosos dos seus dados para tomada de decisão"
+      },
+      {
+        "title": "Marketing Digital",
+        "description": "Criamos campanhas eficazes para aumentar sua presença online"
+      },
+      {
+        "title": "Recursos Humanos",
+        "description": "Otimizamos processos de RH e desenvolvemos talentos da sua equipe"
+      }
+    ]
+  },
+  "trainings": {
+    "title": "Treinamentos para Empresas",
+    "subtitle": "Capacite sua equipe com nossos programas especializados",
+    "description": "Oferecemos treinamentos personalizados para desenvolver as habilidades da sua equipe e impulsionar a performance organizacional.",
+    "cta": "Solicitar briefing"
+  },
+  "team": {
+    "title": "Nossa Equipe",
+    "subtitle": "Especialistas experientes prontos para transformar seu negócio"
+  },
+  "testimonials": {
+    "title": "O que nossos clientes dizem",
+    "subtitle": "Resultados reais de empresas que confiam em nossos serviços"
+  },
+  "blog": {
+    "title": "Últimas do Blog",
+    "subtitle": "Insights e tendências do mercado",
+    "viewAll": "Ver todos os posts"
+  },
+  "cta": {
+    "title": "Pronto para transformar sua empresa?",
+    "subtitle": "Entre em contato conosco e descubra como podemos ajudar",
+    "button": "Agendar consultoria gratuita"
+  }
+}

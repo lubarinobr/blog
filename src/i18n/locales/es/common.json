@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "trainings": "Capacitaciones",
+    "about": "Acerca de",
+    "blog": "Blog",
+    "contact": "Contacto"
+  },
+  "buttons": {
+    "readMore": "Leer más",
+    "learnMore": "Saber más",
+    "getStarted": "Comenzar",
+    "contactUs": "Contáctanos",
+    "loadMore": "Cargar más",
+    "subscribe": "Suscribirse",
+    "send": "Enviar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior"
+  },
+  "meta": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "notFound": "Página no encontrada",
+    "serverError": "Error del servidor"
+  },
+  "forms": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "company": "Empresa",
+    "message": "Mensaje",
+    "phone": "Teléfono",
+    "required": "Requerido",
+    "invalidEmail": "Correo electrónico inválido",
+    "success": "¡Mensaje enviado con éxito!",
+    "error": "Error al enviar mensaje. Inténtalo de nuevo."
+  },
+  "date": {
+    "format": "dd/MM/yyyy",
+    "readTime": "min de lectura"
+  }
+}

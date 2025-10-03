@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Início",
+    "services": "Serviços",
+    "trainings": "Treinamentos",
+    "about": "Sobre",
+    "blog": "Blog",
+    "contact": "Contato"
+  },
+  "buttons": {
+    "readMore": "Ler mais",
+    "learnMore": "Saiba mais",
+    "getStarted": "Começar",
+    "contactUs": "Entre em contato",
+    "loadMore": "Carregar mais",
+    "subscribe": "Inscrever-se",
+    "send": "Enviar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior"
+  },
+  "meta": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "notFound": "Página não encontrada",
+    "serverError": "Erro do servidor"
+  },
+  "forms": {
+    "name": "Nome",
+    "email": "E-mail",
+    "company": "Empresa",
+    "message": "Mensagem",
+    "phone": "Telefone",
+    "required": "Obrigatório",
+    "invalidEmail": "E-mail inválido",
+    "success": "Mensagem enviada com sucesso!",
+    "error": "Erro ao enviar mensagem. Tente novamente."
+  },
+  "date": {
+    "format": "dd/MM/yyyy",
+    "readTime": "min de leitura"
+  }
+}

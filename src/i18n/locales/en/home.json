@@ -1,0 +1,61 @@
+{
+  "hero": {
+    "title": "Transform your company with specialized consulting",
+    "subtitle": "We offer strategic solutions and corporate training to boost your business growth",
+    "cta": "Request free consultation"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Complete solutions for your company's growth",
+    "items": [
+      {
+        "title": "Strategic Consulting",
+        "description": "We develop personalized strategies to accelerate your business growth"
+      },
+      {
+        "title": "Digital Transformation",
+        "description": "We modernize processes and implement technologies to increase efficiency"
+      },
+      {
+        "title": "Project Management",
+        "description": "We manage complex projects with agile and proven methodologies"
+      },
+      {
+        "title": "Data Analysis",
+        "description": "We extract valuable insights from your data for decision making"
+      },
+      {
+        "title": "Digital Marketing",
+        "description": "We create effective campaigns to increase your online presence"
+      },
+      {
+        "title": "Human Resources",
+        "description": "We optimize HR processes and develop your team's talents"
+      }
+    ]
+  },
+  "trainings": {
+    "title": "Corporate Training",
+    "subtitle": "Empower your team with our specialized programs",
+    "description": "We offer personalized training to develop your team's skills and boost organizational performance.",
+    "cta": "Request briefing"
+  },
+  "team": {
+    "title": "Our Team",
+    "subtitle": "Experienced specialists ready to transform your business"
+  },
+  "testimonials": {
+    "title": "What our clients say",
+    "subtitle": "Real results from companies that trust our services"
+  },
+  "blog": {
+    "title": "Latest from Blog",
+    "subtitle": "Market insights and trends",
+    "viewAll": "View all posts"
+  },
+  "cta": {
+    "title": "Ready to transform your company?",
+    "subtitle": "Contact us and discover how we can help",
+    "button": "Schedule free consultation"
+  }
+}
