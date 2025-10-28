@@ -32,8 +32,7 @@ const t = await getTranslations(locale, 'common');
           />
         </div>
         <p class="text-gray-300 mb-4 max-w-md">
-          Transformamos empresas através de consultoria especializada e treinamentos corporativos. 
-          Nossa missão é impulsionar o crescimento e a inovação.
+          {t.footer.description}
         </p>
         <div class="flex space-x-4">
           <a 
@@ -59,7 +58,7 @@ const t = await getTranslations(locale, 'common');
       
       <!-- Quick Links -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Links Rápidos</h3>
+        <h3 class="text-lg font-semibold mb-4">{t.footer.quickLinks}</h3>
         <ul class="space-y-2">
           <li>
             <a 
@@ -106,11 +105,11 @@ const t = await getTranslations(locale, 'common');
       
       <!-- Contact Info -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Contato</h3>
+        <h3 class="text-lg font-semibold mb-4">{t.footer.contact}</h3>
         <div class="space-y-2 text-gray-300">
-          <p>📧 contato@consultoria-exemplo.com</p>
-          <p>📞 +55 11 99999-9999</p>
-          <p>📍 São Paulo, SP - Brasil</p>
+          <p>📧 {t.footer.email}</p>
+          <p>📞 {t.footer.phone}</p>
+          <p>📍 {t.footer.address}</p>
         </div>
       </div>
     </div>
@@ -119,20 +118,20 @@ const t = await getTranslations(locale, 'common');
     <div class="border-t border-gray-800 mt-8 pt-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <p class="text-gray-400 text-sm">
-          © 2024 Consultoria Empresarial. Todos os direitos reservados.
+          {t.footer.copyright}
         </p>
         <div class="flex space-x-6 mt-4 md:mt-0">
           <a 
             href={getLocalizedPath('/privacy', locale)} 
             class="text-gray-400 hover:text-white text-sm transition-colors"
           >
-            Política de Privacidade
+            {t.footer.privacy}
           </a>
           <a 
             href={getLocalizedPath('/terms', locale)} 
             class="text-gray-400 hover:text-white text-sm transition-colors"
           >
-            Termos de Uso
+            {t.footer.terms}
           </a>
         </div>
       </div>

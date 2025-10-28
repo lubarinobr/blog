@@ -39,5 +39,16 @@
   "date": {
     "format": "dd/MM/yyyy",
     "readTime": "min de leitura"
+  },
+  "footer": {
+    "description": "Transformamos empresas através de consultoria especializada e treinamentos corporativos. Nossa missão é impulsionar o crescimento e a inovação.",
+    "quickLinks": "Links Rápidos",
+    "contact": "Contato",
+    "email": "contato@consultoria-exemplo.com",
+    "phone": "+55 11 99999-9999",
+    "address": "São Paulo, SP - Brasil",
+    "copyright": "© 2024 Consultoria Empresarial. Todos os direitos reservados.",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Uso"
   }
 }

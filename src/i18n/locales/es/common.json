@@ -39,5 +39,16 @@
   "date": {
     "format": "dd/MM/yyyy",
     "readTime": "min de lectura"
+  },
+  "footer": {
+    "description": "Transformamos empresas a través de consultoría especializada y capacitaciones corporativas. Nuestra misión es impulsar el crecimiento y la innovación.",
+    "quickLinks": "Enlaces Rápidos",
+    "contact": "Contacto",
+    "email": "contacto@consultoria-empresarial.com",
+    "phone": "+34 91 123 45 67",
+    "address": "Madrid, España",
+    "copyright": "© 2024 Consultoría Empresarial. Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Uso"
   }
 }

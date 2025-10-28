@@ -16,7 +16,7 @@ const { locale, currentPath } = Astro.props;
 const t = await getTranslations(locale, 'common');
 ---
 
-<header class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
+<header id="main-header" class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
@@ -201,11 +201,13 @@ const t = await getTranslations(locale, 'common');
 </header>
 
 <script>
-  // Mobile menu toggle
+  // Mobile menu toggle and scroll behavior
   document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuButton = document.querySelector('.mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
+    const header = document.getElementById('main-header');
     
+    // Mobile menu toggle
     if (mobileMenuButton && mobileMenu) {
       mobileMenuButton.addEventListener('click', function() {
         const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
@@ -213,5 +215,37 @@ const t = await getTranslations(locale, 'common');
         mobileMenu.classList.toggle('hidden');
       });
     }
+    
+    // Scroll behavior
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    
+    function updateHeader() {
+      const scrollY = window.scrollY;
+      
+      if (scrollY > 100) {
+        // Add scrolled classes for styling
+        header.classList.add('shadow-lg', 'bg-white/98', 'dark:bg-gray-900/98');
+        header.classList.remove('bg-white/95', 'dark:bg-gray-900/95');
+      } else {
+        // Remove scrolled classes
+        header.classList.remove('shadow-lg', 'bg-white/98', 'dark:bg-gray-900/98');
+        header.classList.add('bg-white/95', 'dark:bg-gray-900/95');
+      }
+      
+      lastScrollY = scrollY;
+      ticking = false;
+    }
+    
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateHeader);
+        ticking = true;
+      }
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', requestTick);
   });
 </script>
+

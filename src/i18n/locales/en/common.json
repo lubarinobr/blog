@@ -39,5 +39,16 @@
   "date": {
     "format": "MM/dd/yyyy",
     "readTime": "min read"
+  },
+  "footer": {
+    "description": "We transform companies through specialized consulting and corporate training. Our mission is to drive growth and innovation.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "email": "contact@business-consulting.com",
+    "phone": "+1 555-123-4567",
+    "address": "New York, NY - USA",
+    "copyright": "© 2024 Business Consulting. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
   }
 }
