@@ -1,7 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/utils/i18n';
 import { getLocalizedPath } from '@/utils/i18n';
+
+// Import logo image for optimization
+import logoImage from '/public/images/logo2.png';
 
 export interface Props {
   locale: Locale;
@@ -18,10 +22,14 @@ const t = await getTranslations(locale, 'common');
       <!-- Logo -->
       <div class="flex-shrink-0">
         <a href={getLocalizedPath('/', locale)} class="flex items-center">
-          <img 
-            src="/images/logo2.png" 
+          <Image 
+            src={logoImage} 
             alt="Consultoria Empresarial" 
             class="h-[12rem] w-auto py-8"
+            width={200}
+            height={200}
+            loading="eager"
+            quality={90}
           />
           <span class="ml-2 text-xl font-bold text-gray-900 dark:text-white">
             

@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import { Image, Picture } from 'astro:assets';
 import { getTranslations } from '@/utils/i18n';
 import { getRecentPosts } from '@/utils/blog';
 import type { Locale } from '@/i18n/config';
@@ -10,6 +11,12 @@ const locale: Locale = 'pt';
 const t = await getTranslations(locale, 'common');
 const tHome = await getTranslations(locale, 'home');
 const recentPosts = await getRecentPosts(5, locale);
+
+// Import images for optimization
+import brunoImage from '/public/images/pessoal/bruno.jpeg';
+import danielImage from '/public/images/pessoal/daniel.jpeg';
+import jonathanImage from '/public/images/pessoal/jonathan.jpeg';
+import matheusImage from '/public/images/pessoal/matheus.jpeg';
 
 const seo = {
   title: 'Consultoria Empresarial - Transformação Digital e Treinamentos',
@@ -123,10 +130,11 @@ const seo = {
         <!-- Team members will be added here -->
         <div class="text-center">
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <img 
-              src="/images/pessoal/bruno.jpeg" 
+            <Picture 
+              src={brunoImage} 
               alt="Bruno Melo" 
               class="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Bruno Melo</h3>
@@ -135,10 +143,11 @@ const seo = {
         
         <div class="text-center">
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <img 
-              src="/images/pessoal/daniel.jpeg" 
+            <Picture 
+              src={danielImage} 
               alt="Daniel Cunha" 
               class="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Daniel Cunha</h3>
@@ -147,10 +156,11 @@ const seo = {
         
         <div class="text-center">
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <img 
-              src="/images/pessoal/jonathan.jpeg" 
+            <Picture 
+              src={jonathanImage} 
               alt="Jonathan Braga" 
               class="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Jonathan Braga</h3>
@@ -159,10 +169,11 @@ const seo = {
         
         <div class="text-center">
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <img 
-              src="/images/pessoal/matheus.jpeg" 
+            <Picture 
+              src={matheusImage} 
               alt="Matheus Lubarino" 
               class="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Matheus Lubarino</h3>

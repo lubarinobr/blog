@@ -1,7 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/utils/i18n';
 import { getLocalizedPath } from '@/utils/i18n';
+
+// Import logo image for optimization
+import logoImage from '/public/images/logo2.png';
 
 export interface Props {
   locale: Locale;
@@ -17,10 +21,14 @@ const t = await getTranslations(locale, 'common');
       <!-- Company Info -->
       <div class="lg:col-span-2">
         <div class="flex items-center mb-4">
-          <img 
-            src="/images/logo2.png" 
+          <Image 
+            src={logoImage} 
             alt="Consultoria Empresarial" 
             class="h-[10rem] w-auto"
+            width={200}
+            height={200}
+            loading="lazy"
+            quality={90}
           />
         </div>
         <p class="text-gray-300 mb-4 max-w-md">
