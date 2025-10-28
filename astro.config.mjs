@@ -32,5 +32,14 @@ export default defineConfig({
   },
   vite: {
     // Configurações do Vite se necessário
+  },
+  image: {
+    // Configurações de otimização de imagem
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: false,
+      }
+    }
   }
 });

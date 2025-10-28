@@ -12,5 +12,13 @@
       "@/i18n/*": ["./src/i18n/*"],
       "@/content/*": ["./src/content/*"]
     }
-  }
+  },
+  "include": [
+    "src/**/*",
+    ".astro/types.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    ".astro"
+  ]
 }
