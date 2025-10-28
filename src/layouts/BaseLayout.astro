@@ -63,12 +63,53 @@ const currentLocale = locales[locale];
     {seoTags.other['article:tag'] && (
       <meta property="article:tag" content={seoTags.other['article:tag']} />
     )}
+    {seoTags.other['article:section'] && (
+      <meta property="article:section" content={seoTags.other['article:section']} />
+    )}
+    {seoTags.other['keywords'] && (
+      <meta name="keywords" content={seoTags.other['keywords']} />
+    )}
+    {seoTags.other['author'] && (
+      <meta name="author" content={seoTags.other['author']} />
+    )}
+    {seoTags.other['revisit-after'] && (
+      <meta name="revisit-after" content={seoTags.other['revisit-after']} />
+    )}
+    {seoTags.other['rating'] && (
+      <meta name="rating" content={seoTags.other['rating']} />
+    )}
+    {seoTags.other['distribution'] && (
+      <meta name="distribution" content={seoTags.other['distribution']} />
+    )}
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="SapiensIT" />
+    <meta name="application-name" content="SapiensIT" />
+    <meta name="msapplication-tooltip" content="SapiensIT - Transformação Digital" />
+    <meta name="msapplication-starturl" content="/" />
+    
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="BR-SP" />
+    <meta name="geo.placename" content="São Paulo" />
+    <meta name="geo.position" content="-23.5505;-46.6333" />
+    <meta name="ICBM" content="-23.5505, -46.6333" />
+    
+    <!-- Language and Content -->
+    <meta name="language" content={currentLocale.lang} />
+    <meta name="content-language" content={currentLocale.lang} />
+    <meta name="audience" content="business, professionals, executives" />
+    <meta name="target" content="all" />
+    <meta name="coverage" content="worldwide" />
     
     <!-- Alternate Languages -->
     {alternateLocales.map(({ locale: altLocale, path: altPath }) => (
-      <link rel="alternate" hreflang={altLocale} href={`https://consultoria-exemplo.com${altPath}`} />
+      <link rel="alternate" hreflang={altLocale} href={`https://sapiensit.com${altPath}`} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={`https://consultoria-exemplo.com${path}`} />
+    <link rel="alternate" hreflang="x-default" href={`https://sapiensit.com${path}`} />
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -79,8 +120,16 @@ const currentLocale = locales[locale];
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link 
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:wght@400;700&display=swap" 
-      rel="stylesheet" 
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:wght@400;700&display=swap" 
+        rel="stylesheet" 
+      />
+    </noscript>
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(generateOrganizationSchema())} />

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer.astro';
 import { getTranslations } from '@/utils/i18n';
 import { getRelatedPosts, getAllPosts, generateTableOfContents } from '@/utils/blog';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/utils/seo';
+import { generateRelatedPosts as generateSmartRelatedPosts, generateBreadcrumbLinks } from '@/utils/internal-linking';
 import type { Locale } from '@/i18n/config';
 
 export interface Props {
@@ -21,8 +22,9 @@ if (!post) {
 }
 
 const allPosts = await getAllPosts(locale);
-const relatedPosts = getRelatedPosts(post, allPosts, 3);
+const relatedPosts = generateSmartRelatedPosts(post, allPosts, 3);
 const toc = generateTableOfContents(post.content);
+const breadcrumbItems = generateBreadcrumbLinks(`/blog/${post.slug}`, locale);
 
 const seo = {
   title: post.title,
@@ -32,15 +34,10 @@ const seo = {
   type: 'article' as const,
   publishedTime: post.date.toISOString(),
   modifiedTime: post.date.toISOString(),
-  author: 'Consultoria Empresarial',
+  author: 'SapiensIT',
   tags: post.tags
 };
 
-const breadcrumbItems = [
-  { name: t.blog.breadcrumb.home, url: 'https://consultoria-exemplo.com' },
-  { name: t.blog.breadcrumb.blog, url: 'https://consultoria-exemplo.com/blog' },
-  { name: post.title, url: `https://consultoria-exemplo.com/blog/${post.slug}` }
-];
 ---
 
 <BaseLayout seo={seo} locale={locale} path={`/blog/${post.slug}`}>
@@ -119,7 +116,7 @@ const breadcrumbItems = [
               </div>
               <div class="ml-6">
                 <p class="font-semibold text-gray-900 dark:text-white text-lg">
-                  Consultoria Empresarial
+                  SapiensIT
                 </p>
                 <p class="text-gray-600 dark:text-gray-300">
                   {t.blog.authorBio}
@@ -147,7 +144,10 @@ const breadcrumbItems = [
                 width={800}
                 height={600}
                 loading="eager"
-                quality={85}
+                quality={90}
+                format="webp"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                decoding="async"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
@@ -164,7 +164,7 @@ const breadcrumbItems = [
             <div class="flex items-center justify-center space-x-8 mb-12">
               <span class="text-lg text-gray-500 dark:text-gray-400 font-medium">{t.blog.share}</span>
               <a 
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://consultoria-exemplo.com/blog/${post.slug}`)}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://sapiensit.com/blog/${post.slug}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-gray-400 hover:text-blue-400 transition-all duration-300 p-3 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-110"
@@ -174,7 +174,7 @@ const breadcrumbItems = [
                 </svg>
               </a>
               <a 
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://consultoria-exemplo.com/blog/${post.slug}`)}`}
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://sapiensit.com/blog/${post.slug}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-gray-400 hover:text-blue-600 transition-all duration-300 p-3 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-110"
@@ -194,7 +194,7 @@ const breadcrumbItems = [
               </div>
               <div class="ml-8 text-center">
                 <p class="font-semibold text-gray-900 dark:text-white text-xl">
-                  Consultoria Empresarial
+                  SapiensIT
                 </p>
                 <p class="text-gray-600 dark:text-gray-300 text-lg">
                   {t.blog.authorBioFull}

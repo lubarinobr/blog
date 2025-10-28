@@ -5,6 +5,7 @@ import Footer from '@/components/Footer.astro';
 import { Image, Picture } from 'astro:assets';
 import { getTranslations } from '@/utils/i18n';
 import { getRecentPosts } from '@/utils/blog';
+import { generateFAQSchema, generateWebSiteSchema } from '@/utils/seo';
 import type { Locale } from '@/i18n/config';
 
 const locale: Locale = 'pt';
@@ -19,13 +20,17 @@ import jonathanImage from '/public/images/pessoal/jonathan.jpeg';
 import matheusImage from '/public/images/pessoal/matheus.jpeg';
 
 const seo = {
-  title: 'Consultoria Empresarial - Transformação Digital e Treinamentos',
-  description: 'Oferecemos consultoria especializada em transformação digital e treinamentos corporativos para impulsionar o crescimento da sua empresa.',
+  title: 'SapiensIT - Transformação Digital e Treinamentos',
+  description: 'SapiensIT oferece consultoria especializada em transformação digital e treinamentos corporativos para impulsionar o crescimento da sua empresa.',
   image: '/images/og-home.jpg'
 };
 ---
 
 <BaseLayout seo={seo} locale={locale} path="/">
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(generateWebSiteSchema())} />
+  <script type="application/ld+json" set:html={JSON.stringify(generateFAQSchema())} />
+  
   <Header locale={locale} currentPath="/" />
   
   <!-- Hero Section -->
@@ -132,9 +137,12 @@ const seo = {
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
             <Picture 
               src={brunoImage} 
-              alt="Bruno Melo" 
+              alt="Bruno Melo - Founder da SapiensIT" 
               class="w-full h-full object-cover"
               loading="lazy"
+              format="webp"
+              quality={85}
+              decoding="async"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Bruno Melo</h3>
@@ -145,9 +153,12 @@ const seo = {
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
             <Picture 
               src={danielImage} 
-              alt="Daniel Cunha" 
+              alt="Daniel Cunha - Founder da SapiensIT" 
               class="w-full h-full object-cover"
               loading="lazy"
+              format="webp"
+              quality={85}
+              decoding="async"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Daniel Cunha</h3>
@@ -158,9 +169,12 @@ const seo = {
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
             <Picture 
               src={jonathanImage} 
-              alt="Jonathan Braga" 
+              alt="Jonathan Braga - Founder da SapiensIT" 
               class="w-full h-full object-cover"
               loading="lazy"
+              format="webp"
+              quality={85}
+              decoding="async"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Jonathan Braga</h3>
@@ -171,9 +185,12 @@ const seo = {
           <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
             <Picture 
               src={matheusImage} 
-              alt="Matheus Lubarino" 
+              alt="Matheus Lubarino - Founder da SapiensIT" 
               class="w-full h-full object-cover"
               loading="lazy"
+              format="webp"
+              quality={85}
+              decoding="async"
             />
           </div>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Matheus Lubarino</h3>

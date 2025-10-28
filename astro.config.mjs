@@ -6,7 +6,7 @@ import tailwind from '@astrojs/tailwind';
 import { i18n } from './src/i18n/config';
 
 export default defineConfig({
-  site: 'https://consultoria-exemplo.com',
+  site: 'https://sapiensit.com',
   i18n,
   output: 'static',
   integrations: [
@@ -20,7 +20,22 @@ export default defineConfig({
           en: 'en-US',
           es: 'es-ES'
         }
-      }
+      },
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      filter: (page) => !page.includes('404') && !page.includes('admin'),
+      customPages: [
+        'https://sapiensit.com/',
+        'https://sapiensit.com/contact',
+        'https://sapiensit.com/blog',
+        'https://sapiensit.com/en/',
+        'https://sapiensit.com/en/contact',
+        'https://sapiensit.com/en/blog',
+        'https://sapiensit.com/es/',
+        'https://sapiensit.com/es/contact',
+        'https://sapiensit.com/es/blog'
+      ]
     }),
     tailwind()
   ],
@@ -41,5 +56,13 @@ export default defineConfig({
         limitInputPixels: false,
       }
     }
+  },
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto'
+  },
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport'
   }
 });

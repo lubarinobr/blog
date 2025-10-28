@@ -1,0 +1,47 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://sapiensit.com/sitemap-index.xml
+Sitemap: https://sapiensit.com/sitemap-0.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_astro/
+Disallow: /node_modules/
+
+# Allow important pages
+Allow: /blog/
+Allow: /contact/
+Allow: /images/
+Allow: /en/
+Allow: /es/
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
