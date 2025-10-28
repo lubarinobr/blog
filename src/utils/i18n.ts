@@ -34,11 +34,14 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 export function getLocalizedPath(path: string, locale: Locale): string {
+  // Remove any existing locale prefix from the path
+  const cleanPath = path.replace(/^\/(en|es)/, '') || '/';
+  
   if (locale === 'pt') {
-    return path;
+    return cleanPath;
   }
   
-  return `/${locale}${path}`;
+  return `/${locale}${cleanPath}`;
 }
 
 export function formatDate(date: Date, locale: Locale): string {
