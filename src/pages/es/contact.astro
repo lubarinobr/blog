@@ -6,18 +6,18 @@ import ContactForm from '@/components/ContactForm.tsx';
 import { getTranslations } from '@/utils/i18n';
 import type { Locale } from '@/i18n/config';
 
-const locale: Locale = 'pt';
+const locale: Locale = 'es';
 const t = await getTranslations(locale, 'common');
 
 const seo = {
-  title: 'Contato - Consultoria Empresarial',
-  description: 'Entre em contato conosco para uma consultoria personalizada. Transformamos sua empresa com soluções estratégicas e treinamentos corporativos.',
+  title: 'Contacto - Consultoría Empresarial',
+  description: 'Ponte en contacto con nosotros para una consultoría personalizada. Transformamos tu empresa con soluciones estratégicas y capacitaciones corporativas.',
   image: '/images/og-contact.jpg'
 };
 ---
 
-<BaseLayout seo={seo} locale={locale} path="/contact">
-  <Header locale={locale} currentPath="/contact" />
+<BaseLayout seo={seo} locale={locale} path="/es/contact">
+  <Header locale={locale} currentPath="/es/contact" />
   
   <!-- Hero Section -->
   <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-16">
@@ -66,10 +66,10 @@ const seo = {
                   {t.contact.email}
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300">
-                  contato@consultoria-exemplo.com
+                  contacto@consultoria-empresarial.com
                 </p>
                 <p class="text-gray-600 dark:text-gray-300">
-                  comercial@consultoria-exemplo.com
+                  comercial@consultoria-empresarial.com
                 </p>
               </div>
             </div>
@@ -88,10 +88,10 @@ const seo = {
                   {t.contact.phone}
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300">
-                  +55 11 99999-9999
+                  +34 91 123 45 67
                 </p>
                 <p class="text-gray-600 dark:text-gray-300">
-                  +55 11 3333-4444
+                  +34 91 987 65 43
                 </p>
               </div>
             </div>
@@ -111,9 +111,9 @@ const seo = {
                   {t.contact.address}
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300">
-                  Rua das Empresas, 123<br>
-                  Vila Olímpia<br>
-                  São Paulo - SP, 04551-000
+                  Calle de la Empresa, 123<br>
+                  Distrito Centro<br>
+                  Madrid, 28001
                 </p>
               </div>
             </div>
@@ -149,7 +149,7 @@ const seo = {
               {t.contact.scheduleDescription}
             </p>
             <a 
-              href="https://calendly.com/consultoria-exemplo" 
+              href="https://calendly.com/consultoria-empresarial" 
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"

@@ -6,7 +6,7 @@ import { getTranslations } from '@/utils/i18n';
 import { getAllPosts, getAllCategories, getAllTags } from '@/utils/blog';
 import type { Locale } from '@/i18n/config';
 
-const locale: Locale = 'pt';
+const locale: Locale = 'es';
 const t = await getTranslations(locale, 'common');
 
 // Get all posts, categories, and tags
@@ -21,14 +21,14 @@ const totalPages = Math.ceil(allPosts.length / postsPerPage);
 const paginatedPosts = allPosts.slice(0, postsPerPage);
 
 const seo = {
-  title: 'Blog - Consultoria Empresarial',
-  description: 'Insights e tendências do mercado. Artigos sobre transformação digital, gestão de projetos, estratégia empresarial e muito mais.',
+  title: 'Blog - Consultoría Empresarial',
+  description: 'Insights y tendencias del mercado. Artículos sobre transformación digital, gestión de proyectos, estrategia empresarial y mucho más.',
   image: '/images/og-blog.jpg'
 };
 ---
 
-<BaseLayout seo={seo} locale={locale} path="/blog">
-  <Header locale={locale} currentPath="/blog" />
+<BaseLayout seo={seo} locale={locale} path="/es/blog">
+  <Header locale={locale} currentPath="/es/blog" />
   
   <!-- Hero Section -->
   <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-16">
@@ -93,13 +93,13 @@ const seo = {
                       {post.category}
                     </span>
                     <span class="mx-2">•</span>
-                    <span>{post.date.toLocaleDateString('pt-BR')}</span>
+                    <span>{post.date.toLocaleDateString('es-ES')}</span>
                     <span class="mx-2">•</span>
-                    <span>{post.readingTime} min de leitura</span>
+                    <span>{post.readingTime} {t.date.readTime}</span>
                   </div>
                   
                   <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-blue-400">
-                    <a href={`/blog/${post.slug}`}>
+                    <a href={`/es/blog/${post.slug}`}>
                       {post.title}
                     </a>
                   </h2>
@@ -118,7 +118,7 @@ const seo = {
                     </div>
                     
                     <a 
-                      href={`/blog/${post.slug}`}
+                      href={`/es/blog/${post.slug}`}
                       class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
                     >
                       {t.buttons.readMore} →
@@ -151,7 +151,7 @@ const seo = {
                 {categories.map(category => (
                   <li>
                     <a 
-                      href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                      href={`/es/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
                       class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       {category}
@@ -169,7 +169,7 @@ const seo = {
               <div class="flex flex-wrap gap-2">
                 {tags.map(tag => (
                   <a 
-                    href={`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={`/es/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}
                     class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
                   >
                     #{tag}

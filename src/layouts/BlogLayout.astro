@@ -37,8 +37,8 @@ const seo = {
 };
 
 const breadcrumbItems = [
-  { name: 'Início', url: 'https://consultoria-exemplo.com' },
-  { name: 'Blog', url: 'https://consultoria-exemplo.com/blog' },
+  { name: t.blog.breadcrumb.home, url: 'https://consultoria-exemplo.com' },
+  { name: t.blog.breadcrumb.blog, url: 'https://consultoria-exemplo.com/blog' },
   { name: post.title, url: `https://consultoria-exemplo.com/blog/${post.slug}` }
 ];
 ---
@@ -56,13 +56,13 @@ const breadcrumbItems = [
       <ol class="flex items-center space-x-2 text-sm">
         <li>
           <a href="/" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-            Início
+            {t.blog.breadcrumb.home}
           </a>
         </li>
         <li class="text-gray-400">/</li>
         <li>
           <a href="/blog" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-            Blog
+            {t.blog.breadcrumb.blog}
           </a>
         </li>
         <li class="text-gray-400">/</li>
@@ -99,7 +99,7 @@ const breadcrumbItems = [
                 })}
               </time>
               <span class="mx-3">•</span>
-              <span>{post.readingTime} min de leitura</span>
+              <span>{post.readingTime} {t.date.readTime}</span>
             </div>
             
             <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-12 leading-tight tracking-tight font-serif">
@@ -122,7 +122,7 @@ const breadcrumbItems = [
                   Consultoria Empresarial
                 </p>
                 <p class="text-gray-600 dark:text-gray-300">
-                  Especialistas em transformação digital
+                  {t.blog.authorBio}
                 </p>
               </div>
             </div>
@@ -162,7 +162,7 @@ const breadcrumbItems = [
           <footer class="mt-20 pt-16 border-t border-gray-200 dark:border-gray-700">
             <!-- Social Share -->
             <div class="flex items-center justify-center space-x-8 mb-12">
-              <span class="text-lg text-gray-500 dark:text-gray-400 font-medium">Compartilhar:</span>
+              <span class="text-lg text-gray-500 dark:text-gray-400 font-medium">{t.blog.share}</span>
               <a 
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://consultoria-exemplo.com/blog/${post.slug}`)}`}
                 target="_blank"
@@ -197,7 +197,7 @@ const breadcrumbItems = [
                   Consultoria Empresarial
                 </p>
                 <p class="text-gray-600 dark:text-gray-300 text-lg">
-                  Especialistas em transformação digital e estratégia empresarial
+                  {t.blog.authorBioFull}
                 </p>
               </div>
             </div>
@@ -212,7 +212,7 @@ const breadcrumbItems = [
     <section class="py-16 bg-gray-50 dark:bg-gray-800">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          Artigos Relacionados
+          {t.blog.relatedPosts}
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           {relatedPosts.map((relatedPost) => (
@@ -227,7 +227,7 @@ const breadcrumbItems = [
                   {relatedPost.date.toLocaleDateString('pt-BR')}
                 </p>
                 <p class="text-gray-500 dark:text-gray-400 text-sm">
-                  {relatedPost.readingTime} min de leitura
+                  {relatedPost.readingTime} {t.date.readTime}
                 </p>
               </div>
             </article>
@@ -241,15 +241,15 @@ const breadcrumbItems = [
   <section class="py-16 bg-blue-50 dark:bg-blue-900/20">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-        Receba nossos artigos
+        {t.blog.receiveArticles}
       </h2>
       <p class="text-gray-600 dark:text-gray-300 mb-8">
-        Fique por dentro das últimas tendências em transformação digital e estratégia empresarial.
+        {t.blog.receiveArticlesDescription}
       </p>
       <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
         <input
           type="email"
-          placeholder="Seu e-mail"
+          placeholder={t.blog.emailPlaceholder}
           class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
         />
         <button

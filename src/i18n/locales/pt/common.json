@@ -50,5 +50,48 @@
     "copyright": "© 2024 Consultoria Empresarial. Todos os direitos reservados.",
     "privacy": "Política de Privacidade",
     "terms": "Termos de Uso"
+  },
+  "contact": {
+    "title": "Entre em Contato",
+    "subtitle": "Pronto para transformar sua empresa? Entre em contato conosco e descubra como podemos ajudar a impulsionar o crescimento do seu negócio.",
+    "sendMessage": "Envie sua Mensagem",
+    "contactInfo": "Informações de Contato",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "address": "Endereço",
+    "businessHours": "Horário de Funcionamento",
+    "scheduleMeeting": "Agende uma Reunião",
+    "scheduleDescription": "Prefere agendar diretamente? Use nosso calendário online para escolher o melhor horário.",
+    "scheduleButton": "Agendar Reunião",
+    "location": "Nossa Localização",
+    "locationDescription": "Estamos localizados no coração de São Paulo, próximo ao metrô Vila Olímpia.",
+    "mapPlaceholder": "Mapa interativo será integrado aqui",
+    "hours": {
+      "weekdays": "Segunda a Sexta: 8h às 18h",
+      "saturday": "Sábado: 9h às 13h",
+      "sunday": "Domingo: Fechado"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Insights e tendências do mercado. Artigos sobre transformação digital, gestão de projetos, estratégia empresarial e muito mais.",
+    "searchPlaceholder": "Buscar artigos...",
+    "allCategories": "Todas as categorias",
+    "tags": "Tags:",
+    "categories": "Categorias",
+    "popularTags": "Tags Populares",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Receba nossos artigos diretamente no seu e-mail.",
+    "emailPlaceholder": "Seu e-mail",
+    "relatedPosts": "Artigos Relacionados",
+    "receiveArticles": "Receba nossos artigos",
+    "receiveArticlesDescription": "Fique por dentro das últimas tendências em transformação digital e estratégia empresarial.",
+    "share": "Compartilhar:",
+    "authorBio": "Especialistas em transformação digital",
+    "authorBioFull": "Especialistas em transformação digital e estratégia empresarial",
+    "breadcrumb": {
+      "home": "Início",
+      "blog": "Blog"
+    }
   }
 }

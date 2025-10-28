@@ -50,5 +50,48 @@
     "copyright": "© 2024 Consultoría Empresarial. Todos los derechos reservados.",
     "privacy": "Política de Privacidad",
     "terms": "Términos de Uso"
+  },
+  "contact": {
+    "title": "Ponte en Contacto",
+    "subtitle": "¿Listo para transformar tu empresa? Ponte en contacto con nosotros y descubre cómo podemos ayudar a impulsar el crecimiento de tu negocio.",
+    "sendMessage": "Envía tu Mensaje",
+    "contactInfo": "Información de Contacto",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "businessHours": "Horario de Atención",
+    "scheduleMeeting": "Programa una Reunión",
+    "scheduleDescription": "¿Prefieres programar directamente? Usa nuestro calendario en línea para elegir el mejor horario.",
+    "scheduleButton": "Programar Reunión",
+    "location": "Nuestra Ubicación",
+    "locationDescription": "Estamos ubicados en el corazón de Madrid, cerca de la estación de metro.",
+    "mapPlaceholder": "Mapa interactivo será integrado aquí",
+    "hours": {
+      "weekdays": "Lunes a Viernes: 8h a 18h",
+      "saturday": "Sábado: 9h a 13h",
+      "sunday": "Domingo: Cerrado"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Insights y tendencias del mercado. Artículos sobre transformación digital, gestión de proyectos, estrategia empresarial y mucho más.",
+    "searchPlaceholder": "Buscar artículos...",
+    "allCategories": "Todas las categorías",
+    "tags": "Etiquetas:",
+    "categories": "Categorías",
+    "popularTags": "Etiquetas Populares",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Recibe nuestros artículos directamente en tu correo electrónico.",
+    "emailPlaceholder": "Tu correo electrónico",
+    "relatedPosts": "Artículos Relacionados",
+    "receiveArticles": "Recibe nuestros artículos",
+    "receiveArticlesDescription": "Mantente al día con las últimas tendencias en transformación digital y estrategia empresarial.",
+    "share": "Compartir:",
+    "authorBio": "Especialistas en transformación digital",
+    "authorBioFull": "Especialistas en transformación digital y estrategia empresarial",
+    "breadcrumb": {
+      "home": "Inicio",
+      "blog": "Blog"
+    }
   }
 }

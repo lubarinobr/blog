@@ -50,5 +50,48 @@
     "copyright": "© 2024 Business Consulting. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Ready to transform your company? Get in touch with us and discover how we can help drive your business growth.",
+    "sendMessage": "Send Your Message",
+    "contactInfo": "Contact Information",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "businessHours": "Business Hours",
+    "scheduleMeeting": "Schedule a Meeting",
+    "scheduleDescription": "Prefer to schedule directly? Use our online calendar to choose the best time.",
+    "scheduleButton": "Schedule Meeting",
+    "location": "Our Location",
+    "locationDescription": "We are located in the heart of New York, close to the subway station.",
+    "mapPlaceholder": "Interactive map will be integrated here",
+    "hours": {
+      "weekdays": "Monday to Friday: 8am to 6pm",
+      "saturday": "Saturday: 9am to 1pm",
+      "sunday": "Sunday: Closed"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Market insights and trends. Articles about digital transformation, project management, business strategy and much more.",
+    "searchPlaceholder": "Search articles...",
+    "allCategories": "All categories",
+    "tags": "Tags:",
+    "categories": "Categories",
+    "popularTags": "Popular Tags",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Receive our articles directly in your email.",
+    "emailPlaceholder": "Your email",
+    "relatedPosts": "Related Articles",
+    "receiveArticles": "Receive our articles",
+    "receiveArticlesDescription": "Stay up to date with the latest trends in digital transformation and business strategy.",
+    "share": "Share:",
+    "authorBio": "Digital transformation specialists",
+    "authorBioFull": "Specialists in digital transformation and business strategy",
+    "breadcrumb": {
+      "home": "Home",
+      "blog": "Blog"
+    }
   }
 }
