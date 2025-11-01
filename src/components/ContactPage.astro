@@ -1,0 +1,243 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getTranslations, getLocalizedPath } from '@/utils/i18n';
+import type { Locale } from '@/i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const contactInfo = {
+  pt: {
+    email: ['contato@consultoria-exemplo.com', 'comercial@consultoria-exemplo.com'],
+    phone: ['+55 11 99999-9999', '+55 11 3333-4444'],
+    address: ['Rua das Empresas, 123', 'Vila Olímpia', 'São Paulo - SP, 04551-000'],
+    seo: {
+      title: 'Contato - Consultoria Empresarial',
+      description: 'Entre em contato conosco para uma consultoria personalizada. Transformamos sua empresa com soluções estratégicas e treinamentos corporativos.',
+      image: '/images/og-contact.jpg'
+    }
+  },
+  en: {
+    email: ['contact@business-consulting.com', 'commercial@business-consulting.com'],
+    phone: ['+1 555-123-4567', '+1 555-987-6543'],
+    address: ['123 Business Street', 'Financial District', 'New York, NY 10004'],
+    seo: {
+      title: 'Contact - Business Consulting',
+      description: 'Get in touch with us for personalized consulting. We transform your company with strategic solutions and corporate training.',
+      image: '/images/og-contact.jpg'
+    }
+  },
+  es: {
+    email: ['contacto@consultoria-empresarial.com', 'comercial@consultoria-empresarial.com'],
+    phone: ['+34 91 123 45 67', '+34 91 987 65 43'],
+    address: ['Calle de la Empresa, 123', 'Distrito Centro', 'Madrid, 28001'],
+    seo: {
+      title: 'Contacto - Consultoría Empresarial',
+      description: 'Ponte en contacto con nosotros para una consultoría personalizada. Transformamos tu empresa con soluciones estratégicas y capacitaciones corporativas.',
+      image: '/images/og-contact.jpg'
+    }
+  }
+};
+
+const { locale } = Astro.props;
+const t = await getTranslations(locale, 'common');
+const info = contactInfo[locale];
+const seo = info.seo;
+const path = getLocalizedPath('/contact', locale);
+---
+
+<BaseLayout seo={seo} locale={locale} path={path}>
+  <Header locale={locale} currentPath={path} />
+  
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          {t.contact.title}
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          {t.contact.subtitle}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            {t.contact.scheduleMeeting}
+          </h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+            {t.contact.scheduleDescription}
+          </p>
+          <button
+            type="button"
+            id="calendly-button"
+            class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors cursor-pointer shadow-lg hover:shadow-xl"
+          >
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            {t.contact.scheduleButton}
+          </button>
+          
+          <script is:inline>
+            (function() {
+              function initCalendlyButton() {
+                const button = document.getElementById('calendly-button');
+                if (!button) {
+                  setTimeout(initCalendlyButton, 100);
+                  return;
+                }
+                
+                button.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  
+                  function openCalendly() {
+                    if (typeof window.Calendly !== 'undefined' && window.Calendly.initPopupWidget) {
+                      window.Calendly.initPopupWidget({
+                        url: 'https://calendly.com/sapiensit'
+                      });
+                    } else {
+                      setTimeout(openCalendly, 100);
+                    }
+                  }
+                  openCalendly();
+                });
+              }
+              
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCalendlyButton);
+              } else {
+                initCalendlyButton();
+              }
+            })();
+          </script>
+        </div>
+      </div>
+      
+      <div class="max-w-3xl mx-auto mt-16">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+            {t.contact.contactInfo}
+          </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  {t.contact.email}
+                </h3>
+                {info.email.map((email) => (
+                  <p class="text-gray-600 dark:text-gray-300">
+                    {email}
+                  </p>
+                ))}
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  {t.contact.phone}
+                </h3>
+                {info.phone.map((phone) => (
+                  <p class="text-gray-600 dark:text-gray-300">
+                    {phone}
+                  </p>
+                ))}
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  {t.contact.address}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300">
+                  {info.address.map((line, index) => (
+                    <>
+                      {line}
+                      {index < info.address.length - 1 && <br />}
+                    </>
+                  ))}
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  {t.contact.businessHours}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300">
+                  {t.contact.hours.weekdays}<br>
+                  {t.contact.hours.saturday}<br>
+                  {t.contact.hours.sunday}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          {t.contact.location}
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300">
+          {t.contact.locationDescription}
+        </p>
+      </div>
+      
+      <div class="bg-gray-200 dark:bg-gray-700 rounded-lg h-96 flex items-center justify-center">
+        <p class="text-gray-500 dark:text-gray-400">
+          {t.contact.mapPlaceholder}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Footer locale={locale} />
+</BaseLayout>
+
