@@ -42,19 +42,11 @@
     "readTime": "min de leitura"
   },
   "footer": {
-    "description": "Engenheiros independentes compartilhando insights profundos sobre arquitetura de software, escalabilidade e cultura de engenharia. Sapiens IT ajuda equipes a construir sistemas melhores através de clareza e disciplina.",
-    "quickLinks": "Links Rápidos",
-    "contact": "Contato",
-    "email": "contato@consultoria-exemplo.com",
-    "phone": "+55 11 99999-9999",
-    "address": "São Paulo, SP - Brasil",
-    "copyright": "© 2024 Consultoria Empresarial. Todos os direitos reservados.",
-    "privacy": "Política de Privacidade",
-    "terms": "Termos de Uso"
+    "copyright": "© 2025 Sapiens IT. Engenharia sem buzzwords."
   },
   "contact": {
-    "title": "Entre em Contato",
-    "subtitle": "Pronto para transformar sua empresa? Entre em contato conosco e descubra como podemos ajudar a impulsionar o crescimento do seu negócio.",
+    "title": "Contato",
+    "subtitle": "Compartilhamos conhecimento primeiro. Se sua organização precisa de orientação sobre engenharia de software, DevOps, SRE, Cloud, arquitetura ou escalabilidade, vamos conversar.",
     "sendMessage": "Envie sua Mensagem",
     "contactInfo": "Informações de Contato",
     "email": "E-mail",
@@ -88,8 +80,8 @@
     "receiveArticles": "Receba nossos artigos",
     "receiveArticlesDescription": "Fique por dentro das últimas tendências em transformação digital e estratégia empresarial.",
     "share": "Compartilhar:",
-    "authorBio": "Engenheiros que constroem antes de escrever",
-    "authorBioFull": "Engenheiros que trabalham com sistemas complexos em produção.",
+    "authorBio": "Escrito por engenheiros que constroem antes de escrever.",
+    "authorBioFull": "Sapiens IT Team",
     "breadcrumb": {
       "home": "Início",
       "blog": "Blog"

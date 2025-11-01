@@ -42,19 +42,11 @@
     "readTime": "min read"
   },
   "footer": {
-    "description": "Independent engineers sharing deep insights on software architecture, scalability, and engineering culture. Sapiens IT helps teams build better systems through clarity and discipline.",
-    "quickLinks": "Quick Links",
-    "contact": "Contact",
-    "email": "contact@business-consulting.com",
-    "phone": "+1 555-123-4567",
-    "address": "New York, NY - USA",
-    "copyright": "© 2024 Business Consulting. All rights reserved.",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Use"
+    "copyright": "© 2025 Sapiens IT. Engineering without buzzwords."
   },
   "contact": {
-    "title": "Get in Touch",
-    "subtitle": "Ready to transform your company? Get in touch with us and discover how we can help drive your business growth.",
+    "title": "Contact",
+    "subtitle": "We share knowledge first. If your organization needs guidance on software engineering, DevOps, SRE, Cloud, architecture, or scalability, let's talk.",
     "sendMessage": "Send Your Message",
     "contactInfo": "Contact Information",
     "email": "Email",
@@ -88,8 +80,8 @@
     "receiveArticles": "Receive our articles",
     "receiveArticlesDescription": "Stay up to date with the latest trends in digital transformation and business strategy.",
     "share": "Share:",
-    "authorBio": "Engineers who build before they write",
-    "authorBioFull": "Engineers who work with complex systems in production.",
+    "authorBio": "Written by engineers who build before they write.",
+    "authorBioFull": "Sapiens IT Team",
     "breadcrumb": {
       "home": "Home",
       "blog": "Blog"

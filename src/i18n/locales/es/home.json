@@ -1,61 +1,72 @@
 {
   "hero": {
-    "title": "Transforma tu empresa con consultoría especializada",
-    "subtitle": "Ofrecemos soluciones estratégicas y capacitaciones corporativas para impulsar el crecimiento de tu negocio",
-    "cta": "Solicitar consultoría gratuita"
+    "title": "Ingeniería, DevOps, SRE y Cloud que escalan.",
+    "subtitle": "Sapiens IT comparte conocimiento práctico sobre ingeniería de software, DevOps, Site Reliability Engineering y Cloud. Escribimos desde la experiencia en producción.",
+    "cta": "Leer nuestros artículos"
   },
   "services": {
     "title": "Nuestros Servicios",
-    "subtitle": "Soluciones completas para el crecimiento de tu empresa",
+    "subtitle": "Consultoría técnica enfocada en ingeniería de software, DevOps, SRE, Cloud, arquitectura y escalabilidad",
     "items": [
       {
-        "title": "Consultoría Estratégica",
-        "description": "Desarrollamos estrategias personalizadas para acelerar el crecimiento de tu negocio"
+        "title": "DevOps y Automatización",
+        "description": "Implementamos prácticas DevOps para acelerar entrega y mejorar calidad. CI/CD, IaC, automatización de infraestructura y pipelines de deploy."
       },
       {
-        "title": "Transformación Digital",
-        "description": "Modernizamos procesos e implementamos tecnologías para aumentar la eficiencia"
+        "title": "Site Reliability Engineering (SRE)",
+        "description": "Garantizamos confiabilidad y rendimiento de sistemas en producción. SLIs, SLOs, observabilidad, gestión de incidentes y prácticas de SRE."
       },
       {
-        "title": "Gestión de Proyectos",
-        "description": "Gestionamos proyectos complejos con metodologías ágiles y probadas"
+        "title": "Cloud e Infraestructura",
+        "description": "Arquitectamos y operamos infraestructura en la nube. AWS, Azure, GCP, arquitecturas serverless, contenedores y Kubernetes."
       },
       {
-        "title": "Análisis de Datos",
-        "description": "Extraemos insights valiosos de tus datos para la toma de decisiones"
+        "title": "Arquitectura de Software",
+        "description": "Diseñamos arquitecturas que escalan. Análisis de requisitos, definición de patrones y creación de sistemas sostenibles."
       },
       {
-        "title": "Marketing Digital",
-        "description": "Creamos campañas efectivas para aumentar tu presencia online"
+        "title": "Optimización de Rendimiento",
+        "description": "Identificamos y corregimos cuellos de botella. Análisis de sistemas en producción para mejorar latencia, throughput y uso de recursos."
       },
       {
-        "title": "Recursos Humanos",
-        "description": "Optimizamos procesos de RRHH y desarrollamos talentos de tu equipo"
+        "title": "Escalabilidad de Sistemas",
+        "description": "Diseñamos sistemas para crecer. Estrategias de escalabilidad horizontal y vertical, basadas en patrones probados en producción."
       }
     ]
   },
-  "trainings": {
-    "title": "Capacitaciones para Empresas",
-    "subtitle": "Capacita a tu equipo con nuestros programas especializados",
-    "description": "Ofrecemos capacitaciones personalizadas para desarrollar las habilidades de tu equipo e impulsar el rendimiento organizacional.",
-    "cta": "Solicitar briefing"
+  "whatWeDo": {
+    "title": "Qué hacemos",
+    "subtitle": "Compartimos. Orientamos. Creamos impacto real.",
+    "subtitle2": "Nuestra experiencia proviene de sistemas en producción, no de diapositivas de PowerPoint.",
+    "items": [
+      {
+        "title": "Compartir Conocimiento",
+        "description": "Publicamos artículos técnicos sobre ingeniería de software, DevOps, SRE, Cloud, arquitectura y escalabilidad. Cada contenido proviene de experiencia real."
+      },
+      {
+        "title": "Orientación Técnica",
+        "description": "Ayudamos a equipos a tomar mejores decisiones en ingeniería, DevOps, SRE y Cloud. Sin presentaciones de proveedores, sin exageraciones — solo orientación pragmática fundamentada en sistemas en producción."
+      },
+      {
+        "title": "Consultoría Técnica",
+        "description": "Para organizaciones que valoran la excelencia técnica, ofrecemos consultoría enfocada en ingeniería de software, DevOps, SRE, Cloud, arquitectura y diseño de sistemas."
+      }
+    ]
   },
-  "team": {
-    "title": "Nuestro Equipo",
-    "subtitle": "Especialistas experimentados listos para transformar tu negocio"
-  },
-  "testimonials": {
-    "title": "Lo que dicen nuestros clientes",
-    "subtitle": "Resultados reales de empresas que confían en nuestros servicios"
+  "ourApproach": {
+    "title": "Nuestro enfoque",
+    "paragraph1": "Creemos que la ingeniería de software, DevOps, SRE y Cloud son disciplinas, no improvisación.",
+    "paragraph2": "Primero, compartimos conocimiento abiertamente a través de artículos. Luego, cuando las empresas necesitan orientación más profunda, ofrecemos consultoría enfocada — siempre fundamentada en experiencia en producción, nunca en marcos teóricos.",
+    "paragraph3": "Preferimos discreción a la exposición. Esto preserva nuestra independencia y garantiza que nuestro consejo permanezca objetivo."
   },
   "blog": {
-    "title": "Últimas del Blog",
-    "subtitle": "Insights y tendencias del mercado",
-    "viewAll": "Ver todos los posts"
+    "title": "Últimos artículos",
+    "subtitle": "Insights técnicos de ingenieros que construyen sistemas antes de escribir sobre ellos.",
+    "viewAll": "Ver todos los artículos"
   },
   "cta": {
-    "title": "¿Listo para transformar tu empresa?",
-    "subtitle": "Contáctanos y descubre cómo podemos ayudar",
-    "button": "Agendar consultoría gratuita"
+    "title": "¿Interesado en nuestro enfoque?",
+    "subtitle": "Compartimos conocimiento primero. Si tu organización necesita orientación sobre ingeniería de software, DevOps, SRE, Cloud, arquitectura o escalabilidad, estamos aquí para ayudar.",
+    "button": "Contáctanos"
   }
 }

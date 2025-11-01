@@ -10,7 +10,7 @@ const t = await getTranslations(locale, 'common');
 
 const seo = {
   title: 'Sobre a Sapiens IT',
-  description: 'Sapiens IT é uma iniciativa independente criada por engenheiros de software experientes para elevar o padrão de arquitetura e engenharia de software em organizações modernas.',
+  description: 'Um coletivo de engenheiros seniores compartilhando conhecimento prático sobre engenharia de software, DevOps, SRE, Cloud, arquitetura e escalabilidade. Escrevemos a partir de experiência em produção, não de teoria.',
   image: '/images/og-home.jpg'
 };
 ---
@@ -28,20 +28,24 @@ const seo = {
 
       <div class="prose prose-lg dark:prose-invert max-w-none">
         <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-          Sapiens IT é uma iniciativa criada por engenheiros de software seniores para compartilhar conhecimento técnico de alto nível e elevar o padrão de arquitetura e engenharia de software em organizações modernas.
+          Sapiens IT é um coletivo de engenheiros seniores que compartilham conhecimento técnico sobre engenharia de software, DevOps, Site Reliability Engineering (SRE), Cloud, arquitetura e escalabilidade.
         </p>
 
         <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-          Nosso conteúdo é baseado em experiência prática projetando e mantendo sistemas complexos em indústrias como automotiva, finanças e manufatura. Cada artigo, cada arquitetura que discutimos, vem de problemas reais que enfrentamos em produção.
+          Escrevemos a partir de experiência. Cada artigo, cada padrão de arquitetura, cada prática de DevOps e SRE que discutimos, vem de problemas reais que resolvemos em produção. Nossos backgrounds abrangem indústrias — automotiva, finanças, manufatura — mas nosso foco é consistente: construir e operar sistemas que escalam porque são bem projetados e bem operados, não porque são populares.
         </p>
 
         <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-          Acreditamos que engenharia de excelência se constrói através de clareza, disciplina e foco no que realmente funciona. Não seguimos modas ou tendências sem questionar — validamos cada decisão técnica com base em resultados práticos e sustentabilidade a longo prazo.
+          Acreditamos que excelência técnica vem de clareza, disciplina e foco no que realmente funciona. Não seguimos tendências sem questionar. Validamos cada decisão técnica contra resultados do mundo real e sustentabilidade a longo prazo — seja em código, infraestrutura, processos ou cultura.
+        </p>
+
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6 font-semibold">
+          Estamos aqui para elevar o padrão da engenharia de software, DevOps, SRE e Cloud.
         </p>
 
         <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
           <p class="text-lg text-gray-600 dark:text-gray-400">
-            <a href="/manifesto" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+            <a href="/manifesto" class="text-gray-900 dark:text-white hover:underline font-medium">
               Conheça nossos princípios →
             </a>
           </p>
@@ -52,4 +56,5 @@ const seo = {
 
   <Footer locale={locale} />
 </BaseLayout>
+
 

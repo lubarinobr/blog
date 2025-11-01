@@ -4,6 +4,7 @@ import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { getTranslations } from '@/utils/i18n';
 import { getRecentPosts } from '@/utils/blog';
+import { generateFAQSchema, generateWebSiteSchema } from '@/utils/seo';
 import type { Locale } from '@/i18n/config';
 
 const locale: Locale = 'en';
@@ -13,12 +14,16 @@ const recentPosts = await getRecentPosts(5, locale);
 
 const seo = {
   title: 'Sapiens IT - Engineering Insights & Architecture',
-  description: 'Independent engineers sharing deep insights on software architecture, scalability, and engineering culture. Sapiens IT helps teams build better systems through clarity and discipline.',
+  description: 'Independent engineers sharing deep insights on software engineering, DevOps, SRE, Cloud, architecture, and scalability. Sapiens IT — engineering without buzzwords.',
   image: '/images/og-home.jpg'
 };
 ---
 
 <BaseLayout seo={seo} locale={locale} path="/en">
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(generateWebSiteSchema())} />
+  <script type="application/ld+json" set:html={JSON.stringify(generateFAQSchema())} />
+  
   <Header locale={locale} currentPath="/en" />
   
   <!-- Hero Section -->
@@ -33,16 +38,16 @@ const seo = {
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a 
-            href="/en/contact" 
+            href="/en/blog" 
             class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors"
           >
             {tHome.hero.cta}
           </a>
           <a 
-            href="/en/services" 
+            href="/en/manifesto" 
             class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors"
           >
-            {t.buttons.learnMore}
+            {t.nav.manifesto}
           </a>
         </div>
       </div>
@@ -81,28 +86,57 @@ const seo = {
     </div>
   </section>
 
-  <!-- Trainings Section -->
+  <!-- What We Do Section -->
   <section class="py-20 bg-gray-50 dark:bg-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          {tHome.trainings.title}
+          {tHome.whatWeDo.title}
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-          {tHome.trainings.subtitle}
+        <p class="text-xl text-gray-600 dark:text-gray-300 mb-2">
+          {tHome.whatWeDo.subtitle}
         </p>
-        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          {tHome.trainings.description}
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+          {tHome.whatWeDo.subtitle2}
         </p>
       </div>
       
-      <div class="text-center">
-        <a 
-          href="/en/trainings" 
-          class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors"
-        >
-          {tHome.trainings.cta}
-        </a>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {tHome.whatWeDo.items.map((item: any, index: number) => (
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {item.title}
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Approach Section -->
+  <section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+          {tHome.ourApproach.title}
+        </h2>
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          {tHome.ourApproach.paragraph1}
+        </p>
+        <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          {tHome.ourApproach.paragraph2}
+        </p>
+        <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+          {tHome.ourApproach.paragraph3}
+        </p>
       </div>
     </div>
   </section>

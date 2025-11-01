@@ -1,61 +1,72 @@
 {
   "hero": {
-    "title": "Transform your company with specialized consulting",
-    "subtitle": "We offer strategic solutions and corporate training to boost your business growth",
-    "cta": "Request free consultation"
+    "title": "Engineering, DevOps, SRE, and Cloud that scale.",
+    "subtitle": "Sapiens IT shares practical knowledge on software engineering, DevOps, Site Reliability Engineering, and Cloud. We write from production experience.",
+    "cta": "Read our articles"
   },
   "services": {
     "title": "Our Services",
-    "subtitle": "Complete solutions for your company's growth",
+    "subtitle": "Technical consulting focused on software engineering, DevOps, SRE, Cloud, architecture, and scalability",
     "items": [
       {
-        "title": "Strategic Consulting",
-        "description": "We develop personalized strategies to accelerate your business growth"
+        "title": "DevOps and Automation",
+        "description": "We implement DevOps practices to accelerate delivery and improve quality. CI/CD, IaC, infrastructure automation, and deployment pipelines."
       },
       {
-        "title": "Digital Transformation",
-        "description": "We modernize processes and implement technologies to increase efficiency"
+        "title": "Site Reliability Engineering (SRE)",
+        "description": "We ensure reliability and performance of production systems. SLIs, SLOs, observability, incident management, and SRE practices."
       },
       {
-        "title": "Project Management",
-        "description": "We manage complex projects with agile and proven methodologies"
+        "title": "Cloud and Infrastructure",
+        "description": "We architect and operate cloud infrastructure. AWS, Azure, GCP, serverless architectures, containers, and Kubernetes."
       },
       {
-        "title": "Data Analysis",
-        "description": "We extract valuable insights from your data for decision making"
+        "title": "Software Architecture",
+        "description": "We design architectures that scale. Requirements analysis, pattern definition, and creation of sustainable systems."
       },
       {
-        "title": "Digital Marketing",
-        "description": "We create effective campaigns to increase your online presence"
+        "title": "Performance Optimization",
+        "description": "We identify and fix bottlenecks. Analysis of production systems to improve latency, throughput, and resource usage."
       },
       {
-        "title": "Human Resources",
-        "description": "We optimize HR processes and develop your team's talents"
+        "title": "System Scalability",
+        "description": "We design systems to grow. Horizontal and vertical scalability strategies, based on patterns proven in production."
       }
     ]
   },
-  "trainings": {
-    "title": "Corporate Training",
-    "subtitle": "Empower your team with our specialized programs",
-    "description": "We offer personalized training to develop your team's skills and boost organizational performance.",
-    "cta": "Request briefing"
+  "whatWeDo": {
+    "title": "What we do",
+    "subtitle": "We share. We guide. We create real impact.",
+    "subtitle2": "Our experience comes from systems in production, not PowerPoint slides.",
+    "items": [
+      {
+        "title": "Knowledge Sharing",
+        "description": "We publish technical articles on software engineering, DevOps, SRE, Cloud, architecture, and scalability. Every piece comes from real-world experience."
+      },
+      {
+        "title": "Technical Guidance",
+        "description": "We help teams make better decisions in engineering, DevOps, SRE, and Cloud. No vendor pitches, no hype — just pragmatic guidance grounded in production systems."
+      },
+      {
+        "title": "Technical Consulting",
+        "description": "For organizations that value technical excellence, we provide focused consulting on software engineering, DevOps, SRE, Cloud, architecture, and system design."
+      }
+    ]
   },
-  "team": {
-    "title": "Our Team",
-    "subtitle": "Experienced specialists ready to transform your business"
-  },
-  "testimonials": {
-    "title": "What our clients say",
-    "subtitle": "Real results from companies that trust our services"
+  "ourApproach": {
+    "title": "Our approach",
+    "paragraph1": "We believe software engineering, DevOps, SRE, and Cloud are disciplines, not improvisation.",
+    "paragraph2": "First, we share knowledge openly through articles. Then, when companies need deeper guidance, we provide focused consulting — always grounded in production experience, never in theoretical frameworks.",
+    "paragraph3": "We prefer discretion over exposure. This preserves our independence and ensures our advice remains objective."
   },
   "blog": {
-    "title": "Latest from Blog",
-    "subtitle": "Market insights and trends",
-    "viewAll": "View all posts"
+    "title": "Latest articles",
+    "subtitle": "Technical insights from engineers who build systems before they write about them.",
+    "viewAll": "View all articles"
   },
   "cta": {
-    "title": "Ready to transform your company?",
-    "subtitle": "Contact us and discover how we can help",
-    "button": "Schedule free consultation"
+    "title": "Interested in our approach?",
+    "subtitle": "We share knowledge first. If your organization needs guidance on software engineering, DevOps, SRE, Cloud, architecture, or scalability, we're here to help.",
+    "button": "Contact us"
   }
 }
