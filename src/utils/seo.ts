@@ -13,9 +13,9 @@ export function generateSEOTags(props: SEOProps, locale: Locale = 'pt', path: st
   };
 
   // SEO-optimized title with brand and keywords
-  const seoTitle = props.title.includes('SapiensIT') 
+  const seoTitle = props.title.includes('Sapiens IT') 
     ? props.title 
-    : `${props.title} | SapiensIT - Transformação Digital`;
+    : `${props.title} | Sapiens IT`;
 
   // Enhanced description with call-to-action
   const seoDescription = props.description.length > 150 
@@ -30,7 +30,7 @@ export function generateSEOTags(props: SEOProps, locale: Locale = 'pt', path: st
       title: seoTitle,
       description: seoDescription,
       url: fullUrl,
-      siteName: 'SapiensIT - Transformação Digital',
+      siteName: 'Sapiens IT',
       images: [
         {
           url: imageUrl,
@@ -60,8 +60,8 @@ export function generateSEOTags(props: SEOProps, locale: Locale = 'pt', path: st
       'article:author': props.author,
       'article:tag': props.tags?.join(', '),
       'article:section': props.tags?.[0] || 'Consultoria',
-      'keywords': props.tags?.join(', ') + ', sapiensit, transformação digital, treinamentos corporativos, consultoria',
-      'author': 'SapiensIT',
+      'keywords': props.tags?.join(', ') + ', sapiensit, software architecture, engineering, scalability',
+      'author': 'Sapiens IT Team',
       'revisit-after': '7 days',
       'rating': 'general',
       'distribution': 'global',
@@ -73,16 +73,16 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'SapiensIT',
-    alternateName: 'SapiensIT Consultoria',
+    name: 'Sapiens IT',
+    alternateName: 'Sapiens IT',
     url: 'https://sapiensit.com',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://consultoria-exemplo.com/images/logo.png',
+      url: 'https://sapiensit.com/images/logo.png',
       width: 200,
       height: 200
     },
-    description: 'SapiensIT - Consultoria especializada em transformação digital, estratégia empresarial e treinamentos corporativos para impulsionar o crescimento das empresas',
+    description: 'Independent engineers sharing deep insights on software architecture, scalability, and engineering culture. Sapiens IT helps teams build better systems through clarity and discipline.',
     foundingDate: '2020-01-01',
     numberOfEmployees: '10-50',
     industry: 'Business Consulting',
@@ -185,7 +185,7 @@ export function generateArticleSchema(post: any, locale: Locale = 'pt') {
     dateModified: post.date.toISOString(),
     author: {
       '@type': 'Organization',
-      name: 'SapiensIT',
+      name: 'Sapiens IT Team',
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
@@ -196,7 +196,7 @@ export function generateArticleSchema(post: any, locale: Locale = 'pt') {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'SapiensIT',
+      name: 'Sapiens IT',
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
@@ -268,9 +268,9 @@ export function generateWebSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'SapiensIT',
+    name: 'Sapiens IT',
     url: 'https://sapiensit.com',
-    description: 'SapiensIT - Consultoria especializada em transformação digital e treinamentos corporativos',
+    description: 'Independent engineers sharing deep insights on software architecture, scalability, and engineering culture.',
     potentialAction: {
       '@type': 'SearchAction',
       target: 'https://sapiensit.com/blog?q={search_term_string}',

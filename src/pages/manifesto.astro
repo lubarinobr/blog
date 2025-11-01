@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getTranslations } from '@/utils/i18n';
+import type { Locale } from '@/i18n/config';
+
+const locale: Locale = 'pt';
+const t = await getTranslations(locale, 'common');
+
+const seo = {
+  title: 'Nosso Manifesto | Sapiens IT',
+  description: 'Acreditamos que uma engenharia de excelência é construída sobre clareza, disciplina e propósito. Não estamos aqui para vender. Estamos aqui para elevar o padrão da engenharia de software.',
+  image: '/images/og-home.jpg'
+};
+---
+
+<BaseLayout seo={seo} locale={locale} path="/manifesto">
+  <Header locale={locale} currentPath="/manifesto" />
+  
+  <main class="min-h-screen pt-32">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <header class="mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          Nosso Manifesto
+        </h1>
+      </header>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
+          Acreditamos que uma engenharia de excelência é construída sobre clareza, disciplina e propósito. Na Sapiens IT, cada linha de código e cada arquitetura que compartilhamos é fundamentada em teoria sólida e validada através de experiência prática em produção.
+        </p>
+
+        <div class="my-12">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Valorizamos</h2>
+          
+          <ul class="space-y-6 text-lg text-gray-700 dark:text-gray-300">
+            <li class="flex items-start">
+              <span class="text-blue-600 dark:text-blue-400 font-bold mr-4">→</span>
+              <span><strong class="text-gray-900 dark:text-white">Precisão sobre hype.</strong> Preferimos soluções que funcionam sobre tendências que passam.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-600 dark:text-blue-400 font-bold mr-4">→</span>
+              <span><strong class="text-gray-900 dark:text-white">Simplicidade sobre abstração.</strong> Sistemas que são compreendidos são sistemas que são mantidos.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-600 dark:text-blue-400 font-bold mr-4">→</span>
+              <span><strong class="text-gray-900 dark:text-white">Sistemas que escalam porque são entendidos, não porque são populares.</strong> A escalabilidade vem do design, não do nome da tecnologia.</span>
+            </li>
+          </ul>
+        </div>
+
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8 font-semibold">
+          Não estamos aqui para vender. Estamos aqui para elevar o padrão da engenharia de software.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>
+

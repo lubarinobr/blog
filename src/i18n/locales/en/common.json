@@ -4,6 +4,7 @@
     "services": "Services",
     "trainings": "Trainings",
     "about": "About",
+    "manifesto": "Manifesto",
     "blog": "Blog",
     "contact": "Contact"
   },
@@ -41,7 +42,7 @@
     "readTime": "min read"
   },
   "footer": {
-    "description": "We transform companies through specialized consulting and corporate training. Our mission is to drive growth and innovation.",
+    "description": "Independent engineers sharing deep insights on software architecture, scalability, and engineering culture. Sapiens IT helps teams build better systems through clarity and discipline.",
     "quickLinks": "Quick Links",
     "contact": "Contact",
     "email": "contact@business-consulting.com",
@@ -87,8 +88,8 @@
     "receiveArticles": "Receive our articles",
     "receiveArticlesDescription": "Stay up to date with the latest trends in digital transformation and business strategy.",
     "share": "Share:",
-    "authorBio": "Digital transformation specialists",
-    "authorBioFull": "Specialists in digital transformation and business strategy",
+    "authorBio": "Engineers who build before they write",
+    "authorBioFull": "Engineers who work with complex systems in production.",
     "breadcrumb": {
       "home": "Home",
       "blog": "Blog"

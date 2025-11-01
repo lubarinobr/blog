@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getTranslations } from '@/utils/i18n';
+import type { Locale } from '@/i18n/config';
+
+const locale: Locale = 'es';
+const t = await getTranslations(locale, 'common');
+
+const seo = {
+  title: 'Acerca de Sapiens IT',
+  description: 'Sapiens IT es una iniciativa independiente creada por ingenieros de software experimentados para elevar el estándar de arquitectura e ingeniería de software en organizaciones modernas.',
+  image: '/images/og-home.jpg'
+};
+---
+
+<BaseLayout seo={seo} locale={locale} path="/es/about">
+  <Header locale={locale} currentPath="/es/about" />
+  
+  <main class="min-h-screen pt-32">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <header class="mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          Acerca de Sapiens IT
+        </h1>
+      </header>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          Sapiens IT es una iniciativa creada por ingenieros de software senior para compartir conocimiento técnico de alto nivel y elevar el estándar de arquitectura e ingeniería de software en organizaciones modernas.
+        </p>
+
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          Nuestro contenido se basa en experiencia práctica diseñando y manteniendo sistemas complejos en industrias como automotriz, finanzas y manufactura. Cada artículo, cada arquitectura que discutimos, viene de problemas reales que hemos enfrentado en producción.
+        </p>
+
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          Creemos que una ingeniería de excelencia se construye a través de claridad, disciplina y enfoque en lo que realmente funciona. No seguimos modas o tendencias sin cuestionar — validamos cada decisión técnica basándonos en resultados prácticos y sostenibilidad a largo plazo.
+        </p>
+
+        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            <a href="/es/manifesto" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+              Conoce nuestros principios →
+            </a>
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>
+

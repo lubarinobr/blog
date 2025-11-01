@@ -61,6 +61,26 @@ const t = await getTranslations(locale, 'common');
             {t.nav.blog}
           </a>
           <a 
+            href={getLocalizedPath('/about', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/about')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.about}
+          </a>
+          <a 
+            href={getLocalizedPath('/manifesto', locale)} 
+            class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              currentPath.includes('/manifesto')
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            {t.nav.manifesto}
+          </a>
+          <a 
             href={getLocalizedPath('/contact', locale)} 
             class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
               currentPath.includes('/contact')
@@ -128,6 +148,18 @@ const t = await getTranslations(locale, 'common');
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
         >
           {t.nav.blog}
+        </a>
+        <a 
+          href={getLocalizedPath('/about', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.about}
+        </a>
+        <a 
+          href={getLocalizedPath('/manifesto', locale)} 
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          {t.nav.manifesto}
         </a>
         <a 
           href={getLocalizedPath('/contact', locale)} 

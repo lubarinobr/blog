@@ -4,6 +4,7 @@
     "services": "Serviços",
     "trainings": "Treinamentos",
     "about": "Sobre",
+    "manifesto": "Manifesto",
     "blog": "Blog",
     "contact": "Contato"
   },
@@ -41,7 +42,7 @@
     "readTime": "min de leitura"
   },
   "footer": {
-    "description": "Transformamos empresas através de consultoria especializada e treinamentos corporativos. Nossa missão é impulsionar o crescimento e a inovação.",
+    "description": "Engenheiros independentes compartilhando insights profundos sobre arquitetura de software, escalabilidade e cultura de engenharia. Sapiens IT ajuda equipes a construir sistemas melhores através de clareza e disciplina.",
     "quickLinks": "Links Rápidos",
     "contact": "Contato",
     "email": "contato@consultoria-exemplo.com",
@@ -87,8 +88,8 @@
     "receiveArticles": "Receba nossos artigos",
     "receiveArticlesDescription": "Fique por dentro das últimas tendências em transformação digital e estratégia empresarial.",
     "share": "Compartilhar:",
-    "authorBio": "Especialistas em transformação digital",
-    "authorBioFull": "Especialistas em transformação digital e estratégia empresarial",
+    "authorBio": "Engenheiros que constroem antes de escrever",
+    "authorBioFull": "Engenheiros que trabalham com sistemas complexos em produção.",
     "breadcrumb": {
       "home": "Início",
       "blog": "Blog"

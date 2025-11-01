@@ -2,16 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-import { Image, Picture } from 'astro:assets';
 import { getTranslations } from '@/utils/i18n';
 import { getRecentPosts } from '@/utils/blog';
 import type { Locale } from '@/i18n/config';
-
-// Import images for optimization
-import brunoImage from '/public/images/pessoal/bruno.jpeg';
-import danielImage from '/public/images/pessoal/daniel.jpeg';
-import jonathanImage from '/public/images/pessoal/jonathan.jpeg';
-import matheusImage from '/public/images/pessoal/matheus.jpeg';
 
 const locale: Locale = 'en';
 const t = await getTranslations(locale, 'common');
@@ -19,8 +12,8 @@ const tHome = await getTranslations(locale, 'home');
 const recentPosts = await getRecentPosts(5, locale);
 
 const seo = {
-  title: 'Business Consulting - Digital Transformation and Corporate Training',
-  description: 'We offer specialized consulting in digital transformation and corporate training to boost your company growth.',
+  title: 'Sapiens IT - Engineering Insights & Architecture',
+  description: 'Independent engineers sharing deep insights on software architecture, scalability, and engineering culture. Sapiens IT helps teams build better systems through clarity and discipline.',
   image: '/images/og-home.jpg'
 };
 ---
@@ -29,7 +22,7 @@ const seo = {
   <Header locale={locale} currentPath="/en" />
   
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20">
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20 pt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
         <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
@@ -110,75 +103,6 @@ const seo = {
         >
           {tHome.trainings.cta}
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team Section -->
-  <section class="py-20 bg-white dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          {tHome.team.title}
-        </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300">
-          {tHome.team.subtitle}
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Team members will be added here -->
-        <div class="text-center">
-          <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <Picture 
-              src={brunoImage} 
-              alt="Bruno Melo" 
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Bruno Melo</h3>
-          <p class="text-blue-600 dark:text-blue-400 mb-2">Founder</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <Picture 
-              src={danielImage} 
-              alt="Daniel Cunha" 
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Daniel Cunha</h3>
-          <p class="text-blue-600 dark:text-blue-400 mb-2">Founder</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <Picture 
-              src={jonathanImage} 
-              alt="Jonathan Braga" 
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Jonathan Braga</h3>
-          <p class="text-blue-600 dark:text-blue-400 mb-2">Founder</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden">
-            <Picture 
-              src={matheusImage} 
-              alt="Matheus Lubarino" 
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Matheus Lubarino</h3>
-          <p class="text-blue-600 dark:text-blue-400 mb-2">Founder</p>
-        </div>
       </div>
     </div>
   </section>

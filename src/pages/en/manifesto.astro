@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getTranslations } from '@/utils/i18n';
+import type { Locale } from '@/i18n/config';
+
+const locale: Locale = 'en';
+const t = await getTranslations(locale, 'common');
+
+const seo = {
+  title: 'Our Manifesto | Sapiens IT',
+  description: 'We believe great engineering is built on clarity, discipline, and purpose. We\'re not here to sell. We\'re here to raise the bar for software engineering.',
+  image: '/images/og-home.jpg'
+};
+---
+
+<BaseLayout seo={seo} locale={locale} path="/en/manifesto">
+  <Header locale={locale} currentPath="/en/manifesto" />
+  
+  <main class="min-h-screen pt-32">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <header class="mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          Our Manifesto
+        </h1>
+      </header>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
+          We believe great engineering is built on clarity, discipline, and purpose. At Sapiens IT, every line of code and every architecture we share is grounded in solid theory and validated through practical experience in production.
+        </p>
+
+        <div class="my-12">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">We value</h2>
+          
+          <ul class="space-y-6 text-lg text-gray-700 dark:text-gray-300">
+            <li class="flex items-start">
+              <span class="text-blue-600 dark:text-blue-400 font-bold mr-4">→</span>
+              <span><strong class="text-gray-900 dark:text-white">Precision over hype.</strong> We prefer solutions that work over trends that fade.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-600 dark:text-blue-400 font-bold mr-4">→</span>
+              <span><strong class="text-gray-900 dark:text-white">Simplicity over abstraction.</strong> Systems that are understood are systems that are maintained.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-600 dark:text-blue-400 font-bold mr-4">→</span>
+              <span><strong class="text-gray-900 dark:text-white">Systems that scale because they are understood, not because they are trendy.</strong> Scalability comes from design, not from the technology name.</span>
+            </li>
+          </ul>
+        </div>
+
+        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8 font-semibold">
+          We're not here to sell. We're here to raise the bar for software engineering.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>
+
