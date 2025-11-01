@@ -1,0 +1,19 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  title?: string;
+}
+
+const { src, alt, title } = Astro.props;
+---
+
+<img 
+  src={src} 
+  alt={alt || ''} 
+  title={title}
+  loading="lazy"
+  decoding="async"
+  class="my-8 rounded-lg shadow-lg w-full"
+/>
+

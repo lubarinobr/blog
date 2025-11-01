@@ -5,7 +5,7 @@ import { getTranslations } from '@/utils/i18n';
 import { getLocalizedPath } from '@/utils/i18n';
 
 // Import logo image for optimization
-import logoImage from '/public/images/logo2.png';
+import logoImage from '/public/images/logo.png';
 
 export interface Props {
   locale: Locale;
@@ -36,7 +36,9 @@ const t = await getTranslations(locale, 'common');
         </p>
         <div class="flex space-x-4">
           <a 
-            href="https://linkedin.com/company/consultoria-exemplo" 
+            href="https://www.linkedin.com/company/sapiensit" 
+            target="_blank"
+            rel="noopener noreferrer"
             class="text-gray-400 hover:text-white transition-colors"
             aria-label="LinkedIn"
           >

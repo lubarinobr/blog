@@ -1,5 +1,7 @@
 import type { BlogPost } from '@/types';
 import type { Locale } from '@/i18n/config';
+import fs from 'fs';
+import path from 'path';
 
 export async function getAllPosts(locale: Locale = 'pt'): Promise<BlogPost[]> {
   const posts: BlogPost[] = [];
@@ -7,23 +9,37 @@ export async function getAllPosts(locale: Locale = 'pt'): Promise<BlogPost[]> {
   try {
     const blogDir = await import.meta.glob('/src/content/blog/**/index.*.mdx', { eager: true });
     
-    for (const path in blogDir) {
-      const post = blogDir[path] as any;
+    // Obter o diretório raiz do projeto
+    const projectRoot = process.cwd();
+    
+    for (const filePath in blogDir) {
+      const post = blogDir[filePath] as any;
       const frontmatter = post.frontmatter;
       
       if (frontmatter.draft) continue;
       if (frontmatter.locale !== locale) continue;
       
-      const slug = extractSlugFromPath(path);
+      const slug = extractSlugFromPath(filePath);
       
-      // Get the raw content for reading time calculation
-      const rawContent = post.default ? post.default.toString() : '';
+      // Ler o conteúdo markdown bruto do arquivo para cálculo de tempo de leitura
+      const relativePath = filePath.replace(/^\//, '');
+      const fullPath = path.join(projectRoot, relativePath);
+      
+      let contentWithoutFrontmatter = '';
+      try {
+        const rawContent = fs.readFileSync(fullPath, 'utf-8');
+        // Remover frontmatter do conteúdo bruto
+        contentWithoutFrontmatter = rawContent.replace(/^---[\s\S]*?---\s*/m, '');
+      } catch (err) {
+        console.warn(`Could not read file ${fullPath} for reading time calculation:`, err);
+        contentWithoutFrontmatter = '';
+      }
       
       posts.push({
         id: slug,
         title: frontmatter.title,
         description: frontmatter.description,
-        content: rawContent,
+        content: contentWithoutFrontmatter,
         date: new Date(frontmatter.date),
         category: frontmatter.category,
         tags: frontmatter.tags || [],
@@ -31,8 +47,9 @@ export async function getAllPosts(locale: Locale = 'pt'): Promise<BlogPost[]> {
         canonical: frontmatter.canonical,
         draft: frontmatter.draft || false,
         locale: frontmatter.locale,
-        readingTime: calculateReadingTime(rawContent),
-        slug
+        readingTime: calculateReadingTime(contentWithoutFrontmatter),
+        slug,
+        author: frontmatter.author
       });
     }
     

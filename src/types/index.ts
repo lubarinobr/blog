@@ -14,6 +14,7 @@ export interface BlogPost {
   locale: Locale;
   readingTime: number;
   slug: string;
+  author?: string;
 }
 
 export interface Service {

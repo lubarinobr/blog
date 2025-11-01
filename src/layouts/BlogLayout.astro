@@ -1,13 +1,20 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, type ImageMetadata } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import MDXImage from '@/components/MDXImage.astro';
 import { getTranslations } from '@/utils/i18n';
 import { getRelatedPosts, getAllPosts, generateTableOfContents } from '@/utils/blog';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/utils/seo';
 import { generateRelatedPosts as generateSmartRelatedPosts, generateBreadcrumbLinks } from '@/utils/internal-linking';
 import type { Locale } from '@/i18n/config';
+
+// Import author images
+import brunoImage from '/public/images/pessoal/bruno.jpeg';
+import danielImage from '/public/images/pessoal/daniel.jpeg';
+import jonathanImage from '/public/images/pessoal/jonathan.jpeg';
+import matheusImage from '/public/images/pessoal/matheus.jpeg';
 
 export interface Props {
   post: any;
@@ -26,6 +33,32 @@ const relatedPosts = generateSmartRelatedPosts(post, allPosts, 3);
 const toc = generateTableOfContents(post.content);
 const breadcrumbItems = generateBreadcrumbLinks(`/blog/${post.slug}`, locale);
 
+const authorName = post.author || 'SapiensIT';
+
+// Map author names to their images
+const authorImageMap: Record<string, ImageMetadata> = {
+  'Bruno Melo': brunoImage,
+  'Daniel Moura': danielImage,
+  'Daniel Cunha': danielImage,
+  'Jonathan Braga': jonathanImage,
+  'Matheus Lubarino': matheusImage,
+};
+
+function getAuthorImage(author: string): ImageMetadata | null {
+  return authorImageMap[author] || null;
+}
+
+function getAuthorInitials(author: string): string {
+  const words = author.split(' ');
+  if (words.length >= 2) {
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+  }
+  return author.substring(0, 2).toUpperCase();
+}
+
+const authorImage = getAuthorImage(authorName);
+const authorInitials = getAuthorInitials(authorName);
+
 const seo = {
   title: post.title,
   description: post.description,
@@ -34,7 +67,7 @@ const seo = {
   type: 'article' as const,
   publishedTime: post.date.toISOString(),
   modifiedTime: post.date.toISOString(),
-  author: 'SapiensIT',
+  author: authorName,
   tags: post.tags
 };
 
@@ -109,14 +142,28 @@ const seo = {
             
             <!-- Author Info -->
             <div class="flex items-center mb-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-              <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                <span class="text-white font-semibold text-xl">
-                  CE
-                </span>
+              <div class={`w-16 h-16 rounded-full overflow-hidden shadow-lg flex items-center justify-center ${authorImage ? '' : 'bg-gradient-to-br from-blue-500 to-purple-600'}`}>
+                {authorImage ? (
+                  <Image 
+                    src={authorImage}
+                    alt={authorName}
+                    class="w-full h-full object-cover"
+                    width={128}
+                    height={128}
+                    loading="eager"
+                    quality={100}
+                    format="webp"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="text-white font-semibold text-xl">
+                    {authorInitials}
+                  </span>
+                )}
               </div>
               <div class="ml-6">
                 <p class="font-semibold text-gray-900 dark:text-white text-lg">
-                  SapiensIT
+                  {authorName}
                 </p>
                 <p class="text-gray-600 dark:text-gray-300">
                   {t.blog.authorBio}
@@ -143,7 +190,7 @@ const seo = {
                 class="w-full h-80 md:h-96 lg:h-[600px] object-cover"
                 width={800}
                 height={600}
-                loading="eager"
+                loading="lazy"
                 quality={90}
                 format="webp"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
@@ -154,7 +201,7 @@ const seo = {
           </div>
           
           <!-- Article Content -->
-          <div class="prose prose-xl dark:prose-invert max-w-none font-serif prose-p:text-xl prose-p:leading-relaxed prose-p:mb-8 prose-h1:text-4xl prose-h1:mb-8 prose-h1:mt-16 prose-h2:text-3xl prose-h2:mb-6 prose-h2:mt-12 prose-h3:text-2xl prose-h3:mb-4 prose-h3:mt-10 prose-li:text-xl prose-li:leading-relaxed prose-li:mb-3 prose-blockquote:text-xl prose-blockquote:my-10 prose-blockquote:pl-8 prose-blockquote:border-l-4 prose-blockquote:border-blue-500">
+          <div class="prose prose-xl dark:prose-invert max-w-none font-serif prose-p:text-xl prose-p:leading-relaxed prose-p:mb-8 prose-h1:text-4xl prose-h1:mb-8 prose-h1:mt-16 prose-h2:text-3xl prose-h2:mb-6 prose-h2:mt-12 prose-h3:text-2xl prose-h3:mb-4 prose-h3:mt-10 prose-li:text-xl prose-li:leading-relaxed prose-li:mb-3 prose-blockquote:text-xl prose-blockquote:my-10 prose-blockquote:pl-8 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-img:my-8 prose-img:rounded-lg prose-img:shadow-lg">
             <slot />
           </div>
           
@@ -187,14 +234,28 @@ const seo = {
             
             <!-- Author Bio -->
             <div class="flex items-center justify-center p-8 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-2xl">
-              <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl">
-                <span class="text-white font-semibold text-2xl">
-                  CE
-                </span>
+              <div class={`w-20 h-20 rounded-full overflow-hidden shadow-xl flex items-center justify-center ${authorImage ? '' : 'bg-gradient-to-br from-blue-500 to-purple-600'}`}>
+                {authorImage ? (
+                  <Image 
+                    src={authorImage}
+                    alt={authorName}
+                    class="w-full h-full object-cover"
+                    width={160}
+                    height={160}
+                    loading="lazy"
+                    quality={100}
+                    format="webp"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="text-white font-semibold text-2xl">
+                    {authorInitials}
+                  </span>
+                )}
               </div>
               <div class="ml-8 text-center">
                 <p class="font-semibold text-gray-900 dark:text-white text-xl">
-                  SapiensIT
+                  {authorName}
                 </p>
                 <p class="text-gray-600 dark:text-gray-300 text-lg">
                   {t.blog.authorBioFull}

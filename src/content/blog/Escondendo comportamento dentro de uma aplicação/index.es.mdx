@@ -1,0 +1,185 @@
+---
+title: "Ocultar comportamiento dentro de una aplicación: eligiendo la capa correcta para la preocupación correcta"
+description: "Entienda cómo elegir la técnica y capa adecuadas para implementar comportamientos en aplicaciones, desde cross-cutting hasta separación arquitectónica, y por qué conocer el ciclo de vida es fundamental."
+date: 2025-11-01
+category: "Arquitectura"
+tags: ["arquitectura", "design patterns", "clean code", "arquitectura de software", "mejores prácticas"]
+cover: "/images/blog/escodendo-camadas.png"
+canonical: "https://sapiensit.com/es/blog/ocultar-comportamiento-dentro-de-una-aplicacion"
+draft: false
+locale: "es"
+author: "Daniel Cunha"
+---
+
+# Ocultar comportamiento dentro de una aplicación: eligiendo la capa correcta para la preocupación correcta
+
+## Introducción: el desafío de dónde colocar comportamientos
+
+Al desarrollar aplicaciones, surge la pregunta: ¿dónde implementar un comportamiento específico? Esta decisión afecta la mantenibilidad, testabilidad y escalabilidad.
+
+La arquitectura típica de una aplicación puede dividirse en capas principales:
+
+- **Interfaz (View/Controller)**
+    - Donde llega la solicitud (API REST, CLI, UI, colas de mensajes).
+    - Responsable de autenticación inicial, parsing de datos, enrutamiento.
+
+- **Aplicación (Service/Application Layer)**
+    - Orquesta el flujo del ciclo de vida.
+    - Llama validación, reglas de negocio, persistencia.
+
+- **Dominio (Model/Domain)**
+    - Contiene reglas de negocio puras.
+    - Decide si puede cambiar de estado. ¿Esto es válido? ¿Qué acciones están permitidas?
+
+- **Infraestructura**
+    - Persistencia (DB, cache).
+    - Integración externa (pago, inventario, APIs de terceros).
+    - Mensajería (event bus, colas).
+
+- **Cross-cutting**
+    - Seguridad, logging, monitoreo, auditoría.
+    - Aplicados transversalmente a lo largo del ciclo.
+
+## 1. Cross-cutting / Transversal
+
+Comportamientos que atraviesan múltiples capas como logging, seguridad, auditoría.
+
+- **Técnicas**: interceptores, proxies, decoradores, AOP, instrumentación, middlewares genéricos.
+- **Capa MVC**: todas (Model, View y Controller).
+- **Why?** No pertenecen solo al dominio o solo a la interfaz. No tienen límites. Son preocupaciones horizontales.
+
+## 2. I/O
+
+Manipulan solicitudes antes de llegar al controlador, o respuestas antes de salir.
+
+- **Técnicas**: filtros HTTP, middleware, interceptores de request/response, gateways, adaptadores.
+- **Capa MVC**: **Controller** (punto de entrada de la interacción).
+- **Why?** Interceptar al inicio/fin es más eficiente y menos invasivo para la lógica central.
+
+> Aquí quería mucho levantar una reflexión y comparar el 1 con el 2 y mostrar cómo conocer sobre el ciclo de vida de la aplicación es importante al elegir una herramienta para resolver el problema. Back to basics.
+
+### Comparando Cross-cutting vs I/O
+
+La diferencia fundamental está en el **momento y alcance** donde cada uno actúa:
+
+- **Cross-cutting**: atraviesa todas las capas, aplicado durante toda la ejecución. El logging de una operación de negocio necesita capturar el contexto del dominio, mientras que la seguridad puede verificar permisos en cualquier capa.
+
+- **I/O**: actúa en los límites de la aplicación, antes o después del Controller. No penetra en la lógica de negocio, solo transforma o valida el formato de la comunicación.
+
+Conocer el **ciclo de vida de la aplicación** es esencial: si el comportamiento necesita acompañar la ejecución a través de múltiples capas, use cross-cutting. Si solo necesita procesar entrada/salida, use I/O. La elección incorrecta lleva a código duplicado o acoplamiento innecesario.
+
+## 3. Eventos y Reacciones Asíncronas
+
+El sistema emite señales y otros componentes reaccionan sin acoplamiento directo.
+
+- **Técnicas**: observer, pub-sub, event bus, colas de mensajes, hooks.
+- **Capa MVC**: principalmente **Model** (cambio de estado → evento).
+- **Why?** El dominio no debe saber *cómo* el mundo reacciona, solo declarar *qué pasó*. Así se convierte en la **herramienta central** de la aplicación, y todo lo demás orbita alrededor de él.
+
+### Separación fundamental: I/O vs Eventos
+
+Aquí es importante hacer una separación muy clara entre I/O y eventos asíncronos:
+
+- **I/O (punto 2)**: actúa **antes o después del Controller**, procesando solicitudes y respuestas. Se trata de comunicación externa, transformación de datos, validación de formato.
+
+- **Eventos (punto 3)**: nacen **dentro del dominio**, cuando algo relevante sucede. Entran en la **semántica de los objetos**. El dominio declara "se creó un pedido", y otros componentes deciden qué hacer con esta información.
+
+Esta separación es crucial: I/O se trata de **fronteras de la aplicación**, los eventos se tratan de **semántica del negocio**. Mezclar los dos crea acoplamiento y dificulta la evolución de la aplicación.
+
+## 4. Patrón de Variación y Extensión
+
+Definen familias de comportamientos que pueden ser intercambiados o extendidos.
+
+- **Técnicas**: strategy, template method, command, sistemas de plugins.
+- **Capa MVC**: **Model** (negocio) o **Controller** (flujo).
+- **Why?** Facilita intercambiar algoritmos, reglas o flujos sin if/else dispersos.
+
+### Trade-offs: Variación vs Cross-cutting
+
+Comparando con el punto 1 (Cross-cutting):
+
+- **Cross-cutting**: comportamientos que **acompañan** la ejecución en todas las capas. Son aditivos, no reemplazables. No cambian la lógica, solo observan o modifican aspectos transversales.
+
+- **Patrón de Variación**: comportamientos que **reemplazan** una parte de la lógica. Usted elige qué algoritmo usar, qué regla aplicar. Se trata de elección, no de adición.
+
+El trade-off: si el comportamiento necesita ser intercambiado en tiempo de ejecución o configuración, use patrón de variación. Si necesita estar presente siempre, pero de forma transparente, use cross-cutting. La elección incorrecta lleva a código condicional complejo o interceptación excesiva.
+
+## 5. Generación / Configuración de Comportamiento
+
+Mueven complejidad a **compilación** o **configuración**, evitando repetición manual.
+
+- **Técnicas**: generación de código, macros, procesadores de anotaciones/atributos, feature flags, comportamiento dirigido por configuración.
+- **Capa MVC**: **Model + Controller**.
+- **Why?** Reduce boilerplate y permite habilitar/deshabilitar recursos ya sea cuando se presiona play en el deploy o en tiempo de ejecución.
+
+### Trade-offs y Evaluaciones
+
+Esta estrategia tiene costos importantes a considerar:
+
+**Ventajas:**
+- Reduce código repetitivo.
+- Permite configuración dinámica.
+- Facilita mantenimiento centralizado.
+
+**Desventajas:**
+- Añade complejidad en build/deploy.
+- Puede dificultar el debugging (el código generado no es inmediatamente visible).
+- Requiere herramientas y procesos específicos.
+- Puede crear dependencias difíciles de rastrear.
+
+**Cuándo usar:**
+- Cuando hay mucho boilerplate repetitivo.
+- Cuando el comportamiento necesita variar por ambiente o configuración.
+- Cuando la generación puede validarse en tiempo de compilación.
+
+**Cuándo evitar:**
+- Para problemas simples que un patrón de diseño resuelve.
+- Cuando la complejidad de la generación supera el beneficio.
+- Cuando el equipo no tiene experiencia con las herramientas.
+
+Evalúe siempre: ¿el costo de la herramienta de generación/configuración compensa la complejidad que añade?
+
+## 6. Separación Arquitectónica
+
+"Oculta" comportamientos moviéndolos fuera del módulo.
+
+- **Técnicas**: microservicios, API gateways, backend-for-frontend, facades.
+- **Capa MVC**: fuera del MVC (infraestructura alrededor).
+- **Why?** Responsabilidades grandes o críticas salen de la app central para servicios dedicados. Tiene un trade-off más difícil porque puede involucrar dinero.
+
+### Consideraciones importantes
+
+La separación arquitectónica es la solución más "pesada" y debe considerarse con cuidado:
+
+- **Costos**: infraestructura adicional, monitoreo, deployment distribuido.
+- **Complejidad**: comunicación entre servicios, consistencia de datos, transacciones distribuidas.
+- **Latencia**: las llamadas de red pueden impactar el rendimiento.
+- **Operación**: más servicios para gestionar, más puntos de falla.
+
+Use solo cuando:
+- La responsabilidad es suficientemente grande para justificar un servicio separado.
+- Necesita escalar independientemente.
+- Equipos diferentes pueden trabajar en paralelo.
+- El aislamiento de fallas es crítico.
+
+## TLDR: Guía rápida de decisión
+
+- **Si afecta toda la aplicación → cross-cutting**
+- **Si lidia con entrada/salida → controller/pipeline**
+- **Si reacciona a cambios de estado → model/eventos**
+- **Si necesita intercambiar algoritmos/flujos → model/strategy/template**
+- **Si es boilerplate/configuración → generación/config**
+- **Si es demasiado grande → arquitectura separada**
+
+## Conclusión
+
+Elegir dónde y cómo implementar un comportamiento no es solo una cuestión técnica: se trata de entender el **ciclo de vida de la aplicación**, el **alcance del problema** y los **trade-offs** de cada enfoque.
+
+Conocer estas seis categorías y cuándo aplicarlas ayuda a crear código más limpio, mantenible y escalable. El secreto está en hacer las preguntas correctas: ¿dónde en el ciclo de vida ocurre esto? ¿Cuál es el alcance? ¿Qué trade-off estoy dispuesto a aceptar?
+
+Recuerde: no existe solución perfecta, solo la más adecuada para el contexto. Y muchas veces, la elección correcta comienza entendiendo **por qué** existe cada técnica y **cuándo** tiene sentido.
+
+---
+
+*¿Quiere discutir arquitectura y design patterns para su proyecto? [Contáctenos](/es/contact) para una consultoría personalizada.*
+

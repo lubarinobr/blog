@@ -1,0 +1,185 @@
+---
+title: "Hiding behavior within an application: choosing the right layer for the right concern"
+description: "Understand how to choose the appropriate technique and layer to implement behaviors in applications, from cross-cutting to architectural separation, and why knowing the lifecycle is fundamental."
+date: 2025-11-01
+category: "Architecture"
+tags: ["architecture", "design patterns", "clean code", "software architecture", "best practices"]
+cover: "/images/blog/escodendo-camadas.png"
+canonical: "https://sapiensit.com/en/blog/hiding-behavior-within-an-application"
+draft: false
+locale: "en"
+author: "Daniel Cunha"
+---
+
+# Hiding behavior within an application: choosing the right layer for the right concern
+
+## Introduction: the challenge of where to place behaviors
+
+When developing applications, the question arises: where to implement a specific behavior? This decision affects maintainability, testability, and scalability.
+
+The typical architecture of an application can be divided into main layers:
+
+- **Interface (View/Controller)**
+    - Where requests arrive (REST API, CLI, UI, message queues).
+    - Responsible for initial authentication, data parsing, routing.
+
+- **Application (Service/Application Layer)**
+    - Orchestrates the lifecycle flow.
+    - Calls validation, business rules, persistence.
+
+- **Domain (Model/Domain)**
+    - Contains pure business rules.
+    - Decides if state can change. Is this valid? What actions are allowed?
+
+- **Infrastructure**
+    - Persistence (DB, cache).
+    - External integration (payment, inventory, third-party APIs).
+    - Messaging (event bus, queues).
+
+- **Cross-cutting**
+    - Security, logging, monitoring, auditing.
+    - Applied transversally throughout the cycle.
+
+## 1. Cross-cutting / Transversal
+
+Behaviors that traverse multiple layers such as logging, security, auditing.
+
+- **Techniques**: interceptors, proxies, decorators, AOP, instrumentation, generic middlewares.
+- **MVC Layer**: all (Model, View, and Controller).
+- **Why?** They don't belong only to the domain or only to the interface. They have no boundaries. They are horizontal concerns.
+
+## 2. I/O
+
+They manipulate requests before reaching the controller, or responses before leaving.
+
+- **Techniques**: HTTP filters, middleware, request/response interceptors, gateways, adapters.
+- **MVC Layer**: **Controller** (entry point of interaction).
+- **Why?** Intercepting at the beginning/end is more efficient and less invasive to the central logic.
+
+> Here I really wanted to raise a reflection and compare 1 with 2 and show how knowing about the application lifecycle is important when choosing a tool to solve the problem. Back to basics.
+
+### Comparing Cross-cutting vs I/O
+
+The fundamental difference lies in the **moment and scope** where each one acts:
+
+- **Cross-cutting**: traverses all layers, applied during the entire execution. Logging a business operation needs to capture the domain context, while security can verify permissions in any layer.
+
+- **I/O**: acts at the application boundaries, before or after the Controller. It doesn't penetrate business logic, only transforms or validates the communication format.
+
+Knowing the **application lifecycle** is essential: if the behavior needs to accompany execution through multiple layers, use cross-cutting. If it only needs to process input/output, use I/O. The wrong choice leads to duplicated code or unnecessary coupling.
+
+## 3. Events and Asynchronous Reactions
+
+The system emits signals and other components react without direct coupling.
+
+- **Techniques**: observer, pub-sub, event bus, message queues, hooks.
+- **MVC Layer**: mainly **Model** (state change → event).
+- **Why?** The domain should not know *how* the world reacts, only declare *what happened*. This way it becomes the **central tool** of the application, and everything else orbits around it.
+
+### Fundamental separation: I/O vs Events
+
+Here it's important to make a clear separation between I/O and asynchronous events:
+
+- **I/O (point 2)**: acts **before or after the Controller**, processing requests and responses. It's about external communication, data transformation, format validation.
+
+- **Events (point 3)**: are born **within the domain**, when something relevant happens. They enter the **semantics of objects**. The domain declares "an order was created", and other components decide what to do with this information.
+
+This separation is crucial: I/O is about **application boundaries**, events are about **business semantics**. Mixing the two creates coupling and makes application evolution difficult.
+
+## 4. Variation and Extension Pattern
+
+They define families of behaviors that can be swapped or extended.
+
+- **Techniques**: strategy, template method, command, plugin systems.
+- **MVC Layer**: **Model** (business) or **Controller** (flow).
+- **Why?** Facilitates swapping algorithms, rules, or flows without scattered if/else.
+
+### Trade-offs: Variation vs Cross-cutting
+
+Comparing with point 1 (Cross-cutting):
+
+- **Cross-cutting**: behaviors that **accompany** execution in all layers. They are additive, not replaceable. They don't change logic, only observe or modify transversal aspects.
+
+- **Variation Pattern**: behaviors that **replace** a part of the logic. You choose which algorithm to use, which rule to apply. It's about choice, not addition.
+
+The trade-off: if the behavior needs to be swapped at runtime or configuration, use variation pattern. If it needs to be present always, but transparently, use cross-cutting. The wrong choice leads to complex conditional code or excessive interception.
+
+## 5. Generation / Behavior Configuration
+
+They move complexity to **compilation** or **configuration**, avoiding manual repetition.
+
+- **Techniques**: code generation, macros, annotation/attribute processors, feature flags, config-driven behavior.
+- **MVC Layer**: **Model + Controller**.
+- **Why?** Reduces boilerplate and allows enabling/disabling features either when pressing play on deploy or at runtime.
+
+### Trade-offs and Evaluations
+
+This strategy has important costs to consider:
+
+**Advantages:**
+- Reduces repetitive code.
+- Allows dynamic configuration.
+- Facilitates centralized maintenance.
+
+**Disadvantages:**
+- Adds complexity in build/deploy.
+- Can make debugging difficult (generated code is not immediately visible).
+- Requires specific tools and processes.
+- Can create hard-to-track dependencies.
+
+**When to use:**
+- When there's a lot of repetitive boilerplate.
+- When behavior needs to vary by environment or configuration.
+- When generation can be validated at compile time.
+
+**When to avoid:**
+- For simple problems that a design pattern solves.
+- When the complexity of generation outweighs the benefit.
+- When the team doesn't have experience with the tools.
+
+Always evaluate: does the cost of the generation/configuration tool compensate for the complexity it adds?
+
+## 6. Architectural Separation
+
+"Hides" behaviors by moving them outside the module.
+
+- **Techniques**: microservices, API gateways, backend-for-frontend, facades.
+- **MVC Layer**: outside MVC (infrastructure around).
+- **Why?** Large or critical responsibilities leave the central app for dedicated services. It has a more difficult trade-off because it may involve money.
+
+### Important considerations
+
+Architectural separation is the "heaviest" solution and should be considered carefully:
+
+- **Costs**: additional infrastructure, monitoring, distributed deployment.
+- **Complexity**: communication between services, data consistency, distributed transactions.
+- **Latency**: network calls can impact performance.
+- **Operation**: more services to manage, more failure points.
+
+Use only when:
+- The responsibility is sufficiently large to justify a separate service.
+- Needs to scale independently.
+- Different teams can work in parallel.
+- Failure isolation is critical.
+
+## TLDR: Quick decision guide
+
+- **If it affects the entire application → cross-cutting**
+- **If it deals with input/output → controller/pipeline**
+- **If it reacts to state changes → model/events**
+- **If it needs to swap algorithms/flows → model/strategy/template**
+- **If it's boilerplate/configuration → generation/config**
+- **If it's too large → separated architecture**
+
+## Conclusion
+
+Choosing where and how to implement a behavior is not just a technical question: it's about understanding the **application lifecycle**, the **problem scope**, and the **trade-offs** of each approach.
+
+Knowing these six categories and when to apply them helps create cleaner, more maintainable, and scalable code. The secret is asking the right questions: where in the lifecycle does this happen? What's the scope? What trade-off am I willing to accept?
+
+Remember: there's no perfect solution, only the most appropriate for the context. And often, the right choice starts by understanding **why** each technique exists and **when** it makes sense.
+
+---
+
+*Want to discuss architecture and design patterns for your project? [Contact us](/en/contact) for personalized consulting.*
+
