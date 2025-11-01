@@ -75,50 +75,17 @@ const path = getLocalizedPath('/contact', locale);
           <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
             {t.contact.scheduleDescription}
           </p>
-          <button
-            type="button"
-            id="calendly-button"
+          <a
+            href="https://calendly.com/sapiensit"
+            target="_blank"
+            rel="noopener noreferrer"
             class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors cursor-pointer shadow-lg hover:shadow-xl"
           >
             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
             </svg>
             {t.contact.scheduleButton}
-          </button>
-          
-          <script is:inline>
-            (function() {
-              function initCalendlyButton() {
-                const button = document.getElementById('calendly-button');
-                if (!button) {
-                  setTimeout(initCalendlyButton, 100);
-                  return;
-                }
-                
-                button.addEventListener('click', function(e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  
-                  function openCalendly() {
-                    if (typeof window.Calendly !== 'undefined' && window.Calendly.initPopupWidget) {
-                      window.Calendly.initPopupWidget({
-                        url: 'https://calendly.com/sapiensit'
-                      });
-                    } else {
-                      setTimeout(openCalendly, 100);
-                    }
-                  }
-                  openCalendly();
-                });
-              }
-              
-              if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initCalendlyButton);
-              } else {
-                initCalendlyButton();
-              }
-            })();
-          </script>
+          </a>
         </div>
       </div>
       
