@@ -19,7 +19,7 @@ const seo = {
 };
 ---
 
-<BaseLayout seo={seo} locale={locale} path="/en">
+<BaseLayout seo={seo} locale={locale} path="/en/">
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify(generateWebSiteSchema())} />
   <script type="application/ld+json" set:html={JSON.stringify(generateFAQSchema())} />

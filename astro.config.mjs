@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import { i18n } from './src/i18n/config';
+import { shouldIncludeInSitemap } from './src/utils/sitemap';
 
 export default defineConfig({
   site: 'https://sapiensit.com',
@@ -23,19 +24,9 @@ export default defineConfig({
       },
       changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date(),
-      filter: (page) => !page.includes('404') && !page.includes('admin'),
-      customPages: [
-        'https://sapiensit.com/',
-        'https://sapiensit.com/contact',
-        'https://sapiensit.com/blog',
-        'https://sapiensit.com/en/',
-        'https://sapiensit.com/en/contact',
-        'https://sapiensit.com/en/blog',
-        'https://sapiensit.com/es/',
-        'https://sapiensit.com/es/contact',
-        'https://sapiensit.com/es/blog'
-      ]
+      filter: (page) => {
+        return shouldIncludeInSitemap(page);
+      }
     }),
     tailwind()
   ],

@@ -1,9 +1,26 @@
 import type { SEOProps } from '@/types';
 import type { Locale } from '@/i18n/config';
 
+function normalizeCanonicalUrl(url: string): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  const isRoot = trimmed === 'https://sapiensit.com' || trimmed === 'https://sapiensit.com/';
+  
+  if (isRoot) {
+    return 'https://sapiensit.com';
+  }
+  
+  if (!trimmed.endsWith('/')) {
+    return `${trimmed}/`;
+  }
+  
+  return trimmed;
+}
+
 export function generateSEOTags(props: SEOProps, locale: Locale = 'pt', path: string = '') {
   const siteUrl = 'https://sapiensit.com';
-  const fullUrl = `${siteUrl}${path}`;
+  const normalizedPath = path === '/' || path === '' ? '' : (!path.endsWith('/') ? `${path}/` : path);
+  const fullUrl = `${siteUrl}${normalizedPath}`;
   const imageUrl = props.image ? `${siteUrl}${props.image}` : `${siteUrl}/images/og-default.jpg`;
   
   const localeMap = {
@@ -22,10 +39,14 @@ export function generateSEOTags(props: SEOProps, locale: Locale = 'pt', path: st
     ? props.description.substring(0, 147) + '...'
     : props.description;
   
+  const canonicalUrl = props.canonical 
+    ? normalizeCanonicalUrl(props.canonical) 
+    : normalizeCanonicalUrl(fullUrl);
+  
   return {
     title: seoTitle,
     description: seoDescription,
-    canonical: props.canonical || fullUrl,
+    canonical: canonicalUrl,
     openGraph: {
       title: seoTitle,
       description: seoDescription,
@@ -211,7 +232,7 @@ export function generateArticleSchema(post: any, locale: Locale = 'pt') {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteUrl}${localePath}/blog/${post.slug}`,
+      '@id': `${siteUrl}${localePath}/blog/${post.slug}/`,
     },
     articleSection: post.category,
     keywords: post.tags?.join(', '),

@@ -34,14 +34,15 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 export function getLocalizedPath(path: string, locale: Locale): string {
-  // Remove any existing locale prefix from the path
+  const isRoot = path === '/' || path === '';
   const cleanPath = path.replace(/^\/(en|es)/, '') || '/';
+  const normalizedPath = isRoot ? '/' : (!cleanPath.endsWith('/') ? `${cleanPath}/` : cleanPath);
   
   if (locale === 'pt') {
-    return cleanPath;
+    return normalizedPath;
   }
   
-  return `/${locale}${cleanPath}`;
+  return `/${locale}${normalizedPath === '/' ? '' : normalizedPath}`;
 }
 
 export function formatDate(date: Date, locale: Locale): string {

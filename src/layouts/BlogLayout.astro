@@ -30,6 +30,7 @@ const breadcrumbItems = generateBreadcrumbLinks(`/blog/${post.slug}`, locale);
 const authorName = 'Sapiens IT Team';
 const authorInitials = 'SI';
 
+const blogPath = `/blog/${post.slug}/`;
 const seo = {
   title: post.title,
   description: post.description,
@@ -44,7 +45,7 @@ const seo = {
 
 ---
 
-<BaseLayout seo={seo} locale={locale} path={`/blog/${post.slug}`}>
+<BaseLayout seo={seo} locale={locale} path={blogPath}>
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify(generateArticleSchema(post, locale))} />
   <script type="application/ld+json" set:html={JSON.stringify(generateBreadcrumbSchema(breadcrumbItems))} />
