@@ -318,3 +318,79 @@ const seo = {
   });
 </script>
 
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  function extractMermaidText(element) {
+    if (element.querySelector('.line')) {
+      const lines = element.querySelectorAll('.line');
+      return Array.from(lines)
+        .map(line => {
+          const text = line.textContent || line.innerText || '';
+          return text.trim();
+        })
+        .filter(text => text.length > 0)
+        .join('\n');
+    }
+    const text = element.textContent || element.innerText || '';
+    return text.trim();
+  }
+  
+  function prepareMermaidBlocks() {
+    const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+    
+    if (mermaidBlocks.length === 0) {
+      return false;
+    }
+    
+    mermaidBlocks.forEach((pre) => {
+      const code = pre.querySelector('code');
+      if (!code) return;
+      
+      const mermaidText = extractMermaidText(code);
+      if (!mermaidText) return;
+      
+      pre.className = 'mermaid';
+      pre.removeAttribute('data-language');
+      pre.removeAttribute('style');
+      pre.removeAttribute('tabindex');
+      pre.textContent = mermaidText;
+    });
+    
+    return true;
+  }
+  
+  async function initMermaid() {
+    try {
+      prepareMermaidBlocks();
+      
+      mermaid.initialize({ 
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose',
+        themeVariables: {
+          primaryColor: '#3b82f6',
+          primaryTextColor: '#fff',
+          primaryBorderColor: '#2563eb',
+          lineColor: '#6b7280',
+          secondaryColor: '#e5e7eb',
+          tertiaryColor: '#f3f4f6'
+        }
+      });
+      
+      await mermaid.run({
+        querySelector: '.mermaid',
+        suppressErrors: true
+      });
+    } catch (error) {
+      console.error('Error initializing Mermaid:', error);
+    }
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
+</script>
+

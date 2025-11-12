@@ -11,173 +11,164 @@ locale: "en"
 author: "Sapiens IT Team"
 ---
 
-# Hiding behavior within an application: choosing the right layer for the right concern
 
-## Introduction: the challenge of where to place behaviors
+One of the biggest challenges in application development is definitely not writing code or logic, but rather deciding who that logic belongs to.
 
-When developing applications, the question arises: where to implement a specific behavior? This decision affects maintainability, testability, and scalability.
+When we encounter behaviors like logging, validation, or security, we immediately face the cruel question:
 
-The typical architecture of an application can be divided into main layers:
+> "Does this piece of code go inside my service? In my controller? Or before? Who will manage this information? Should it be public?"
+> 
 
-- **Interface (View/Controller)**
-    - Where requests arrive (REST API, CLI, UI, message queues).
-    - Responsible for initial authentication, data parsing, routing.
+I guarantee you there's no right answer to any of these questions because it depends on *WHERE* in the application's *LIFECYCLE* that behavior makes sense.
 
-- **Application (Service/Application Layer)**
-    - Orchestrates the lifecycle flow.
-    - Calls validation, business rules, persistence.
+For example, if we consider authentication, it can happen before entering your controller layer, or you can do this verification by implementing a service before calling your methods.
 
-- **Domain (Model/Domain)**
-    - Contains pure business rules.
-    - Decides if state can change. Is this valid? What actions are allowed?
+So it's clear that knowing when a behavior should execute - before, during, or after any layer of your application - is what will separate clean architecture from a big ball of mud (***Brian Foote and Joseph*** Yoder http://www.laputan.org/mud/mud.html).
 
-- **Infrastructure**
-    - Persistence (DB, cache).
-    - External integration (payment, inventory, third-party APIs).
-    - Messaging (event bus, queues).
+That said, I wanted to define two concepts that will guide us through this article:
 
-- **Cross-cutting**
-    - Security, logging, monitoring, auditing.
-    - Applied transversally throughout the cycle.
+1. Cross-Cutting Concerns
+2. I/O Concerns
 
-## 1. Cross-cutting / Transversal
+## 1. Cross Cutting Concerns
 
-Behaviors that traverse multiple layers such as logging, security, auditing.
+Cross cutting concerns (CCCs) are behaviors that can be applied across multiple layers of an application transversally. Imagine that our application is a lasagna in layers, and each layer represents a module (data processing, persistence, visual interface, etc). According to a very experienced grandmother's recipe, you need a special tomato sauce with oregano and basil (sorry cooking experts, this is just an analogy). 
 
-- **Techniques**: interceptors, proxies, decorators, AOP, instrumentation, generic middlewares.
-- **MVC Layer**: all (Model, View, and Controller).
-- **Why?** They don't belong only to the domain or only to the interface. They have no boundaries. They are horizontal concerns.
+![Layered lasagna representing Cross-Cutting Concerns](/images/blog/lasanha.webp)
 
-## 2. I/O
+The tomato sauce in our application is the CCC and the special seasoning represents a specific functionality (a custom log format that will later integrate into a log aggregation service, for example). When we slice the lasagna, we see that the sauce, and its seasoning, is present in all layers, just as the CCC permeates a software system.
 
-They manipulate requests before reaching the controller, or responses before leaving.
+## 2. I/O Concerns
 
-- **Techniques**: HTTP filters, middleware, request/response interceptors, gateways, adapters.
-- **MVC Layer**: **Controller** (entry point of interaction).
-- **Why?** Intercepting at the beginning/end is more efficient and less invasive to the central logic.
+The I/O layer within an application happens before a request reaches our controller, reading or writing files for example. - what's not quite right to review.
 
-> Here I really wanted to raise a reflection and compare 1 with 2 and show how knowing about the application lifecycle is important when choosing a tool to solve the problem. Back to basics.
+Continuing with the lasagna analogy, this layer could be represented as an oven (the heat that cooks all layers), and the act of serving can represent the output (delivering slices to grandchildren).
 
-### Comparing Cross-cutting vs I/O
+## So, where do we want to get?
 
-The fundamental difference lies in the **moment and scope** where each one acts:
+With the definition of these two concepts, we can now discuss where we want to get. It's common to see, especially when working with Spring boot (Java), people using the wrong tool to solve a problem. For example:
 
-- **Cross-cutting**: traverses all layers, applied during the entire execution. Logging a business operation needs to capture the domain context, while security can verify permissions in any layer.
+- Writing an AOP aspect to log HTTP requests when a filter would be good enough
+- Implementing a servlet filter for logging a database transaction when AOP or proxies are much more recommended.
 
-- **I/O**: acts at the application boundaries, before or after the Controller. It doesn't penetrate business logic, only transforms or validates the communication format.
+Technically both will work, but is that enough? I think that decision is with you, but what I can say is that it's important to know and answer the question: What is the responsibility of this layer where I'm implementing my functionality? Do I respect the boundaries of this layer's responsibility?
 
-Knowing the **application lifecycle** is essential: if the behavior needs to accompany execution through multiple layers, use cross-cutting. If it only needs to process input/output, use I/O. The wrong choice leads to duplicated code or unnecessary coupling.
+Let's get practical, imagine a scenario where we receive the following task:
 
-## 3. Events and Asynchronous Reactions
+> *"Dear dev, we need to measure the time of all our requests"*
+> 
 
-The system emits signals and other components react without direct coupling.
+Well, seems very simple to implement, right? Let's stop and reflect a bit. I'll give you 5 minutes to think about it and then we'll come back to talk. Meanwhile, I'll grab a coffee.
 
-- **Techniques**: observer, pub-sub, event bus, message queues, hooks.
-- **MVC Layer**: mainly **Model** (state change → event).
-- **Why?** The domain should not know *how* the world reacts, only declare *what happened*. This way it becomes the **central tool** of the application, and everything else orbits around it.
+> ☕️ Coffee time
+> 
 
-### Fundamental separation: I/O vs Events
+Can we come back?
 
-Here it's important to make a clear separation between I/O and asynchronous events:
+If your goal is to know how long an entire HTTP request takes, including routing, controller execution and serialization, the right place would be at the I/O boundary before even reaching the controller.
 
-- **I/O (point 2)**: acts **before or after the Controller**, processing requests and responses. It's about external communication, data transformation, format validation.
+In Spring boot this can be done with a *HandlerInterceptor* or even a *Filter*
 
-- **Events (point 3)**: are born **within the domain**, when something relevant happens. They enter the **semantics of objects**. The domain declares "an order was created", and other components decide what to do with this information.
+```java
+@Component
+@Log4j
+public class RequestTimingInterceptor implements HandlerInterceptor {
 
-This separation is crucial: I/O is about **application boundaries**, events are about **business semantics**. Mixing the two creates coupling and makes application evolution difficult.
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        request.setAttribute("startTime", System.currentTimeMillis());
+        return true;
+    }
 
-## 4. Variation and Extension Pattern
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+                                Object handler, Exception ex) {
+        long start = (Long) request.getAttribute("startTime");
+        long duration = System.currentTimeMillis() - start;
+        log.info("Request [{} {}] completed in {} ms", request.getMethod(), request.getRequestURI(), duration);
+    }
+}
+```
 
-They define families of behaviors that can be swapped or extended.
+And then register this interceptor in the configuration:
 
-- **Techniques**: strategy, template method, command, plugin systems.
-- **MVC Layer**: **Model** (business) or **Controller** (flow).
-- **Why?** Facilitates swapping algorithms, rules, or flows without scattered if/else.
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestTimingInterceptor());
+    }
+}
+```
 
-### Trade-offs: Variation vs Cross-cutting
+With this, we have precise end-to-end measurements of the request lifecycle from when we enter the server until the response leaves without needing to actually enter the business logic, it works for all controllers and has great observability.
 
-Comparing with point 1 (Cross-cutting):
+And what's the limitation of this solution? We don't have information about which method the user accessed nor the metrics of each function. But given that the implementation objective wouldn't need this type of information, it makes the implementation in this layer more attractive since I would have more complete information than an AOP for example.
 
-- **Cross-cutting**: behaviors that **accompany** execution in all layers. They are additive, not replaceable. They don't change logic, only observe or modify transversal aspects.
+But now let's consider that our objective is different:
 
-- **Variation Pattern**: behaviors that **replace** a part of the logic. You choose which algorithm to use, which rule to apply. It's about choice, not addition.
+> *"Dear dev, we need to measure how long our inventory service takes to execute a synchronization routine"*
+> 
 
-The trade-off: if the behavior needs to be swapped at runtime or configuration, use variation pattern. If it needs to be present always, but transparently, use cross-cutting. The wrong choice leads to complex conditional code or excessive interception.
+In this case, the I/O layer is irrelevant for performing measurement; we want to go inside our application where our business logic is. With Java we could use an AOP:
 
-## 5. Generation / Behavior Configuration
+```java
+@Aspect
+@Component
+@Log4j
+public class ExecutionTimeAspect {
+	@Around("execution(* com.example.services.syncronization..*(..))")
+	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+				long start = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long duration = System.currentTimeMillis() - start;
 
-They move complexity to **compilation** or **configuration**, avoiding manual repetition.
+        log.info("Method [{}] executed in {} ms", joinPoint.getSignature(), duration);
+        return result;
+	}
+}
+```
 
-- **Techniques**: code generation, macros, annotation/attribute processors, feature flags, config-driven behavior.
-- **MVC Layer**: **Model + Controller**.
-- **Why?** Reduces boilerplate and allows enabling/disabling features either when pressing play on deploy or at runtime.
+And what does this really measure? This AOP will measure the execution time of all methods that are within the *services.syncronization.* package.
 
-### Trade-offs and Evaluations
+So it's important to know the layers of your application and what their purpose is, and how far the responsibility of that layer goes. In a simplistic diagram of an MVC application, it would be important to have very strong concepts not only of functionality but also of your application's architecture:
 
-This strategy has important costs to consider:
+```mermaid
+flowchart TD
+    A[Client] --> B[HTTP Filter]
+    B --> C[Controller]
+    C --> D[Service Layer]
+    D --> E[Repository]
+    E --> F[Database / External API]
 
-**Advantages:**
-- Reduces repetitive code.
-- Allows dynamic configuration.
-- Facilitates centralized maintenance.
+    %% Annotations
+    B:::io
+    C:::controller
+    D:::crosscut
+    E:::crosscut
 
-**Disadvantages:**
-- Adds complexity in build/deploy.
-- Can make debugging difficult (generated code is not immediately visible).
-- Requires specific tools and processes.
-- Can create hard-to-track dependencies.
+    %% Styles
+    classDef io fill:#FFE8C5,stroke:#F3B13D,stroke-width:2px;
+    classDef controller fill:#D9E8FF,stroke:#3D7BF3,stroke-width:2px;
+    classDef crosscut fill:#E8FFD9,stroke:#69B13D,stroke-width:2px;
 
-**When to use:**
-- When there's a lot of repetitive boilerplate.
-- When behavior needs to vary by environment or configuration.
-- When generation can be validated at compile time.
+    %% Notes
+    B -- "I/O concern (authentication, logging, rate limiting)" --> B
+    D -- "Cross-cutting concern (security, metrics, auditing)" --> D
+    E -- "Cross-cutting concern (transactions, tracing)" --> E
 
-**When to avoid:**
-- For simple problems that a design pattern solves.
-- When the complexity of generation outweighs the benefit.
-- When the team doesn't have experience with the tools.
+```
 
-Always evaluate: does the cost of the generation/configuration tool compensate for the complexity it adds?
+## What can we conclude
 
-## 6. Architectural Separation
+In the end, writing code is the easy part. The real challenge is understanding the context of where the context lives.
 
-"Hides" behaviors by moving them outside the module.
+Knowing how to choose between a Filter, an interceptor or an aspect is not just a matter of syntax and performance, it's about understanding and respecting your application's architecture.
 
-- **Techniques**: microservices, API gateways, backend-for-frontend, facades.
-- **MVC Layer**: outside MVC (infrastructure around).
-- **Why?** Large or critical responsibilities leave the central app for dedicated services. It has a more difficult trade-off because it may involve money.
+When we know the complete lifecycle from the moment the request enters until we have the response in the client, we start making more accurate decisions.
 
-### Important considerations
-
-Architectural separation is the "heaviest" solution and should be considered carefully:
-
-- **Costs**: additional infrastructure, monitoring, distributed deployment.
-- **Complexity**: communication between services, data consistency, distributed transactions.
-- **Latency**: network calls can impact performance.
-- **Operation**: more services to manage, more failure points.
-
-Use only when:
-- The responsibility is sufficiently large to justify a separate service.
-- Needs to scale independently.
-- Different teams can work in parallel.
-- Failure isolation is critical.
-
-## TLDR: Quick decision guide
-
-- **If it affects the entire application → cross-cutting**
-- **If it deals with input/output → controller/pipeline**
-- **If it reacts to state changes → model/events**
-- **If it needs to swap algorithms/flows → model/strategy/template**
-- **If it's boilerplate/configuration → generation/config**
-- **If it's too large → separated architecture**
-
-## Conclusion
-
-Choosing where and how to implement a behavior is not just a technical question: it's about understanding the **application lifecycle**, the **problem scope**, and the **trade-offs** of each approach.
-
-Knowing these six categories and when to apply them helps create cleaner, more maintainable, and scalable code. The secret is asking the right questions: where in the lifecycle does this happen? What's the scope? What trade-off am I willing to accept?
-
-Remember: there's no perfect solution, only the most appropriate for the context. And often, the right choice starts by understanding **why** each technique exists and **when** it makes sense.
+This is the kind of technical maturity that separates functional code from code that's easy to maintain and especially test, and understanding where logic belongs is what transforms an application that simply works into one that will continue working 10 years from now.
 
 ---
 

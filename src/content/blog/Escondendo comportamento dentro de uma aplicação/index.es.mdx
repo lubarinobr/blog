@@ -5,179 +5,170 @@ date: 2025-11-01
 category: "Arquitectura"
 tags: ["arquitectura", "design patterns", "clean code", "arquitectura de software", "mejores prácticas"]
 cover: "/images/blog/escodendo-camadas.png"
-canonical: "https://sapiensit.com/es/blog/Escondendo%20comportamento%20dentro%20de%20uma%20aplicação/"
+canonical: "https://sapiensit.com/es/blog/Escondendo%20comportamento%20dentro%20de%20uma%20aplicación/"
 draft: false
 locale: "es"
 author: "Sapiens IT Team"
 ---
 
-# Ocultar comportamiento dentro de una aplicación: eligiendo la capa correcta para la preocupación correcta
 
-## Introducción: el desafío de dónde colocar comportamientos
+Uno de los grandes desafíos en el desarrollo de aplicaciones definitivamente no es escribir código ni lógica, sino decidir a quién pertenece esa lógica.
 
-Al desarrollar aplicaciones, surge la pregunta: ¿dónde implementar un comportamiento específico? Esta decisión afecta la mantenibilidad, testabilidad y escalabilidad.
+Cuando nos enfrentamos a comportamientos como logging, validación o seguridad, inmediatamente nos viene la cruel pregunta:
 
-La arquitectura típica de una aplicación puede dividirse en capas principales:
+> "¿Este pedazo de código va dentro de mi service? ¿En mi controller? ¿O antes? ¿Quién va a gestionar esta información? ¿Debe ser algo público?"
+> 
 
-- **Interfaz (View/Controller)**
-    - Donde llega la solicitud (API REST, CLI, UI, colas de mensajes).
-    - Responsable de autenticación inicial, parsing de datos, enrutamiento.
+Te garantizo que no existe una respuesta correcta para ninguna de estas preguntas porque depende de *DÓNDE* en el *CICLO DE VIDA* de la aplicación ese comportamiento tiene sentido.
 
-- **Aplicación (Service/Application Layer)**
-    - Orquesta el flujo del ciclo de vida.
-    - Llama validación, reglas de negocio, persistencia.
+Por ejemplo, si consideramos una autenticación, puede ocurrir antes de entrar en tu capa de controller, o puedes hacer esta verificación implementando un service antes de llamar a tus métodos.
 
-- **Dominio (Model/Domain)**
-    - Contiene reglas de negocio puras.
-    - Decide si puede cambiar de estado. ¿Esto es válido? ¿Qué acciones están permitidas?
+Entonces queda claro que conocer cuándo un comportamiento debe ejecutarse - antes, durante o después de cualquier capa de tu aplicación - es lo que separará una arquitectura limpia de una gran big ball of mud (***Brian Foote and Joseph*** Yoder http://www.laputan.org/mud/mud.html).
 
-- **Infraestructura**
-    - Persistencia (DB, cache).
-    - Integración externa (pago, inventario, APIs de terceros).
-    - Mensajería (event bus, colas).
+Dicho esto, quería hacer la definición de dos conceptos que nos guiarán dentro de este artículo:
 
-- **Cross-cutting**
-    - Seguridad, logging, monitoreo, auditoría.
-    - Aplicados transversalmente a lo largo del ciclo.
+1. Cross-Cutting Concerns
+2. I/O Concerns
 
-## 1. Cross-cutting / Transversal
+## 1. Cross Cutting Concerns
 
-Comportamientos que atraviesan múltiples capas como logging, seguridad, auditoría.
+Las preocupaciones transversales (CCCs) son comportamientos que pueden aplicarse en múltiples capas de una aplicación de forma transversal. Imagina que nuestra aplicación es una lasaña en capas, y cada capa representa un módulo (procesamiento de datos, persistencia, interfaz visual, etc). Según la receta de una abuela muy experimentada, se necesita una salsa de tomate especial con orégano y albahaca (perdón expertos en cocina, esto es solo una analogía). 
 
-- **Técnicas**: interceptores, proxies, decoradores, AOP, instrumentación, middlewares genéricos.
-- **Capa MVC**: todas (Model, View y Controller).
-- **Why?** No pertenecen solo al dominio o solo a la interfaz. No tienen límites. Son preocupaciones horizontales.
+![Lasaña en capas representando Cross-Cutting Concerns](/images/blog/lasanha.webp)
 
-## 2. I/O
+La salsa de tomate dentro de nuestra aplicación es el CCC y el condimento especial representa una funcionalidad específica (un formato de log personalizado para que se integre después en un servicio de agregación de logs, por ejemplo). Al cortar la lasaña vemos que la salsa, y su condimento, está presente en todas las capas, así como el CCC impregna un sistema de software.
 
-Manipulan solicitudes antes de llegar al controlador, o respuestas antes de salir.
+## 2. I/O Concerns
 
-- **Técnicas**: filtros HTTP, middleware, interceptores de request/response, gateways, adaptadores.
-- **Capa MVC**: **Controller** (punto de entrada de la interacción).
-- **Why?** Interceptar al inicio/fin es más eficiente y menos invasivo para la lógica central.
+La capa de I/O dentro de una aplicación ocurre antes de que una solicitud llegue a nuestro controlador, lectura o escritura de archivos por ejemplo. - lo que no está muy bien revisar.
 
-> Aquí quería mucho levantar una reflexión y comparar el 1 con el 2 y mostrar cómo conocer sobre el ciclo de vida de la aplicación es importante al elegir una herramienta para resolver el problema. Back to basics.
+Continuando con la analogía de la lasaña, esta capa podría representarse como un horno (el calor que cocina todas las capas), y el acto de servir puede representar la salida (entregar rebanadas a los nietos).
 
-### Comparando Cross-cutting vs I/O
+## Entonces, ¿dónde queremos llegar?
 
-La diferencia fundamental está en el **momento y alcance** donde cada uno actúa:
+Con la definición de estos dos conceptos, ahora podemos discurrir un poco sobre dónde queremos llegar. Es común ver, especialmente trabajando con Spring boot (Java), personas utilizando la herramienta incorrecta para resolver un problema. Por ejemplo:
 
-- **Cross-cutting**: atraviesa todas las capas, aplicado durante toda la ejecución. El logging de una operación de negocio necesita capturar el contexto del dominio, mientras que la seguridad puede verificar permisos en cualquier capa.
+- Escribir un aspecto AOP para hacer el log de solicitudes HTTP cuando un filtro sería suficiente
+- Implementar un filtro servlet para un log de una transacción en la base de datos cuando un AOP o proxies son mucho más recomendados.
 
-- **I/O**: actúa en los límites de la aplicación, antes o después del Controller. No penetra en la lógica de negocio, solo transforma o valida el formato de la comunicación.
+Técnicamente ambos funcionarán, pero ¿es eso suficiente? Creo que esa decisión es contigo, pero lo que puedo decir es que es importante conocer y responder la pregunta: ¿Cuál es la responsabilidad de esta capa donde estoy implementando mi funcionalidad? ¿Respeto los límites de la responsabilidad de esta capa?
 
-Conocer el **ciclo de vida de la aplicación** es esencial: si el comportamiento necesita acompañar la ejecución a través de múltiples capas, use cross-cutting. Si solo necesita procesar entrada/salida, use I/O. La elección incorrecta lleva a código duplicado o acoplamiento innecesario.
+Vamos a la práctica, imagina un escenario en el que nos llega la siguiente tarea:
 
-## 3. Eventos y Reacciones Asíncronas
+> *"Querido dev, tenemos que medir el tiempo de todas nuestras solicitudes"*
+> 
 
-El sistema emite señales y otros componentes reaccionan sin acoplamiento directo.
+Bueno, parece muy simple de implementar, ¿verdad? Vamos a parar y reflexionar un poco. Te doy 5 minutos para pensar y luego volvemos a conversar. Mientras tanto, voy a tomar un café.
 
-- **Técnicas**: observer, pub-sub, event bus, colas de mensajes, hooks.
-- **Capa MVC**: principalmente **Model** (cambio de estado → evento).
-- **Why?** El dominio no debe saber *cómo* el mundo reacciona, solo declarar *qué pasó*. Así se convierte en la **herramienta central** de la aplicación, y todo lo demás orbita alrededor de él.
+> ☕️ Coffee time
+> 
 
-### Separación fundamental: I/O vs Eventos
+¿Podemos volver?
 
-Aquí es importante hacer una separación muy clara entre I/O y eventos asíncronos:
+Si tu objetivo es saber cuánto tiempo tarda una solicitud HTTP completa, incluyendo routing, ejecución del controlador y serialización, el lugar correcto sería en el límite de I/O antes incluso de llegar al controlador.
 
-- **I/O (punto 2)**: actúa **antes o después del Controller**, procesando solicitudes y respuestas. Se trata de comunicación externa, transformación de datos, validación de formato.
+En Spring boot esto puede hacerse con un *HandlerInterceptor* o incluso un *Filter*
 
-- **Eventos (punto 3)**: nacen **dentro del dominio**, cuando algo relevante sucede. Entran en la **semántica de los objetos**. El dominio declara "se creó un pedido", y otros componentes deciden qué hacer con esta información.
+```java
+@Component
+@Log4j
+public class RequestTimingInterceptor implements HandlerInterceptor {
 
-Esta separación es crucial: I/O se trata de **fronteras de la aplicación**, los eventos se tratan de **semántica del negocio**. Mezclar los dos crea acoplamiento y dificulta la evolución de la aplicación.
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        request.setAttribute("startTime", System.currentTimeMillis());
+        return true;
+    }
 
-## 4. Patrón de Variación y Extensión
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+                                Object handler, Exception ex) {
+        long start = (Long) request.getAttribute("startTime");
+        long duration = System.currentTimeMillis() - start;
+        log.info("Request [{} {}] completed in {} ms", request.getMethod(), request.getRequestURI(), duration);
+    }
+}
+```
 
-Definen familias de comportamientos que pueden ser intercambiados o extendidos.
+Y luego registrar este interceptor en las configuraciones:
 
-- **Técnicas**: strategy, template method, command, sistemas de plugins.
-- **Capa MVC**: **Model** (negocio) o **Controller** (flujo).
-- **Why?** Facilita intercambiar algoritmos, reglas o flujos sin if/else dispersos.
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestTimingInterceptor());
+    }
+}
+```
 
-### Trade-offs: Variación vs Cross-cutting
+Con esto, tenemos mediciones precisas end-to-end del ciclo de vida de la solicitud desde que entramos en el servidor hasta que la respuesta sale sin necesidad de entrar de hecho en la lógica de negocio, funciona para todos los controladores y posee gran observabilidad.
 
-Comparando con el punto 1 (Cross-cutting):
+¿Y cuál es la limitación de esta solución? No poseemos información de qué método accedió el usuario ni las métricas de cada función. Pero dado que el objetivo de la implementación no necesitaría este tipo de información, hace más atractiva la implementación en esta capa ya que tendría información más completa que un AOP por ejemplo.
 
-- **Cross-cutting**: comportamientos que **acompañan** la ejecución en todas las capas. Son aditivos, no reemplazables. No cambian la lógica, solo observan o modifican aspectos transversales.
+Pero ahora vamos a considerar que nuestro objetivo sea diferente:
 
-- **Patrón de Variación**: comportamientos que **reemplazan** una parte de la lógica. Usted elige qué algoritmo usar, qué regla aplicar. Se trata de elección, no de adición.
+> *"Querido dev, necesitamos medir cuánto tiempo tarda nuestro servicio de inventario en ejecutar una rutina de sincronización"*
+> 
 
-El trade-off: si el comportamiento necesita ser intercambiado en tiempo de ejecución o configuración, use patrón de variación. Si necesita estar presente siempre, pero de forma transparente, use cross-cutting. La elección incorrecta lleva a código condicional complejo o interceptación excesiva.
+En este caso, la capa de I/O es irrelevante para realizar medición; queremos ir dentro de nuestra aplicación donde está nuestra lógica de negocio. Con Java podríamos usar un AOP:
 
-## 5. Generación / Configuración de Comportamiento
+```java
+@Aspect
+@Component
+@Log4j
+public class ExecutionTimeAspect {
+	@Around("execution(* com.example.services.syncronization..*(..))")
+	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+				long start = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long duration = System.currentTimeMillis() - start;
 
-Mueven complejidad a **compilación** o **configuración**, evitando repetición manual.
+        log.info("Method [{}] executed in {} ms", joinPoint.getSignature(), duration);
+        return result;
+	}
+}
+```
 
-- **Técnicas**: generación de código, macros, procesadores de anotaciones/atributos, feature flags, comportamiento dirigido por configuración.
-- **Capa MVC**: **Model + Controller**.
-- **Why?** Reduce boilerplate y permite habilitar/deshabilitar recursos ya sea cuando se presiona play en el deploy o en tiempo de ejecución.
+¿Y qué mide esto realmente? Este AOP medirá el tiempo de ejecución de todos los métodos que están dentro del paquete de *services.syncronization.* 
 
-### Trade-offs y Evaluaciones
+Entonces es importante conocer las capas de tu aplicación y cuál es el propósito de ellas, y hasta dónde va la responsabilidad de esa capa. En un diagrama simplista de una aplicación MVC sería importante tener muy fuertes los conceptos no solo de la funcionalidad sino también de la arquitectura de tu aplicación:
 
-Esta estrategia tiene costos importantes a considerar:
+```mermaid
+flowchart TD
+    A[Client] --> B[HTTP Filter]
+    B --> C[Controller]
+    C --> D[Service Layer]
+    D --> E[Repository]
+    E --> F[Database / External API]
 
-**Ventajas:**
-- Reduce código repetitivo.
-- Permite configuración dinámica.
-- Facilita mantenimiento centralizado.
+    %% Annotations
+    B:::io
+    C:::controller
+    D:::crosscut
+    E:::crosscut
 
-**Desventajas:**
-- Añade complejidad en build/deploy.
-- Puede dificultar el debugging (el código generado no es inmediatamente visible).
-- Requiere herramientas y procesos específicos.
-- Puede crear dependencias difíciles de rastrear.
+    %% Styles
+    classDef io fill:#FFE8C5,stroke:#F3B13D,stroke-width:2px;
+    classDef controller fill:#D9E8FF,stroke:#3D7BF3,stroke-width:2px;
+    classDef crosscut fill:#E8FFD9,stroke:#69B13D,stroke-width:2px;
 
-**Cuándo usar:**
-- Cuando hay mucho boilerplate repetitivo.
-- Cuando el comportamiento necesita variar por ambiente o configuración.
-- Cuando la generación puede validarse en tiempo de compilación.
+    %% Notes
+    B -- "I/O concern (authentication, logging, rate limiting)" --> B
+    D -- "Cross-cutting concern (security, metrics, auditing)" --> D
+    E -- "Cross-cutting concern (transactions, tracing)" --> E
 
-**Cuándo evitar:**
-- Para problemas simples que un patrón de diseño resuelve.
-- Cuando la complejidad de la generación supera el beneficio.
-- Cuando el equipo no tiene experiencia con las herramientas.
+```
 
-Evalúe siempre: ¿el costo de la herramienta de generación/configuración compensa la complejidad que añade?
+## ¿Qué podemos concluir?
 
-## 6. Separación Arquitectónica
+Al final de cuentas, escribir código es la parte fácil. El verdadero desafío es entender el contexto de dónde vive el contexto.
 
-"Oculta" comportamientos moviéndolos fuera del módulo.
+Saber elegir entre un Filter, un interceptor o un aspect no es solo cuestión de sintaxis y rendimiento, es sobre entender y respetar la arquitectura de tu aplicación.
 
-- **Técnicas**: microservicios, API gateways, backend-for-frontend, facades.
-- **Capa MVC**: fuera del MVC (infraestructura alrededor).
-- **Why?** Responsabilidades grandes o críticas salen de la app central para servicios dedicados. Tiene un trade-off más difícil porque puede involucrar dinero.
+Cuando conocemos el ciclo de vida completo desde el momento en que la solicitud entra hasta que tenemos la respuesta en el cliente, pasamos a tomar decisiones más acertadas.
 
-### Consideraciones importantes
-
-La separación arquitectónica es la solución más "pesada" y debe considerarse con cuidado:
-
-- **Costos**: infraestructura adicional, monitoreo, deployment distribuido.
-- **Complejidad**: comunicación entre servicios, consistencia de datos, transacciones distribuidas.
-- **Latencia**: las llamadas de red pueden impactar el rendimiento.
-- **Operación**: más servicios para gestionar, más puntos de falla.
-
-Use solo cuando:
-- La responsabilidad es suficientemente grande para justificar un servicio separado.
-- Necesita escalar independientemente.
-- Equipos diferentes pueden trabajar en paralelo.
-- El aislamiento de fallas es crítico.
-
-## TLDR: Guía rápida de decisión
-
-- **Si afecta toda la aplicación → cross-cutting**
-- **Si lidia con entrada/salida → controller/pipeline**
-- **Si reacciona a cambios de estado → model/eventos**
-- **Si necesita intercambiar algoritmos/flujos → model/strategy/template**
-- **Si es boilerplate/configuración → generación/config**
-- **Si es demasiado grande → arquitectura separada**
-
-## Conclusión
-
-Elegir dónde y cómo implementar un comportamiento no es solo una cuestión técnica: se trata de entender el **ciclo de vida de la aplicación**, el **alcance del problema** y los **trade-offs** de cada enfoque.
-
-Conocer estas seis categorías y cuándo aplicarlas ayuda a crear código más limpio, mantenible y escalable. El secreto está en hacer las preguntas correctas: ¿dónde en el ciclo de vida ocurre esto? ¿Cuál es el alcance? ¿Qué trade-off estoy dispuesto a aceptar?
-
-Recuerde: no existe solución perfecta, solo la más adecuada para el contexto. Y muchas veces, la elección correcta comienza entendiendo **por qué** existe cada técnica y **cuándo** tiene sentido.
+Este es el tipo de madurez técnica que separa un código funcional de un código fácil de mantener y principalmente probar, y entender dónde pertenece la lógica es lo que transforma una aplicación que simplemente funciona de una que va a continuar funcionando dentro de 10 años.
 
 ---
 
