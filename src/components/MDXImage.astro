@@ -8,12 +8,15 @@ interface Props {
 const { src, alt, title } = Astro.props;
 ---
 
-<img 
-  src={src} 
-  alt={alt || ''} 
-  title={title}
-  loading="lazy"
-  decoding="async"
-  class="my-8 rounded-lg shadow-lg w-full"
-/>
+<div class="my-8 rounded-lg shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+  <img 
+    src={src} 
+    alt={alt || ''} 
+    title={title}
+    loading="lazy"
+    decoding="async"
+    class="max-w-full h-auto w-auto object-contain"
+    style="max-height: 80vh;"
+  />
+</div>
 

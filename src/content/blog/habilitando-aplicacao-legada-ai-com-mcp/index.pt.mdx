@@ -1,0 +1,214 @@
+---
+title: "Como habilitar sua aplicação legada ao futuro da AI com MCP"
+description: "Descubra como o Model Context Protocol (MCP) permite integrar sistemas legados com inteligência artificial de forma segura e incremental, sem reescrever sua aplicação do zero."
+date: 2025-11-25
+category: "Arquitetura"
+tags: ["mcp", "ia", "inteligência artificial", "sistemas legados", "integração", "arquitetura", "spring boot", "java"]
+cover: "/images/blog/mcp.png"
+canonical: "https://sapiensit.com/blog/habilitando-aplicacao-legada-ai-com-mcp/"
+draft: false
+locale: "pt"
+author: "Sapiens IT Team"
+---
+
+# Como habilitar sua aplicação legada ao futuro da AI com MCP
+
+A maioria das empresas sonha em adotar inteligência artificial, mas ainda está presa a sistemas legados que mal expõem APIs.
+
+Os benefícios são enormes — desde automação até decisões baseadas em dados — porém o custo de reescrever tudo é alto.
+
+Ignorar a IA, por outro lado, pode ser o começo do fim para qualquer negócio que dependa de software.
+
+A boa notícia é que existe um caminho do meio.
+
+Com o **Model Context Protocol (MCP)**, você pode **habilitar seu legado para interagir com modelos de IA de forma segura e incremental**, sem refazer sua aplicação do zero.
+
+---
+
+## Por que sistemas legados e IA não se entendem?
+
+Na maioria das equipes de TI, mexer em sistema legado é sinônimo de dor de cabeça.
+
+Um sistema antigo normalmente significa duas coisas:
+
+- O software atingiu maturidade e já é crítico demais para ser alterado.
+- A tecnologia ou o domínio de negócio não estão mais bem documentados.
+
+Com a chegada da IA, essa realidade se tornou um problema estratégico.
+
+As empresas querem que seus modelos entendam o negócio, mas enfrentam obstáculos como:
+
+- Ausência de APIs ou documentação atualizada
+- Dados mal estruturados
+- Regras de negócio distribuídas em código antigo
+- Falta de contexto para a IA compreender intenções do usuário
+
+O resultado é previsível: **a IA não entende o seu legado**, e o seu legado não sabe conversar com a IA.
+
+---
+
+## O que é o MCP e por que ele importa
+
+O **Model Context Protocol (MCP)**, proposto pela [Anthropic](https://www.anthropic.com/news/model-context-protocol), é um **padrão aberto de comunicação entre sistemas e modelos de IA**.
+
+Em termos simples: ele define um protocolo para que uma IA possa **consultar, compreender e executar ações dentro de um software**, de maneira padronizada e segura.
+
+Se o **HTTP** foi o protocolo que permitiu sistemas se comunicarem via web, o **MCP é o protocolo que permite que IAs se comuniquem com sistemas corporativos**.
+
+Com ele, você pode:
+
+- Expôr dados e operações do seu sistema legado como "ferramentas" de IA.
+- Permitir que modelos entendam o contexto da sua aplicação sem precisar reescrever nada.
+- Modernizar gradualmente seu ecossistema, mantendo a base existente.
+
+Em outras palavras: **você transforma seu sistema legado em um sistema "IA-ready"**.
+
+---
+
+## Aplicando o MCP na prática
+
+A implementação do MCP é simples e tem pouco impacto estrutural.
+
+Linguagens como **Java, JavaScript, .NET e Python** já possuem bibliotecas compatíveis.
+
+Você pode configurar o protocolo como **um projeto sidecar** ou fazer com que **a própria aplicação atue como servidor MCP**.
+
+Nesse cenário, o cliente é a própria IA — que se conecta ao seu servidor para obter contexto.
+
+Vamos ver um exemplo em **Java** utilizando **Spring Boot** e **Spring AI MCP**.
+
+---
+
+### Passo 1 — Adicionando dependências
+
+```xml
+<properties>
+    <spring-ai.version>1.0.0-M6</spring-ai.version>
+</properties>
+
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-bom</artifactId>
+            <version>${spring-ai.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependency>
+    <groupId>org.springframework.ai</groupId>
+    <artifactId>spring-ai-mcp-server-spring-boot-starter</artifactId>
+</dependency>
+```
+
+---
+
+### Passo 2 — Configurando o servidor MCP
+
+```
+spring.application.name=mcp
+spring.ai.mcp.server.name=spring-mcp
+spring.ai.mcp.server.version=1.0.0
+```
+
+Os valores de `server.name` e `server.version` servem para identificar seu servidor e controlar versões dos contextos disponíveis.
+
+---
+
+### Passo 3 — Expondo ferramentas para a IA
+
+No MCP, **cada ferramenta é equivalente a um endpoint REST** — uma funcionalidade que a IA pode consultar ou executar.
+
+Exemplo: vamos expor uma ferramenta que retorna todos os usuários cadastrados em uma data específica.
+
+```java
+package com.example.mcp;
+
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
+import com.example.repository.UserRepository;
+import com.example.dto.UserDTO;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class DatabaseLLMProvider {
+
+    private final UserRepository repository;
+
+    public DatabaseLLMProvider(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    @Tool(description = "Fetch all users registered at a specific date")
+    public List<UserDTO> getAllUsersRegisteredAtDate(
+        @ToolParam(description = "Date used in the search") LocalDate date
+    ) {
+        return repository.findAllByDate(date)
+                         .stream()
+                         .map(UserDTO::new)
+                         .toList();
+    }
+}
+```
+
+As anotações `@Tool` e `@ToolParam` são o ponto-chave: elas informam à IA o propósito e os parâmetros da ferramenta.
+
+Evite descrições vagas ou genéricas — o contexto precisa ser claro e direto para que o modelo saiba quando e como usar o recurso.
+
+---
+
+### Passo 4 — Registrando o servidor MCP
+
+Para que um cliente (como ChatGPT, Copilot ou Cursor) reconheça seu servidor MCP, é necessário um arquivo de configuração semelhante a este:
+
+```json
+{
+  "mcpServers": {
+    "mymcp": {
+      "command": "",
+      "args": [
+        "--directory",
+        "/ABSOLUTE/PATH/TO/PARENT/FOLDER/myapp",
+        "run",
+        "artifact.jar"
+      ]
+    }
+  }
+}
+```
+
+Após o registro, a IA poderá se conectar e utilizar as ferramentas expostas pelo seu sistema legado como se fossem extensões nativas.
+
+---
+
+## ⚠️ Cuidados ao expor ferramentas MCP
+
+O MCP é poderoso, mas deve ser usado com responsabilidade.
+
+Algumas boas práticas essenciais:
+
+- **Não exponha banco de dados ou credenciais diretamente.**
+- **Valide os parâmetros recebidos da IA.**
+- **Monitore logs e chamadas.**
+- **Evite ferramentas genéricas** — prefira contextos específicos, com escopo limitado.
+
+Isso evita riscos de *prompt injection* e mantém sua infraestrutura protegida.
+
+---
+
+## Conclusão
+
+Implementar IA em um sistema legado **é possível** — e o **MCP** é um excelente primeiro passo.
+
+Ele aproxima sua equipe técnica do ecossistema de IA sem precisar reformular toda a base do sistema.
+
+> IA não é sobre substituir — é sobre ampliar. Se o seu sistema ainda não conversa com inteligência, é hora de mudar isso. Fale conosco e descubra como o MCP pode acelerar sua transformação.
+
+---
+
+> _Escrito pela equipe Sapiens IT — engenheiros que constroem antes de escrever._
+

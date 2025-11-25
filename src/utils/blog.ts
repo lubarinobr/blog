@@ -118,7 +118,7 @@ export function calculateReadingTime(content: string): number {
 }
 
 function extractSlugFromPath(path: string): string {
-  const match = path.match(/\/blog\/([^\/]+)\//);
+  const match = path.match(/\/content\/blog\/([^\/]+)\//);
   return match ? match[1] : '';
 }
 
