@@ -140,3 +140,17 @@ export function generateTableOfContents(content: string): Array<{id: string, tex
     return { id, text, level };
   }).filter(Boolean) as Array<{id: string, text: string, level: number}>;
 }
+
+export function getAdjacentPosts(currentPost: BlogPost, allPosts: BlogPost[]): { previous: BlogPost | null, next: BlogPost | null } {
+  const sortedPosts = [...allPosts].sort((a, b) => a.date.getTime() - b.date.getTime());
+  const currentIndex = sortedPosts.findIndex(post => post.id === currentPost.id);
+  
+  if (currentIndex === -1) {
+    return { previous: null, next: null };
+  }
+  
+  const previous = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+  const next = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+  
+  return { previous, next };
+}

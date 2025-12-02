@@ -5,7 +5,7 @@ import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import MDXImage from '@/components/MDXImage.astro';
 import { getTranslations } from '@/utils/i18n';
-import { getRelatedPosts, getAllPosts, generateTableOfContents } from '@/utils/blog';
+import { getRelatedPosts, getAllPosts, generateTableOfContents, getAdjacentPosts } from '@/utils/blog';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/utils/seo';
 import { generateRelatedPosts as generateSmartRelatedPosts, generateBreadcrumbLinks } from '@/utils/internal-linking';
 import type { Locale } from '@/i18n/config';
@@ -26,6 +26,7 @@ const allPosts = await getAllPosts(locale);
 const relatedPosts = generateSmartRelatedPosts(post, allPosts, 3);
 const toc = generateTableOfContents(post.content);
 const breadcrumbItems = generateBreadcrumbLinks(`/blog/${post.slug}`, locale);
+const { previous, next } = getAdjacentPosts(post, allPosts);
 
 const authorName = 'Sapiens IT Team';
 const authorInitials = 'SI';
@@ -50,7 +51,7 @@ const seo = {
   <script type="application/ld+json" set:html={JSON.stringify(generateArticleSchema(post, locale))} />
   <script type="application/ld+json" set:html={JSON.stringify(generateBreadcrumbSchema(breadcrumbItems))} />
   
-  <Header locale={locale} currentPath="/blog" />
+  <Header locale={locale} currentPath={blogPath} />
   
   <!-- Breadcrumb -->
   <nav class="bg-gray-50 dark:bg-gray-800 py-4 pt-32">
@@ -205,6 +206,50 @@ const seo = {
                 </p>
               </div>
             </div>
+            
+            <!-- Previous/Next Navigation -->
+            {(previous || next) && (
+              <nav class="mt-16 mb-20 pt-12 pb-8 border-t-2 border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col sm:flex-row justify-between gap-6">
+                  {previous ? (
+                    <a 
+                      href={locale === 'pt' ? `/blog/${previous.slug}` : `/${locale}/blog/${previous.slug}`}
+                      class="flex-1 group p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300"
+                    >
+                      <div class="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 mb-3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span>{t.buttons.previous}</span>
+                      </div>
+                      <h3 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                        {previous.title}
+                      </h3>
+                    </a>
+                  ) : (
+                    <div class="flex-1"></div>
+                  )}
+                  {next ? (
+                    <a 
+                      href={locale === 'pt' ? `/blog/${next.slug}` : `/${locale}/blog/${next.slug}`}
+                      class="flex-1 group p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300 text-right"
+                    >
+                      <div class="flex items-center justify-end gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 mb-3">
+                        <span>{t.buttons.next}</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                      <h3 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                        {next.title}
+                      </h3>
+                    </a>
+                  ) : (
+                    <div class="flex-1"></div>
+                  )}
+                </div>
+              </nav>
+            )}
           </footer>
         </div>
       </div>
@@ -213,7 +258,7 @@ const seo = {
 
   <!-- Related Posts Section -->
   {relatedPosts.length > 0 && (
-    <section class="py-16 bg-gray-50 dark:bg-gray-800">
+    <section class="pt-20 pb-16 bg-gray-50 dark:bg-gray-800">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
           {t.blog.relatedPosts}
