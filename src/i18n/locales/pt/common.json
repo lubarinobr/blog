@@ -30,6 +30,7 @@
     "name": "Nome",
     "email": "E-mail",
     "company": "Empresa",
+    "subject": "Assunto",
     "message": "Mensagem",
     "phone": "Telefone",
     "required": "Obrigatório",

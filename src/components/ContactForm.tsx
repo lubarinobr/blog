@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 interface ContactFormProps {
   locale: string;
@@ -9,12 +9,13 @@ export default function ContactForm({ locale }: ContactFormProps) {
     name: '',
     email: '',
     company: '',
-    phone: '',
-    message: '',
-    honeypot: '' // Anti-spam field
+    subject: '',
+    honeypot: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const submitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastSubmitTimeRef = useRef<number>(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -24,27 +25,36 @@ export default function ContactForm({ locale }: ContactFormProps) {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    // Check honeypot
     if (formData.honeypot) {
+      return;
+    }
+
+    const now = Date.now();
+    const timeSinceLastSubmit = now - lastSubmitTimeRef.current;
+    
+    if (timeSinceLastSubmit < 2000) {
+      return;
+    }
+
+    if (isSubmitting) {
       return;
     }
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    lastSubmitTimeRef.current = now;
+
+    const form = e.currentTarget;
+    const formDataToSubmit = new FormData(form);
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          locale
-        }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formDataToSubmit as any).toString(),
       });
 
       if (response.ok) {
@@ -53,10 +63,16 @@ export default function ContactForm({ locale }: ContactFormProps) {
           name: '',
           email: '',
           company: '',
-          phone: '',
-          message: '',
+          subject: '',
           honeypot: ''
         });
+        
+        if (submitTimeoutRef.current) {
+          clearTimeout(submitTimeoutRef.current);
+        }
+        submitTimeoutRef.current = setTimeout(() => {
+          setSubmitStatus('idle');
+        }, 5000);
       } else {
         setSubmitStatus('error');
       }
@@ -73,8 +89,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
       name: 'Nome',
       email: 'E-mail',
       company: 'Empresa',
-      phone: 'Telefone',
-      message: 'Mensagem',
+      subject: 'Assunto',
       required: 'Obrigatório',
       send: 'Enviar',
       sending: 'Enviando...',
@@ -85,8 +100,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
       name: 'Name',
       email: 'Email',
       company: 'Company',
-      phone: 'Phone',
-      message: 'Message',
+      subject: 'Subject',
       required: 'Required',
       send: 'Send',
       sending: 'Sending...',
@@ -97,8 +111,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
       name: 'Nombre',
       email: 'Correo electrónico',
       company: 'Empresa',
-      phone: 'Teléfono',
-      message: 'Mensaje',
+      subject: 'Asunto',
       required: 'Requerido',
       send: 'Enviar',
       sending: 'Enviando...',
@@ -110,8 +123,16 @@ export default function ContactForm({ locale }: ContactFormProps) {
   const t = translations[locale as keyof typeof translations] || translations.pt;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Honeypot field - hidden from users */}
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="honeypot"
+      onSubmit={handleSubmit}
+      className="space-y-6"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      
       <input
         type="text"
         name="honeypot"
@@ -134,7 +155,8 @@ export default function ContactForm({ locale }: ContactFormProps) {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+            disabled={isSubmitting}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -149,7 +171,8 @@ export default function ContactForm({ locale }: ContactFormProps) {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+            disabled={isSubmitting}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
       </div>
@@ -165,38 +188,26 @@ export default function ContactForm({ locale }: ContactFormProps) {
             name="company"
             value={formData.company}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+            disabled={isSubmitting}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t.phone}
+          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            {t.subject} <span className="text-red-500">*</span>
           </label>
           <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
+            type="text"
+            id="subject"
+            name="subject"
+            value={formData.subject}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+            required
+            disabled={isSubmitting}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
-      </div>
-
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          {t.message} <span className="text-red-500">*</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          rows={5}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-        />
       </div>
 
       {submitStatus === 'success' && (
@@ -214,7 +225,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-4 rounded-md transition-colors"
+        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-md transition-colors"
       >
         {isSubmitting ? t.sending : t.send}
       </button>
