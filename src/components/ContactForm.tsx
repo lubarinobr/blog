@@ -9,8 +9,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
     name: '',
     email: '',
     company: '',
-    subject: '',
-    honeypot: ''
+    subject: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -27,10 +26,6 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (formData.honeypot) {
-      return;
-    }
 
     const now = Date.now();
     const timeSinceLastSubmit = now - lastSubmitTimeRef.current;
@@ -63,8 +58,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
           name: '',
           email: '',
           company: '',
-          subject: '',
-          honeypot: ''
+          subject: ''
         });
         
         if (submitTimeoutRef.current) {
@@ -127,21 +121,10 @@ export default function ContactForm({ locale }: ContactFormProps) {
       name="contact"
       method="POST"
       data-netlify="true"
-      data-netlify-honeypot="honeypot"
       onSubmit={handleSubmit}
       className="space-y-6"
     >
       <input type="hidden" name="form-name" value="contact" />
-      
-      <input
-        type="text"
-        name="honeypot"
-        value={formData.honeypot}
-        onChange={handleChange}
-        style={{ display: 'none' }}
-        tabIndex={-1}
-        autoComplete="off"
-      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
@@ -177,37 +160,35 @@ export default function ContactForm({ locale }: ContactFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t.company}
-          </label>
-          <input
-            type="text"
-            id="company"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-            disabled={isSubmitting}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-        </div>
+      <div>
+        <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          {t.company}
+        </label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          value={formData.company}
+          onChange={handleChange}
+          disabled={isSubmitting}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        />
+      </div>
 
-        <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t.subject} <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            required
-            disabled={isSubmitting}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-        </div>
+      <div>
+        <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          {t.subject} <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          required
+          disabled={isSubmitting}
+          rows={3}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed resize-y"
+        />
       </div>
 
       {submitStatus === 'success' && (
