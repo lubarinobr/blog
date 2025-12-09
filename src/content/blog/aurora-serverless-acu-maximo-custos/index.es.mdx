@@ -1,0 +1,177 @@
+---
+title: "Tu Aurora Serverless Podría Estar Costando el Doble — Descubre Cómo el ACU Máximo Está Impactando Tu Factura"
+description: "Entiende qué es ACU en Aurora Serverless v2, por qué establecer límites máximos es crucial para el control de costos y cómo optimizar tu configuración para evitar gastos inesperados."
+date: 2025-12-09
+category: "Cloud"
+tags: ["aws", "aurora", "serverless", "cloud", "costos", "optimización", "base de datos"]
+cover: "/images/blog/aurora-serverless.png"
+canonical: "https://sapiensit.com/es/blog/aurora-serverless-acu-maximo-custos/"
+draft: false
+locale: "es"
+author: "Sapiens IT Team"
+---
+
+## 1. Introducción
+
+Amazon Aurora Serverless v2 introduce un nuevo modelo de escalabilidad para bases de datos, permitiendo que el servicio aumente o reduzca recursos automáticamente según la demanda. Aunque este modelo ofrece ventajas significativas de rendimiento y flexibilidad, también puede generar incertidumbres en relación a los costos, especialmente cuando la capacidad máxima de ACUs no está configurada correctamente.
+
+Este documento explica qué es la capacidad de Aurora Capacity Units (ACU), por qué es importante definir límites máximos y cómo optimizar costos al configurar clusters Aurora Serverless v2.
+
+## 2. ¿Qué es ACU en Aurora Serverless v2?
+
+Las Aurora Capacity Units (ACUs) son la unidad de medida utilizada por Aurora Serverless v2 para determinar la capacidad computacional de un cluster. Cada ACU representa una combinación de CPU, memoria y recursos de red.
+
+Un cluster Aurora Serverless puede escalar dinámicamente entre un mínimo y un máximo de ACUs, dependiendo de la carga. Por ejemplo:
+
+- Escalabilidad mínima: 0,5 ACU
+- Escalabilidad máxima por defecto: aproximadamente 128 ACUs
+- Escalabilidad bajo demanda: puede llegar aún más alto en cargas de trabajo críticas
+
+Esta flexibilidad es poderosa—pero, sin un límite bien configurado, puede resultar en costos inesperados.
+
+## 3. ¿Por qué es importante la capacidad máxima de ACU?
+
+### 3.1 Control de costos
+
+Cuando un cluster no tiene un límite superior configurado, puede escalar a valores altos durante picos de demanda. Esto puede llevar a aumentos abruptos en el costo mensual.
+
+Al definir un ACU máximo, controlas el techo de gasto posible relacionado con la capacidad de la base de datos.
+
+### 3.2 Evitar escalabilidad excesiva
+
+Algunas cargas de trabajo, como consultas mal optimizadas o procesos batch, pueden provocar picos repentinos que no necesariamente reflejan la necesidad real de capacidad.
+
+### 3.3 Planificación de capacidad
+
+Definir un techo permite al equipo planificar:
+
+- Presupuesto mensual
+- Procesos de análisis de rendimiento
+- Dimensionamiento de entornos de producción y homologación
+
+## 4. Cálculo de costo basado en ACU
+
+Aurora Serverless v2 cobra por ACU-hora, así como otros servicios serverless cobran por utilización. La fórmula general es:
+
+`Costo = ACU_promedio_usado_por_hora × Precio_por_ACU × Horas_del_mes`
+
+**Ejemplo simplificado:**
+
+- Precio por ACU-hora: US$ 0,12 (valor ilustrativo)
+- ACU promedio: 10
+- Horas en el mes: 720
+
+`Costo = 10 × 0,12 × 720 = US$ 864/mes`
+
+Si el cluster alcanza 40 ACUs durante el pico y permanece así por varias horas, el costo puede aumentar rápidamente.
+
+Por eso, limitar la capacidad ayuda a evitar variaciones no deseadas.
+
+## 5. Cómo definir ACU máximo para optimizar costos
+
+### 5.1 Evalúa patrones de carga
+
+Antes de definir límites, analiza:
+
+- uso promedio de CPU
+- número de conexiones
+- latencia de las consultas
+- picos previsibles (horario comercial, carga nocturna de procesamiento, etc.)
+
+### 5.2 Establece límites por entorno
+
+Un ejemplo de buenas prácticas:
+
+| **Entorno** | **ACU Mínimo** | **ACU Máximo** |
+| --- | --- | --- |
+| Desarrollo | 0,5 | 2 |
+| Homologación | 1 | 4 |
+| Producción | 2 | 16 (ajustable) |
+
+### 5.3 Monitorea métricas en CloudWatch
+
+Monitorea especialmente:
+
+- ServerlessDatabaseCapacity (ACUs actuales)
+- CPUUtilization
+- DatabaseConnections
+- ServerlessScalingRequestsThrottled
+
+Estas métricas ayudan a entender si el límite es adecuado.
+
+### 5.4 Crea alarmas
+
+Crea alarmas para:
+
+- Escalado a ACU máximo
+- ACU promedio por encima de lo esperado
+- Costo estimado por encima del presupuesto
+
+## 6. Riesgos al no limitar ACU máximo
+
+### 6.1 Costos inesperadamente altos
+
+Incluso cargas de trabajo ligeras pueden generar picos inusuales, resultando en escalabilidad automática por encima de lo necesario.
+
+### 6.2 Cuellos de botella o timeouts enmascarados por escalabilidad
+
+Los problemas de consulta pueden ser "ocultados" por la escalabilidad automática—pero continuarán costando caro.
+
+### 6.3 Falta de predictibilidad
+
+Los entornos sin límite dificultan la planificación y aprobación del presupuesto.
+
+## 7. Ejemplo práctico
+
+Imagina un escenario en el que un trabajo nocturno ejecuta consultas pesadas. Si el ACU máximo está configurado en 128, Aurora puede escalar rápidamente por encima de 64 ACUs, generando costo inesperado.
+
+Al ajustar el ACU máximo a 16, tú:
+
+- limitas el gasto
+- fuerzas la revisión de consultas pesadas
+- mantienes el cluster estable
+
+## 8. Configuración recomendada
+
+Terraform utilizado para Aurora Serverless permite configurar los parámetros:
+
+```hcl
+scaling_configuration = {
+  min_capacity = 2
+  max_capacity = 16
+}
+```
+
+La recomendación general es comenzar con valores más bajos y ajustar según la observabilidad de la carga de trabajo.
+
+## 9. Consideraciones finales
+
+Aurora Serverless v2 representa una evolución significativa en el uso de bases de datos en la nube, permitiendo escalabilidad casi instantánea y eliminación de la necesidad de gestión manual de instancias.
+
+Sin embargo, sin configuración correcta de ACU máximo, los costos pueden crecer rápidamente.
+
+Al definir límites, monitorear métricas y ajustar según el uso, es posible obtener:
+
+- predictibilidad
+- control de costos
+- rendimiento equilibrado
+- escalabilidad segura
+
+Este proceso debe formar parte del ciclo continuo de observabilidad y optimización de la plataforma.
+
+## 🔧 ¿Quieres optimizar costos en tu entorno Aurora Serverless sin comprometer el rendimiento?
+
+Ajustar correctamente la capacidad de ACU e implementar una estrategia sólida de observabilidad puede reducir drásticamente tus gastos y aumentar la eficiencia de tu entorno cloud. Si deseas evaluar tu base de datos, definir límites de capacidad, crear métricas o estructurar un plan de optimización personalizado, nuestro equipo puede ayudar.
+
+Contáctanos y juntos identificaremos oportunidades reales de reducción de costos y mejora de tu arquitectura.
+
+## 10. Referencias
+
+- [Documentación oficial de Amazon Aurora Serverless](https://aws.amazon.com/documentation-overview/aurora/)
+- [Guía de precios de AWS Aurora](https://aws.amazon.com/es/rds/aurora/pricing/)
+- [Mejores prácticas de escalabilidad para bases de datos gestionadas (configuración y capacidad Aurora Serverless v2)](https://docs.aws.amazon.com/es_es/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.setting-capacity.html)
+
+---
+
+> _Escrito por el equipo Sapiens IT — ingenieros que construyen antes de escribir._
+
