@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getTranslations, getLocaleFromPath, getLocalizedPath } from '@/utils/i18n';
+import type { Locale } from '@/i18n/config';
+
+const currentPath = Astro.url.pathname;
+const locale: Locale = getLocaleFromPath(currentPath);
+const t = await getTranslations(locale, 'common');
+
+const seo = {
+  title: t.notFound.title || 'Página não encontrada',
+  description: t.notFound.description || 'A página que você está procurando não foi encontrada.',
+  image: '/images/og-home.jpg',
+  noindex: true
+};
+---
+
+<BaseLayout seo={seo} locale={locale} path={currentPath}>
+  <Header locale={locale} currentPath={currentPath} />
+  
+  <main class="min-h-screen pt-32">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="text-center">
+        <h1 class="text-9xl font-bold text-blue-600 dark:text-blue-400 mb-4">404</h1>
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          {t.notFound.title}
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+          {t.notFound.description}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href={getLocalizedPath('/', locale)} 
+            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors"
+          >
+            {t.notFound.goHome}
+          </a>
+          <a 
+            href={getLocalizedPath('/blog', locale)} 
+            class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors"
+          >
+            {t.notFound.viewBlog}
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>

@@ -26,6 +26,12 @@
     "notFound": "Página no encontrada",
     "serverError": "Error del servidor"
   },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La página que buscas no se encontró. Puede haber sido movida, eliminada o el enlace puede ser incorrecto.",
+    "goHome": "Ir al inicio",
+    "viewBlog": "Ver blog"
+  },
   "forms": {
     "name": "Nombre",
     "email": "Correo electrónico",
