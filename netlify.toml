@@ -5,10 +5,151 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Redirects para bloquear URLs comuns de WordPress e outros CMS
+# Retorna 410 Gone para indicar que o recurso nunca existiu
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/wp-admin/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-login.php"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-content/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-includes/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/xmlrpc.php"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-cron.php"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-config.php"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-load.php"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/wp-blog-header.php"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/readme.html"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/license.txt"
+  to = "/404"
+  status = 410
+
+# Drupal
+[[redirects]]
+  from = "/user/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/sites/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/modules/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/themes/*"
+  to = "/404"
+  status = 410
+
+# Joomla
+[[redirects]]
+  from = "/administrator/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/components/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/libraries/*"
+  to = "/404"
+  status = 410
+
+# Magento
+[[redirects]]
+  from = "/app/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/downloader/*"
+  to = "/404"
+  status = 410
+
+# Outros caminhos comuns de scanners
+[[redirects]]
+  from = "/.env"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/.svn/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/phpmyadmin/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/mysql/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/database/*"
+  to = "/404"
+  status = 410
+
+[[redirects]]
+  from = "/db/*"
+  to = "/404"
+  status = 410
 
 [dev]
   command = "npm run dev"
