@@ -74,11 +74,17 @@ const seo = {
             <!-- Tags -->
             <div class="flex flex-wrap gap-2">
               <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{t.blog.tags}</span>
-              {tags.slice(0, 10).map(tag => (
-                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer transition-colors">
-                  {tag}
-                </span>
-              ))}
+              {tags.slice(0, 10).map(tag => {
+                const tagSlug = tag.toLowerCase().replace(/\s+/g, '-');
+                return (
+                  <a 
+                    href={`/en/blog/tag/${tagSlug}`}
+                    class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer transition-colors"
+                  >
+                    {tag}
+                  </a>
+                );
+              })}
             </div>
           </div>
           
@@ -96,9 +102,17 @@ const seo = {
                 </a>
                 <div class="p-6">
                   <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">
-                      {post.category}
-                    </span>
+                    {(() => {
+                      const categorySlug = post.category.toLowerCase().replace(/\s+/g, '-');
+                      return (
+                        <a 
+                          href={`/en/blog/category/${categorySlug}`}
+                          class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+                        >
+                          {post.category}
+                        </a>
+                      );
+                    })()}
                     <span class="mx-2">•</span>
                     <span>{post.date.toLocaleDateString('en-US')}</span>
                     <span class="mx-2">•</span>
@@ -117,11 +131,17 @@ const seo = {
                   
                   <div class="flex items-center justify-between">
                     <div class="flex flex-wrap gap-1">
-                      {post.tags.slice(0, 3).map(tag => (
-                        <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded text-xs">
-                          #{tag}
-                        </span>
-                      ))}
+                      {post.tags.slice(0, 3).map(tag => {
+                        const tagSlug = tag.toLowerCase().replace(/\s+/g, '-');
+                        return (
+                          <a 
+                            href={`/en/blog/tag/${tagSlug}`}
+                            class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded text-xs hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+                          >
+                            #{tag}
+                          </a>
+                        );
+                      })}
                     </div>
                     
                     <a 

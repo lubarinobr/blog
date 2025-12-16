@@ -154,3 +154,23 @@ export function getAdjacentPosts(currentPost: BlogPost, allPosts: BlogPost[]): {
   
   return { previous, next };
 }
+
+export function normalizeTagForUrl(tag: string): string {
+  return tag.toLowerCase().replace(/\s+/g, '-');
+}
+
+export async function findTagBySlug(slug: string, locale: Locale = 'pt'): Promise<string | null> {
+  const tags = await getAllTags(locale);
+  const normalizedSlug = slug.toLowerCase();
+  return tags.find(tag => normalizeTagForUrl(tag) === normalizedSlug) || null;
+}
+
+export function normalizeCategoryForUrl(category: string): string {
+  return category.toLowerCase().replace(/\s+/g, '-');
+}
+
+export async function findCategoryBySlug(slug: string, locale: Locale = 'pt'): Promise<string | null> {
+  const categories = await getAllCategories(locale);
+  const normalizedSlug = slug.toLowerCase();
+  return categories.find(category => normalizeCategoryForUrl(category) === normalizedSlug) || null;
+}

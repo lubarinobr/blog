@@ -90,9 +90,18 @@ const seo = {
           <!-- Article Header -->
           <header class="pt-16 pb-8">
             <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-6">
-              <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium">
-                {post.category}
-              </span>
+              {(() => {
+                const categorySlug = post.category.toLowerCase().replace(/\s+/g, '-');
+                const categoryUrl = locale === 'pt' ? `/blog/category/${categorySlug}` : `/${locale}/blog/category/${categorySlug}`;
+                return (
+                  <a 
+                    href={categoryUrl}
+                    class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    {post.category}
+                  </a>
+                );
+              })()}
               <span class="mx-3">•</span>
               <time datetime={post.date.toISOString()}>
                 {post.date.toLocaleDateString('pt-BR', { 
@@ -132,11 +141,18 @@ const seo = {
             
             <!-- Tags -->
             <div class="flex flex-wrap gap-2 mb-8">
-              {post.tags.map((tag: string) => (
-                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">
-                  #{tag}
-                </span>
-              ))}
+              {post.tags.map((tag: string) => {
+                const tagSlug = tag.toLowerCase().replace(/\s+/g, '-');
+                const tagUrl = locale === 'pt' ? `/blog/tag/${tagSlug}` : `/${locale}/blog/tag/${tagSlug}`;
+                return (
+                  <a 
+                    href={tagUrl}
+                    class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                  >
+                    #{tag}
+                  </a>
+                );
+              })}
             </div>
           </header>
           

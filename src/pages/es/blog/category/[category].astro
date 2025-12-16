@@ -1,0 +1,118 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getTranslations } from '@/utils/i18n';
+import { getAllCategories, getPostsByCategory, findCategoryBySlug } from '@/utils/blog';
+import type { Locale } from '@/i18n/config';
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories('es');
+  return categories.map((category) => ({
+    params: { category: category.toLowerCase().replace(/\s+/g, '-') },
+  }));
+}
+
+const { category: categorySlug } = Astro.params;
+const locale: Locale = 'es';
+const t = await getTranslations(locale, 'common');
+
+if (!categorySlug) {
+  return Astro.redirect('/404');
+}
+
+const foundCategory = await findCategoryBySlug(categorySlug, locale);
+if (!foundCategory) {
+  return Astro.redirect('/404');
+}
+
+const posts = await getPostsByCategory(foundCategory, locale);
+const allCategories = await getAllCategories(locale);
+
+const seo = {
+  title: `Posts de la categoría "${foundCategory}" - Blog`,
+  description: `Artículos sobre ${foundCategory} y temas relacionados.`,
+  image: '/images/og-blog.jpg'
+};
+---
+
+<BaseLayout seo={seo} locale={locale} path={`/es/blog/category/${categorySlug}/`}>
+  <Header locale={locale} currentPath={`/es/blog/category/${categorySlug}`} />
+  
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-16 pt-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          Categoría: <span class="text-blue-600 dark:text-blue-400">{foundCategory}</span>
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          {posts.length} {posts.length === 1 ? 'artículo encontrado' : 'artículos encontrados'}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Content -->
+  <section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+              <a href={`/es/blog/${post.slug}`}>
+                <img 
+                  src={post.cover} 
+                  alt={post.title}
+                  class="w-full h-48 object-cover"
+                  loading="lazy"
+                />
+              </a>
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">
+                    {post.category}
+                  </span>
+                  <span class="mx-2">•</span>
+                  <span>{post.date.toLocaleDateString('es-ES')}</span>
+                </div>
+                
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-blue-400">
+                  <a href={`/es/blog/${post.slug}`}>
+                    {post.title}
+                  </a>
+                </h2>
+                
+                <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                  {post.description}
+                </p>
+                
+                <a 
+                  href={`/es/blog/${post.slug}`}
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
+                >
+                  {t.buttons.readMore} →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-gray-600 dark:text-gray-300 text-lg">
+            No se encontraron artículos en esta categoría.
+          </p>
+          <a 
+            href="/es/blog"
+            class="mt-4 inline-block text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+          >
+            Volver al blog
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer locale={locale} />
+</BaseLayout>
+
