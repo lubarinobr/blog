@@ -1,0 +1,111 @@
+---
+title: "Clases Utilitarias, Value Objects y el Costo de No Modelar tus Objetos"
+description: "Entienda por qué las clases utilitarias se han convertido en un problema recurrente en proyectos Java y cómo los Value Objects y conceptos de DDD pueden ayudar a organizar mejor el código y el dominio."
+date: 2025-12-16
+category: "Desarrollo"
+tags: []
+cover: "/images/blog/vos.png"
+canonical: "https://sapiensit.com/es/blog/classes-utilitarias-value-objects-custo-nao-modelar-objetos/"
+draft: false
+locale: "es"
+author: "Sapiens IT Team"
+---
+
+En prácticamente cualquier proyecto — **especialmente en Java** — es común encontrar clases utilitarias que concentran métodos estáticos responsables de ejecutar cosas que el desarrollador simplemente no sabe muy bien dónde poner. El resultado casi siempre es el mismo: una verdadera ensalada de rutinas, muchas veces duplicadas, vertidas de forma descuidada por el proyecto, sin criterio claro y sin mucho pensamiento detrás.
+
+Esto se ha convertido en un reflejo automático. Siempre que surge una pequeña operación, se crea un `SomethingUtils` y se sigue adelante, con la sensación de que el problema ha sido resuelto. Y técnicamente, así fue. El problema es que este hábito recurrente hace cada vez menos obvio dónde está una determinada regla de negocio — y, peor aún, a quién realmente pertenece.
+
+Incluso en proyectos que se dicen orientados a objetos, terminamos renunciando al mayor potencial de este paradigma. Al final de cuentas, el código funciona, pero no comunica absolutamente nada sobre el dominio, mucho menos sobre la forma en que debería ser representado. Es código que resuelve problemas, pero no cuenta ninguna historia.
+
+Durante mucho tiempo, busqué una estrategia más pragmática que me ayudara a decidir cuándo usar (o no) clases utilitarias. Fue a partir de la unión de algunos conceptos que llegué a un enfoque que, al menos para mí, quedó intuitivamente más fácil de entender, aplicar y mantener. El primer paso es entender los límites de una clase utilitaria: no debe ser demonizada — y ese definitivamente no es el objetivo de este artículo. El propio Joshua Bloch, en *Effective Java*, deja claro que las clases utilitarias solo deberían existir cuando **no hay un concepto orientado a objetos claro** para ese comportamiento, además de alertar sobre el riesgo constante de que se conviertan en verdaderos depósitos de métodos sin dueño.
+
+Un ejemplo clásico de esto aparece en un dominio simple, como el de una caja registradora. Agregar una función `add` en un *helper* de dinero es un fuerte indicio de que algo está fuera de lugar. Aquí, estamos hablando de un comportamiento que pertenece claramente al dominio: la validación es una invariante del objeto, y la operación habla directamente el lenguaje del negocio. Aun así, es común ver algo así:
+
+```java
+public class MoneyUtils {
+
+    public static Money add(Money a, Money b) {
+        if (!a.getCurrency().equals(b.getCurrency())) {
+            throw new IllegalArgumentException("Different currencies");
+        }
+        return new Money(a.getAmount().add(b.getAmount()), a.getCurrency());
+    }
+
+}
+```
+
+Otro caso recurrente es cuando una función estática termina ocultando una regla de negocio que, en la práctica, debería vivir en un servicio de dominio. En su lugar, termina en otra clase `Utils`, perdiendo completamente el contexto y la intención original:
+
+```java
+public class ShoppingCartUtils {
+
+    public static BigDecimal calculateFinalPrice(ShoppingCart cart, Customer customer) {
+        BigDecimal price = cart.getBasePrice();
+
+        if (customer.isPremium()) {
+            price = price.multiply(BigDecimal.valueOf(0.9));
+        }
+
+        if (cart.isCupomApply()) {
+            price = price.multiply(cart.cupom().discount());
+        }
+
+        return price;
+    }
+
+}
+```
+
+A pesar de que esta lectura ayudó bastante en mi investigación, aún no respondía completamente a lo que buscaba. El cuestionamiento continuaba: en los casos en que las funciones claramente pertenecen al dominio de un objeto, ¿cómo organizar ese comportamiento? Llegué a algunas soluciones que se mostraron interesantes.
+
+Antes que nada, vale hacer una pregunta simple, pero que casi nunca se hace: **¿qué, después de todo, es un `Money`?**
+
+En la práctica, mucha gente responde esto con un `long`, un `double` o, siendo un poco más cuidadoso, un `BigDecimal`. Y listo. El valor sigue viajando por el sistema, pasando por DTOs, servicios, controladores y repositorios, siempre acompañado de validaciones dispersas y reglas implícitas que nadie sabe exactamente dónde viven.
+
+Es justamente ahí que el concepto de *Value Object* comienza a hacer la diferencia. En lugar de tratar el dinero como un tipo primitivo "un poco más elegante", pasamos a tratarlo como un concepto del dominio. Un `Money` no es solo un número: tiene moneda, reglas, invariantes y comportamiento. Y como refuerza Vaughn Vernon en *Implementing Domain-Driven Design*, este tipo de concepto es el candidato perfecto para un Value Object.
+
+Cuando modelamos `Money` de esta forma, deja de ser un detalle técnico y pasa a ser una pieza central del modelo. Y más importante: nace válido. Las reglas no quedan dispersas en validaciones externas o helpers utilitarios — forman parte de la propia definición del objeto:
+
+```java
+public class Money {
+
+    private final BigDecimal amount;
+    private final Currency currency;
+
+    public Money(BigDecimal amount, Currency currency) {
+        if (amount == null || amount.signum() < 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+        if (currency == null) {
+            throw new IllegalArgumentException("Currency must be informed");
+        }
+
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    public Money add(Money other) {
+        if (!this.currency.equals(other.currency)) {
+            throw new IllegalArgumentException("Different currencies");
+        }
+        return new Money(this.amount.add(other.amount), this.currency);
+    }
+
+}
+```
+
+A partir de ese punto, la ganancia comienza a extenderse por el sistema. Ese mismo `Money` puede ser reutilizado en entidades, servicios e incluso en DTOs, sin necesidad de "romper" el concepto en tipos primitivos todo el tiempo. Un `OrderDTO`, un `InvoiceDTO` o un `PaymentRequest` pasan a cargar un `Money`, y ya no más un `BigDecimal` suelto acompañado de comentarios o convenciones implícitas.
+
+Esto reduce duplicación, elimina validaciones repetidas y crea un lenguaje común entre las capas de la aplicación. El dominio, los DTOs y los servicios pasan a hablar el mismo idioma. Y cuando una regla cambia — por ejemplo, permitir valores negativos en un contexto específico — el impacto es localizado y explícito.
+
+Al final de cuentas, el problema no está en las clases utilitarias ni en los métodos estáticos en sí, sino en la forma automática con que terminan siendo usados. A lo largo del texto, vimos que muchos de estos casos surgen simplemente porque conceptos importantes del dominio aún no han sido modelados. Entender ideas básicas como *Value Objects*, servicios de dominio y los límites naturales de una clase utilitaria ya es suficiente para evitar gran parte de este acoplamiento accidental y de este desorden estructural tan común en proyectos Java.
+
+Cuando pasamos a tratar conceptos como `Money` como aquello que realmente son — partes del dominio, con reglas, invariantes y comportamiento — el diseño comienza a organizarse casi solo. Las validaciones pasan a vivir donde tienen sentido, las reglas dejan de estar dispersas en helpers genéricos y el código se vuelve más cohesivo, más legible y más fácil de mantener. No se trata de seguir DDD al pie de la letra o aplicar patrones complejos, sino de conocer y aplicar algunos conceptos fundamentales de orientación a objetos con intención. Y, muchas veces, eso ya es más que suficiente para salir del ciclo infinito de los `Utils`.
+
+---
+
+> Si quieres profundizar en cómo organizar mejor tu código, aplicar Value Objects y conceptos de DDD de forma pragmática, contacta con SapiensIT. Tenemos el equipo y la experiencia necesarios para orientarte con seguridad y claridad.
+
+---
+
+> _Escrito por el equipo Sapiens IT — ingenieros que construyen antes de escribir._
