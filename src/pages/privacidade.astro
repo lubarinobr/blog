@@ -1,0 +1,189 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import type { Locale } from '@/i18n/config';
+
+const locale: Locale = 'pt';
+
+const seo = {
+  title: 'Política de Privacidade - Sapiens IT',
+  description: 'Política de Privacidade do site Sapiens IT. Informações sobre como coletamos, utilizamos e protegemos os seus dados pessoais, em conformidade com o RGPD e a LGPD.',
+  image: '/images/og-home.jpg'
+};
+---
+
+<BaseLayout seo={seo} locale={locale} path="/privacidade/">
+  <Header locale={locale} currentPath="/privacidade" />
+  
+  <main class="min-h-screen pt-32">
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <header class="mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          Política de Privacidade
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          Última atualização: {new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
+      </header>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">1. Introdução</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            A Sapiens IT está comprometida com a proteção da privacidade e dos dados pessoais dos visitantes do nosso site. Esta Política de Privacidade descreve como coletamos, utilizamos e protegemos as informações obtidas através do site <strong>sapiensit.com</strong>, em total conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD) da União Europeia e com a Lei Geral de Proteção de Dados Pessoais (LGPD) do Brasil.
+          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Ao utilizar o nosso site, você concorda com as práticas descritas nesta política. Se não concordar com algum aspecto desta política, recomendamos que não utilize o nosso site.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">2. Dados Coletados</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            O site <strong>sapiensit.com</strong> utiliza a ferramenta de análise <strong>Umami Analytics</strong>, uma solução focada em privacidade que respeita os direitos dos utilizadores. É importante destacar que:
+          </p>
+          <ul class="list-disc pl-6 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li><strong>Não utilizamos cookies:</strong> O Umami Analytics não utiliza cookies, o que significa que não armazenamos informações no seu navegador.</li>
+            <li><strong>Não coletamos dados pessoais:</strong> Não coletamos informações que possam identificar diretamente um indivíduo, como nome, endereço de e-mail, número de telefone ou outros dados pessoais.</li>
+            <li><strong>Anonimização de endereços IP:</strong> Os endereços IP dos visitantes são automaticamente anonimizados antes de serem processados, garantindo que não seja possível identificar indivíduos através destes dados.</li>
+          </ul>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Os dados coletados são exclusivamente de natureza estatística e incluem informações agregadas sobre:
+          </p>
+          <ul class="list-disc pl-6 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li>Páginas visitadas</li>
+            <li>Referrers (sites que direcionaram visitantes para o nosso site)</li>
+            <li>Informações técnicas do navegador (tipo, versão, sistema operativo)</li>
+            <li>País de origem (baseado no IP anonimizado)</li>
+            <li>Duração da visita</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">3. Finalidade da Coleta de Dados</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Os dados coletados são utilizados exclusivamente para os seguintes fins:
+          </p>
+          <ul class="list-disc pl-6 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li><strong>Análise estatística:</strong> Compreender quais artigos e conteúdos do blog são mais lidos e acessados, permitindo-nos melhorar a qualidade e relevância do nosso conteúdo.</li>
+            <li><strong>Melhoria da experiência do utilizador:</strong> Utilizar informações agregadas para otimizar a navegação, estrutura e funcionalidades do site, sempre com o objetivo de proporcionar uma melhor experiência aos visitantes.</li>
+            <li><strong>Análise de desempenho:</strong> Monitorizar o desempenho técnico do site para garantir que está a funcionar corretamente e de forma eficiente.</li>
+          </ul>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Todos os dados são processados de forma agregada e anonimizada, sem possibilidade de identificação individual dos visitantes.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">4. Compartilhamento de Dados</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            A Sapiens IT compromete-se a não vender, alugar, partilhar ou transferir os dados coletados para terceiros para fins de marketing, publicidade ou qualquer outro fim comercial.
+          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Os dados são processados exclusivamente pela ferramenta Umami Analytics, que opera sob os mais rigorosos padrões de privacidade. Não partilhamos dados com empresas de publicidade, redes sociais ou outras plataformas de marketing.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">5. Links Externos e Redes Sociais</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            O nosso site pode conter links para sites externos, incluindo perfis em redes sociais como o LinkedIn da Sapiens IT. É importante destacar que:
+          </p>
+          <ul class="list-disc pl-6 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li>Ao clicar em links externos, você será direcionado para sites de terceiros que não são controlados pela Sapiens IT.</li>
+            <li>Estes sites externos têm as suas próprias políticas de privacidade e termos de utilização.</li>
+            <li>Ao aceder a estes sites, você fica sujeito às políticas e práticas de privacidade da plataforma de destino.</li>
+            <li>Recomendamos que leia as políticas de privacidade de qualquer site externo que visite.</li>
+          </ul>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            A Sapiens IT não se responsabiliza pelas práticas de privacidade ou pelo conteúdo de sites externos.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">6. Segurança dos Dados</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Implementamos medidas técnicas e organizacionais adequadas para proteger os dados coletados contra acesso não autorizado, alteração, divulgação ou destruição. A ferramenta Umami Analytics utiliza tecnologias modernas de segurança e criptografia para garantir a proteção dos dados.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">7. Retenção de Dados</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Os dados estatísticos são retidos apenas pelo tempo necessário para cumprir as finalidades descritas nesta política. Dados agregados e anonimizados podem ser mantidos por períodos mais longos para fins de análise histórica e melhoria contínua do site.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">8. Os Seus Direitos</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Em conformidade com o RGPD e a LGPD, você tem os seguintes direitos:
+          </p>
+          <ul class="list-disc pl-6 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li><strong>Direito de acesso:</strong> Solicitar informações sobre os dados que possamos ter sobre si (embora, devido à natureza anonimizada dos dados, não seja possível identificar dados individuais).</li>
+            <li><strong>Direito à portabilidade:</strong> Solicitar uma cópia dos seus dados em formato estruturado (quando aplicável).</li>
+            <li><strong>Direito de oposição:</strong> Opor-se ao processamento dos seus dados para fins estatísticos.</li>
+            <li><strong>Direito de retificação:</strong> Solicitar a correção de dados incorretos (quando aplicável).</li>
+            <li><strong>Direito ao apagamento:</strong> Solicitar a eliminação dos seus dados (quando aplicável).</li>
+          </ul>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Para exercer qualquer um destes direitos, ou se tiver questões sobre esta Política de Privacidade, pode contactar-nos através do nosso <a href="/contact" class="text-blue-600 dark:text-blue-400 hover:underline">formulário de contacto</a>.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">9. Alterações a Esta Política</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            A Sapiens IT reserva-se o direito de atualizar esta Política de Privacidade periodicamente para refletir mudanças nas nossas práticas ou por razões legais, operacionais ou regulamentares. Recomendamos que consulte esta página regularmente para se manter informado sobre como protegemos os seus dados.
+          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            A data da última atualização está indicada no topo desta página. Alterações significativas serão comunicadas através de um aviso no nosso site.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">10. Base Legal para o Processamento</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            O processamento dos dados estatísticos é baseado no legítimo interesse da Sapiens IT em compreender o comportamento dos visitantes do site para melhorar o conteúdo e a experiência do utilizador, sempre respeitando os direitos e liberdades fundamentais dos utilizadores. Como os dados são anonimizados e não permitem a identificação individual, o impacto na privacidade é mínimo.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">11. Contacto</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Se tiver questões, preocupações ou pedidos relacionados com esta Política de Privacidade ou com o tratamento dos seus dados pessoais, pode contactar-nos através de:
+          </p>
+          <ul class="list-none pl-0 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li><strong>Formulário de contacto:</strong> <a href="/contact" class="text-blue-600 dark:text-blue-400 hover:underline">sapiensit.com/contact</a></li>
+          </ul>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Comprometemo-nos a responder a todos os pedidos no prazo de 30 dias, conforme exigido pelo RGPD e pela LGPD.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">12. Autoridades de Supervisão</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            Se considerar que o tratamento dos seus dados pessoais viola o RGPD ou a LGPD, tem o direito de apresentar uma queixa junto da autoridade de proteção de dados competente:
+          </p>
+          <ul class="list-disc pl-6 mb-4 space-y-2 text-lg text-gray-700 dark:text-gray-300">
+            <li><strong>Portugal:</strong> Comissão Nacional de Proteção de Dados (CNPD) - <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">www.cnpd.pt</a></li>
+            <li><strong>Brasil:</strong> Autoridade Nacional de Proteção de Dados (ANPD) - <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">www.gov.br/anpd</a></li>
+          </ul>
+        </section>
+
+        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+              ← Voltar à página inicial
+            </a>
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>
+
