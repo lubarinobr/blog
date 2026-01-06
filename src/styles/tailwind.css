@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Force "class" strategy for dark mode by defining a custom variant. 
+   Since we don't add the 'dark' class to the HTML, this effectively disables dark mode
+   regardless of system preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Theme Configuration */
 @theme {
   /* Font Families */
@@ -174,43 +179,4 @@
   margin-bottom: 0.75rem;
   font-size: 1.25rem;
   line-height: 1.8;
-}
-
-/* Dark Mode Typography */
-.dark .prose {
-  --tw-prose-body: #d1d5db;
-  --tw-prose-headings: #ffffff;
-  --tw-prose-links: #60a5fa;
-  --tw-prose-bold: #ffffff;
-  --tw-prose-quotes: #9ca3af;
-  --tw-prose-code: #e5e7eb;
-  --tw-prose-pre-code: #e5e7eb;
-  --tw-prose-pre-bg: #374151;
-}
-
-.dark .prose h1,
-.dark .prose h2,
-.dark .prose h3,
-.dark .prose strong {
-  color: #ffffff;
-}
-
-.dark .prose blockquote {
-  color: #9ca3af;
-}
-
-.dark .prose code {
-  background-color: #374151;
-  color: #e5e7eb;
-}
-
-/* Remove background from code inside pre blocks in dark mode */
-.dark .prose pre code {
-  background-color: transparent;
-  color: inherit;
-}
-
-.dark .prose pre {
-  background-color: #0d1117 !important;
-  color: inherit;
 }

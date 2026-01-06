@@ -16,7 +16,7 @@ const { locale, currentPath } = Astro.props;
 const t = await getTranslations(locale, 'common');
 ---
 
-<header id="main-header" class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out">
+<header id="main-header" class="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
@@ -31,7 +31,7 @@ const t = await getTranslations(locale, 'common');
             loading="eager"
             quality={90}
           />
-          <span class="ml-2 text-xl font-bold text-gray-900 dark:text-white">
+          <span class="ml-2 text-xl font-bold text-gray-900">
             
           </span>
         </a>
@@ -44,8 +44,8 @@ const t = await getTranslations(locale, 'common');
             href={getLocalizedPath('/', locale)} 
             class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
               currentPath === '/' || currentPath === `/${locale}`
-                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600'
             }`}
           >
             {t.nav.home}
@@ -99,7 +99,7 @@ const t = await getTranslations(locale, 'common');
         <div class="relative">
           <select 
             id="language-switcher"
-            class="appearance-none bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="appearance-none bg-transparent border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             onchange="
               const selectedLocale = this.value.includes('/en') ? 'en' : this.value.includes('/es') ? 'es' : 'pt';
               localStorage.setItem('preferred-locale', selectedLocale);
@@ -125,7 +125,7 @@ const t = await getTranslations(locale, 'common');
       <div class="md:hidden">
         <button 
           type="button" 
-          class="mobile-menu-button bg-gray-100 dark:bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+          class="mobile-menu-button bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
           aria-controls="mobile-menu"
           aria-expanded="false"
         >
@@ -140,10 +140,10 @@ const t = await getTranslations(locale, 'common');
     
     <!-- Mobile menu -->
     <div class="md:hidden hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 dark:bg-gray-800 rounded-lg mt-2">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 rounded-lg mt-2">
         <a 
           href={getLocalizedPath('/', locale)} 
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-100"
         >
           {t.nav.home}
         </a>
@@ -175,7 +175,7 @@ const t = await getTranslations(locale, 'common');
         <!-- Mobile Language Switcher -->
         <div class="px-3 py-2">
           <select 
-            class="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full bg-transparent border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             onchange="
               const selectedLocale = this.value.includes('/en') ? 'en' : this.value.includes('/es') ? 'es' : 'pt';
               localStorage.setItem('preferred-locale', selectedLocale);
@@ -217,12 +217,12 @@ const t = await getTranslations(locale, 'common');
       
       if (scrollY > 100) {
         // Add scrolled classes for styling
-        header.classList.add('shadow-lg', 'bg-white/98', 'dark:bg-gray-900/98');
-        header.classList.remove('bg-white/95', 'dark:bg-gray-900/95');
+        header.classList.add('shadow-lg', 'bg-white/98');
+        header.classList.remove('bg-white/95');
       } else {
         // Remove scrolled classes
-        header.classList.remove('shadow-lg', 'bg-white/98', 'dark:bg-gray-900/98');
-        header.classList.add('bg-white/95', 'dark:bg-gray-900/95');
+        header.classList.remove('shadow-lg', 'bg-white/98');
+        header.classList.add('bg-white/95');
       }
       
       lastScrollY = scrollY;

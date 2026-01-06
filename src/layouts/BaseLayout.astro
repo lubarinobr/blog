@@ -259,31 +259,9 @@ const currentLocale = locales[locale];
     <meta name="theme-color" content="#3b82f6" />
     <meta name="msapplication-TileColor" content="#3b82f6" />
   </head>
-  <body class="font-sans antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <body class="font-sans antialiased bg-white text-gray-900">
     <div id="app">
       <slot />
     </div>
-    
-    <!-- Dark Mode Script -->
-    <script>
-      // Check for saved theme preference or default to 'light'
-      const theme = localStorage.getItem('theme') || 'light';
-      
-      // Apply theme immediately to prevent flash
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
-      
-      // Listen for system theme changes
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-          if (e.matches) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
-        }
-      });
-    </script>
   </body>
 </html>

@@ -27,13 +27,13 @@ const seo = {
   <Header locale={locale} currentPath="/" />
   
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20 pt-32">
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-20 pt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
           {tHome.hero.title}
         </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
           {tHome.hero.subtitle}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -55,29 +55,29 @@ const seo = {
   </section>
 
   <!-- Services Section -->
-  <section class="py-20 bg-white dark:bg-gray-900">
+  <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           {tHome.services.title}
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300">
+        <p class="text-xl text-gray-600">
           {tHome.services.subtitle}
         </p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {tHome.services.items.map((service: any, index: number) => (
-          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">
               {service.title}
             </h3>
-            <p class="text-gray-600 dark:text-gray-300">
+            <p class="text-gray-600">
               {service.description}
             </p>
           </div>
@@ -87,32 +87,32 @@ const seo = {
   </section>
 
   <!-- What We Do Section -->
-  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+  <section class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           {tHome.whatWeDo.title}
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-2">
+        <p class="text-xl text-gray-600 mb-2">
           {tHome.whatWeDo.subtitle}
         </p>
-        <p class="text-lg text-gray-600 dark:text-gray-300">
+        <p class="text-lg text-gray-600">
           {tHome.whatWeDo.subtitle2}
         </p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {tHome.whatWeDo.items.map((item: any, index: number) => (
-          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">
               {item.title}
             </h3>
-            <p class="text-gray-600 dark:text-gray-300">
+            <p class="text-gray-600">
               {item.description}
             </p>
           </div>
@@ -122,19 +122,19 @@ const seo = {
   </section>
 
   <!-- Our Approach Section -->
-  <section class="py-20 bg-white dark:bg-gray-900">
+  <section class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
           {tHome.ourApproach.title}
         </h2>
-        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+        <p class="text-xl text-gray-700 leading-relaxed mb-6">
           {tHome.ourApproach.paragraph1}
         </p>
-        <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+        <p class="text-lg text-gray-700 leading-relaxed mb-6">
           {tHome.ourApproach.paragraph2}
         </p>
-        <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p class="text-lg text-gray-700 leading-relaxed">
           {tHome.ourApproach.paragraph3}
         </p>
       </div>
@@ -142,20 +142,20 @@ const seo = {
   </section>
 
   <!-- Blog Section -->
-  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+  <section class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           {tHome.blog.title}
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300">
+        <p class="text-xl text-gray-600">
           {tHome.blog.subtitle}
         </p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {recentPosts.map((post) => (
-          <article class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+          <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
             <a href={`/blog/${post.slug}`}>
               <img 
                 src={post.cover} 
@@ -165,13 +165,13 @@ const seo = {
               />
             </a>
             <div class="p-6">
-              <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+              <div class="flex items-center text-sm text-gray-500 mb-2">
                 {(() => {
                   const categorySlug = post.category.toLowerCase().replace(/\s+/g, '-');
                   return (
                     <a 
                       href={`/blog/category/${categorySlug}`}
-                      class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      class="hover:text-blue-600 transition-colors"
                     >
                       {post.category}
                     </a>
@@ -180,15 +180,15 @@ const seo = {
                 <span class="mx-2">•</span>
                 <span>{post.date.toLocaleDateString('pt-BR')}</span>
               </div>
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
                 {post.title}
               </h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class="text-gray-600 mb-4">
                 {post.description}
               </p>
               <a 
                 href={`/blog/${post.slug}`}
-                class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+                class="text-blue-600 hover:text-blue-700 font-medium"
               >
                 {t.buttons.readMore} →
               </a>
