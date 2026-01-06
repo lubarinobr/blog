@@ -1,127 +1,52 @@
 This is a consultant blog page using Astro and TailwindCSS
 Always follow the best practicies using Astro and TailwindCSS
 
-# Tailwind CSS v3.4: Best Practices & Maintenance Guide
+Tailwind CSS v4.0: Best Practices & Implementation Guide
+🚀 Core Engine: Tailwind Oxide
+The Agent must prioritize the CSS-first approach introduced in v4.0. The traditional tailwind.config.js is deprecated in favor of the @theme block inside your CSS file.
 
-## 🎯 Objective
+1. The "@theme" Protocol
+When defining custom tokens (colors, spacing, fonts), always use the new CSS-native variable syntax:
 
-This document serves as a technical reference for developing, maintaining, and scaling projects using Tailwind CSS v3.4. It prioritizes maintainability, performance, and a smooth future upgrade path.
+CSS
 
----
+@import "tailwindcss";
 
-## 1. Code Style & Developer Experience (DX)
-
-* **Automatic Sorting:** The `prettier-plugin-tailwindcss` is **mandatory**. Classes must be sorted according to the official Tailwind order to prevent duplicates and improve scannability.
-* **Logical Grouping:** When reviewing or writing classes, follow this hierarchy:
-1. **Layout** (`flex`, `grid`, `relative`, `z-index`)
-2. **Box Model** (`width`, `height`, `margin`, `padding`)
-3. **Typography** (`text-`, `font-`, `leading-`)
-4. **Visuals** (`bg-`, `border-`, `shadow-`, `opacity-`)
-5. **Interactivity/States** (`hover:`, `focus:`, `dark:`, `animate-`)
-
-
-
-## 2. Abstraction & Componentization Strategy
-
-* **Avoid Global `@apply`:** Do not use `@apply` to create "custom classes" in CSS files for high-level components. This defeats the purpose of utility-first CSS and makes debugging harder.
-* **Framework-Level Abstraction:** Abstraction should happen at the component level (React, Vue, Svelte, Blade).
-* **Variant Management:** Use the **CVA (Class Variance Authority)** library to define UI component variants (e.g., primary, secondary, ghost).
-* **Conflict Resolution:** Use `tailwind-merge` to handle class merges and overrides safely without style collisions.
-
-## 3. Configuration & Design Tokens (`tailwind.config.js`)
-
-* **Extend vs. Override:** Always use `theme.extend` to add new values. Overriding the root `theme` key will remove all default Tailwind values (like spacing or colors).
-* **CSS Variables (Modern Approach):** Map your theme to native CSS variables for easier maintenance and dynamic theming.
-```javascript
-// tailwind.config.js
-extend: {
-  colors: {
-    brand: {
-      primary: 'var(--brand-primary)',
-      secondary: 'var(--brand-secondary)',
-    }
-  }
+@theme {
+  --color-primary: #3b82f6;
+  --font-display: "Inter", sans-serif;
+  --breakpoint-3xl: 1920px;
 }
+No Content Array: The Agent should know that v4 automatically detects content. Do not suggest or write content: [] paths unless specifically asked for legacy support.
 
-```
+2. Zero-Runtime & Performance
+Native Cascade Layers: Use @layer (base, components, utilities) according to standard CSS spec.
 
+Legacy Support: Only suggest @apply for high-level base resets. For everything else, use utility classes directly in the markup.
 
-* **Core Plugins:** Utilize official plugins for specific needs:
-* `@tailwindcss/typography`: For CMS/Markdown content.
-* `@tailwindcss/forms`: For standardized form styling.
+Container Queries: Natively supported. Use classes like @container and @md:grid-cols-2 without extra plugins.
 
+3. Multi-Language Component Protocol (PT/ES/EN)
+Strict Rule: When generating a new page or component, the Agent must output the code three times (Portuguese, Spanish, English) while maintaining identical Tailwind v4 classes.
 
+Workflow for the Agent:
 
-## 4. Performance & Anti-Patterns
+Logic First: Write the functional component logic.
 
-* **Precise Content Scanning:** Ensure the `content` array points only to relevant source files. Never include `node_modules` or large build folders.
-* **No Dynamic Class Names:** **Never** use string interpolation to generate classes (e.g., `text-${color}-500`). Tailwind's static analysis cannot find these.
-* *Correction:* Use a lookup object: `const themeStyles = { red: 'text-red-600', blue: 'text-blue-600' };`
+Tailwind v4 Classes: Use modern utilities (like the new gap- variants or grid improvements).
 
+Language Triple-Split: * PT: Provide code with Portuguese strings.
 
-* **Arbitrary Values:** Use `-[value]` (e.g., `top-[117px]`) sparingly. If a value is used more than twice, promote it to the config file.
+ES: Provide code with Spanish strings.
 
-## 5. Future-Proofing for v4.0
+EN: Provide code with English strings.
 
-* **Modern CSS Properties:** Prefer CSS Logical Properties (e.g., `ps-4` instead of `pl-4`) to support RTL layouts.
-* **Container Queries:** Start using `@tailwindcss/container-queries` for components that need to be responsive based on their parent size rather than the viewport.
+4. Code Refinement Rules
+Variable Usage: Use bg-(--color-primary) syntax when referencing custom theme variables in classes.
 
----
+Color Space: Prioritize OKLCH colors for better accessibility and gamut support (e.g., bg-oklch(60% 0.15 250)).
 
-## Scalable Component Example (Gold Standard)
-
-```typescript
-import { cva, type VariantProps } from 'class-variance-authority';
-import { twMerge } from 'tailwind-merge';
-
-const cardVariants = cva(
-  'rounded-lg border p-4 transition-all duration-200',
-  {
-    variants: {
-      variant: {
-        default: 'bg-white border-slate-200 shadow-sm',
-        flat: 'bg-slate-50 border-transparent',
-        outline: 'bg-transparent border-slate-800',
-      },
-      padding: {
-        none: 'p-0',
-        sm: 'p-2',
-        md: 'p-4',
-        lg: 'p-8',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      padding: 'md',
-    },
-  }
-);
-
-export function Card({ className, variant, padding, ...props }) {
-  return (
-    <div 
-      className={twMerge(cardVariants({ variant, padding }), className)} 
-      {...props} 
-    />
-  );
-}
-
-```
-
----
-
-### Instructions for the AI Agent
-
-1. **Refactoring:** If you see hardcoded class strings for variants, suggest a refactor using `CVA`.
-2. **Linting:** Always sort classes in your responses according to the Prettier Tailwind plugin logic.
-3. **Conflict Check:** When providing code that accepts a `className` prop, always wrap the output in `twMerge()`.
-4. **No @apply:** Discourage the use of `@apply` unless it's for base HTML element resets.
-
-Entendido, peço desculpas pela confusão. Você quer o **bloco de texto técnico** para copiar e colar nas instruções (System Prompt/Custom Instructions) do seu Agent, garantindo que ele siga esse comportamento de tradução automática.
-
-Aqui está o trecho em **Markdown** para você adicionar às instruções do seu Agent:
-
----
+Conflict Resolution: Continue using twMerge and cva for component variants, as they remain the gold standard for clean architecture in v4.
 
 ### 🌐 Multi-Language Content Generation Protocol (PT/ES/EN)
 

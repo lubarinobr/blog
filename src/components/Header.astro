@@ -100,7 +100,11 @@ const t = await getTranslations(locale, 'common');
           <select 
             id="language-switcher"
             class="appearance-none bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onchange="window.location.href = this.value"
+            onchange="
+              const selectedLocale = this.value.includes('/en') ? 'en' : this.value.includes('/es') ? 'es' : 'pt';
+              localStorage.setItem('preferred-locale', selectedLocale);
+              window.location.href = this.value;
+            "
           >
             <option value={getLocalizedPath(currentPath, 'pt')} selected={locale === 'pt'}>PT</option>
             <option value={getLocalizedPath(currentPath, 'en')} selected={locale === 'en'}>EN</option>
@@ -172,7 +176,11 @@ const t = await getTranslations(locale, 'common');
         <div class="px-3 py-2">
           <select 
             class="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onchange="window.location.href = this.value"
+            onchange="
+              const selectedLocale = this.value.includes('/en') ? 'en' : this.value.includes('/es') ? 'es' : 'pt';
+              localStorage.setItem('preferred-locale', selectedLocale);
+              window.location.href = this.value;
+            "
           >
             <option value={getLocalizedPath(currentPath, 'pt')} selected={locale === 'pt'}>Português</option>
             <option value={getLocalizedPath(currentPath, 'en')} selected={locale === 'en'}>English</option>
