@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import { i18n } from './src/i18n/config';
 import { shouldIncludeInSitemap } from './src/utils/sitemap';
 
@@ -27,8 +27,7 @@ export default defineConfig({
       filter: (page) => {
         return shouldIncludeInSitemap(page);
       }
-    }),
-    tailwind()
+    })
   ],
   markdown: {
     shikiConfig: {
@@ -37,7 +36,9 @@ export default defineConfig({
     }
   },
   vite: {
-    // Configurações do Vite se necessário
+    plugins: [
+      tailwindcss()
+    ]
   },
   image: {
     // Configurações de otimização de imagem
