@@ -1,0 +1,100 @@
+---
+title: "Cloud Landing Zone: When It Makes Sense and When It Becomes Useless Bureaucracy"
+description: "Understand when a Cloud Landing Zone solves real governance and scale problems, and when it becomes an obstacle that slows down teams and increases costs without delivering value."
+date: 2026-01-13
+category: "Cloud"
+tags: ["cloud", "landing zone", "governance", "aws", "azure", "gcp", "cloud architecture", "infrastructure"]
+cover: "/images/blog/cloud-landing-zone.jpeg"
+canonical: "https://sapiensit.com/en/blog/cloud-landing-zone-quando-faz-sentido/"
+draft: false
+locale: "en"
+author: "Sapiens IT Team"
+---
+
+Migrating to the cloud rarely fails due to lack of technology. The problem is almost always in structural decisions made too early, or too late.
+
+The Cloud Landing Zone emerged as a response to a real scenario: cloud environments growing without standards, without control, and without minimal governance. In many cases, it solves exactly that. In others, it becomes an obstacle that slows down teams, increases costs, and doesn't deliver the promised value.
+
+Understanding when a Landing Zone makes sense, and when it transforms into useless bureaucracy, is a **strategic decision**, not a technical one.
+
+---
+
+## What is a Cloud Landing Zone?
+
+In practice, a Cloud Landing Zone is the set of decisions that defines how the company will operate in the cloud. Account structure, networks, access, security policies, observability, and billing. All organized to allow scale without losing control.
+
+The goal is simple: **allow scale with control**.
+
+The problem begins when the Landing Zone is seen as a closed package, something that needs to be "complete" before any workload goes into production.
+
+This thinking usually comes from ready-made models, designed for large, regulated companies with multiple teams — not for the reality of those who are just starting out or still validating their product.
+
+---
+
+## When Does the Landing Zone Solve Real Problems?
+
+It starts to make sense when complexity already exists and is causing pain.
+
+Teams begin sharing the same cloud account, administrative permissions spread, costs become difficult to explain, and incidents arise from misconfigurations. At this point, the absence of standards becomes a risk.
+
+This is what happened with a SAPIENS IT client in the financial sector that grew quickly in the cloud. Each team had total autonomy to create resources. Within a few months, no one knew exactly who had access to what, or why certain services were public.
+
+Audits became separate projects and any incident consumed days of investigation.
+
+Creating a Landing Zone brought clarity:
+
+- **Accounts separated by domain**
+- **Minimum policies applied automatically**
+- **Centralized logs**
+- **Costs attributable to products**
+
+The environment didn't become slower — it became predictable. The Landing Zone wasn't a brake; it was an enabler.
+
+---
+
+## When Does the Landing Zone Become an Obstacle?
+
+The problem appears when the same model is applied where complexity doesn't yet exist.
+
+Startups and small teams, often with a single product, end up trying to "do it right" from day one. They create multiple accounts, elaborate networks, extremely restrictive IAM, and approval processes for any minimal change.
+
+A common case is a company in its early stage that decided to implement a Landing Zone inspired by major market references. Before even having customers, there were already dozens of accounts, interconnected VPCs, and policies difficult even for the platform team itself to understand.
+
+Deploying a simple service could take days. Developers started bypassing standards to be able to deliver.
+
+**The Landing Zone stops being respected and starts being avoided.**
+
+In the end, it was necessary to simplify almost everything to recover speed. It wasn't a lack of governance. It was governance without real need.
+
+---
+
+## The Problem with Copying Models Without Understanding Why
+
+Most "ready-made" Landing Zones are based on assumptions that are rarely questioned:
+
+- Multiple teams
+- High regulation
+- Large volume of sensitive data
+- High risk from the start
+
+When these assumptions don't exist, controls appear that no one can justify. Policies exist because "it's the standard," not because they solve a concrete problem.
+
+And every rule without purpose becomes operational noise.
+
+Mature companies didn't arrive at complex structures by accident. They got there because they needed to. The difference is that **each layer was added to solve a problem that already existed**, not a hypothetical one.
+
+---
+
+## Conclusion
+
+A Cloud Landing Zone is not a goal in itself. It's a response to a specific level of complexity.
+
+When created at the right time, focused on real problems, it reduces risk, organizes growth, and brings predictability. When created too early or copied without reflection, it increases cost, slows down teams, and creates a false sense of security.
+
+In the end, the most important decision is not which model to use, but to clearly understand **why it's being adopted**. Without that, any Landing Zone becomes just another layer of complexity.
+
+> If you're planning your cloud journey and want to avoid premature governance traps, talk to SAPIENS IT. We help companies find the right balance between control and speed.
+
+---
+
+> _Written by the Sapiens IT team — engineers who build before they write._
