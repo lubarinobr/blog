@@ -5,6 +5,7 @@ import { generateSEOTags, generateOrganizationSchema } from '@/utils/seo';
 import { locales } from '@/i18n/config';
 import { getAlternateLocales } from '@/utils/i18n';
 import '@/styles/tailwind.css';
+import ExitIntentPopup from '@/components/ExitIntentPopup';
 
 export interface Props {
   seo: SEOProps;
@@ -263,5 +264,6 @@ const currentLocale = locales[locale];
     <div id="app">
       <slot />
     </div>
+    <ExitIntentPopup locale={locale} client:only="react" />
   </body>
 </html>
